@@ -7,16 +7,15 @@
 \usepackage{sectsty}
 \allsectionsfont{\sffamily}
 
-
 \newcommand\Cats{\mathbf{Cat}}
 \newcommand\Sets{\mathbf{Set}}
 \newcommand\OpCat[1]{{{#1}^{\mathsf{op}}}}
 \newcommand\Hom[3]{\mathsf{Hom}_{#1} (#2, #3)}
-\DeclareMathOperator\OpYoneda{\mathscr{H}}
-\newcommand\Yoneda[1]{\OpYoneda_{#1}}
+\DeclareMathOperator\OpYoneda{\mathbf{y}}
+\newcommand\Yoneda[1]{\OpYoneda({#1})}
 \newcommand\Psh[1]{\widehat{#1}}
 \newcommand\Sh[1]{\mathbf{Sh} (#1)}
-\newcommand\IsSubfunctor[2]{\IMode{#1}\sqsubseteq\IMode{#2}}
+\newcommand\IsSubobject[3]{\IMode{#1}\rightarrowtail\IMode{#2}:\IMode{#3}}
 \newcommand\IsSubsetEq[2]{\IMode{#1}\subseteq\IMode{#2}}
 \newcommand\One{\mathbf{1}}
 \newcommand\Two{\mathbf{2}}
@@ -30,7 +29,7 @@
 \newcommand\Emb[1]{\lfloor{#1}\rfloor}
 \newcommand\ArrId[1]{\mathsf{id}_{#1}}
 
-\title{Tutorial on the Toposes and Names}
+\title{Notes on topos theory}
 \author{Jonathan Sterling}
 \affil{Carnegie Mellon University}
 \date{}
@@ -38,14 +37,9 @@
 \begin{document}
 \maketitle
 
-This is intended to be an elementary tutorial on how atomic sites give
-rise to a form of \emph{nominal indexing} which is useful for
-describing languages with \emph{symbols} as in Harper's
-\emph{Practical Foundations for Programming
-  Languages}~\cite{harper:2016}. There are nearly always numerous
-different ways to define a mathematical object; in this tutorial, I
-prefer to optimize for minimal combinatorial complexity of
-definitions.
+There are nearly always numerous different ways to define a
+mathematical object; in this tutorial, I prefer to optimize for
+minimal combinatorial complexity of definitions.
 
 Texts in category theory are usually written for mathematicians who
 are already competent in areas of math which are far more complex than
@@ -163,7 +157,7 @@ $\OMode{P(\psi)(m)}$.
 \begin{definition}[Sieve]
   A sieve on an object $\Of{\Psi}{\mathbb{C}}$ is a subfunctor of the
   presheaf represented by $\Psi$, i.e.\
-  $\IsSubfunctor{S}{\Yoneda{\Psi}}$.\footnote{Usually, an alternative
+  $\IsSubobject{S}{\Yoneda{\Psi}}{\Psh{\mathbb{C}}}$.\footnote{Usually, an alternative
     definition is given in terms of ``sets of arrows closed under
     precomposition'', but we prefer a definition with fewer moving
     parts. In practice it will be useful to use the alternative
@@ -175,7 +169,7 @@ $\OMode{P(\psi)(m)}$.
 \end{definition}
 
 Accordingly, will write $\IBox{\IsSieve{\Psi}{S}}$ to mean
-$\OBox{\IsSubfunctor{S}{\Yoneda{\Psi}}}$.
+$\OBox{\IsSubobject{S}{\Yoneda{\Psi}}{\Psh{\mathbb{C}}}}$.
 
 \subsection{Sieves and subobjects}
 
@@ -742,278 +736,6 @@ our remarks are meant only to provide hope to the radical
 constructivist that it is possible to develop a semantics for names
 which does not incidentally commit one to a classical ontology.
 
-
-\subsection{Understanding nominal indexing}
-
-The mathematical specification of concepts which vary over nominal
-atoms is most clearly captured in the Schanuel topos; such a concept
-is a sheaf on the site $(\CatI,\JAtomic)$. Someone more familiar with
-the syntactic aspects of nominal indexing may have a few questions,
-however, which we will try to address in this section.
-
-\subsubsection{What is $\CatI$ really?}
-
-We have defined $\CatI$ as the free strict semicartesian category on a
-single object $\Of{\ObjNom}{\CatI}$. What is this really, and how does
-this correspond to contexts of names? It will be more familiar to
-consider a locative~\cite{girard:2011} notation for $\CatI$, in
-which objects $\Of{\ObjNom\otimes\ObjNom\otimes\ObjNom}{\CatI}$ are
-written as (meta)-named contexts $\Of{a,b,c}{\CatI}$; then,
-contexts and renamings are identified up to permutations of
-metavariables.
-
-This presentation corresponds to the usual view of contexts in syntax
-and programming languages; it is equivalent to the combinatorial
-version, which is less convenient in practice but also less
-complicated from a mathematical perspective.
-
-\subsubsection{Why sheaves instead of presheaves?}
-
-A first-cut attempt to define concepts which are indexed in nominal
-atoms would be to define them as presheaves on $\CatI$: that
-is, sets which are defined over name contexts $\Of{\Psi}{\CatI}$ and
-implement the appropriate renamings from $\CatI$ (weakening and exchange).
-
-\paragraph{Presheaves on $\CatI$ justify comparing names}
-Because $\CatI$ has only projections and permutations (which
-correspond respectively to weakening and exchange), and not diagonals
-(which correspond to contraction), natural transformations between
-presheaves on $\CatI$ are able to proceed by comparing the identity of
-different atoms. This is because the provenience and distinctness of
-names are preserved, whereas they would not be preserved in the
-presence of diagonals, in which two names could become identified.
-
-\paragraph{Sheaves justify \emph{support} and strengthening}
-
-When developing a language that is indexed in some form of name
-or variable, there is usually a well-defined way to talk about which
-names are free in a term. If the category of name contexts
-includes projections, then it is always possible that a term in
-context $\Phi\otimes\Psi$ may only ``use'' variables from $\Phi$.
-
-In syntax, the question of which variables are ``used'' can be
-answered by traversing a term; however, this notion is not sufficient
-for dealing with mathematical objects in general which vary over
-names, especially when these objects may not be finitary or
-  syntactically presentable in any sense.
-%
-The semantical analogue to the ``use'' of names is that of
-\emph{support}; necessarily, support has a behavioral definition
-rather than a structural one. Fixing a presheaf $\Of{P}{\Psh{\CatI}}$,
-we can define what it means for a renaming $\Of{\psi}{\Phi\to\Psi}$ to
-support a term $\Of{m}{P(\Phi)}$:
-
-\newcommand\Supports[3]{\IMode{#3}\lhd\IMode{#2}:\IMode{#1}}
-\begin{definition}[Support]\label{def:support}
-  An arrow $\Of{\psi}{\Phi\to\Psi}$ \emph{supports} a term
-  $\Member{m}{P(\Phi)}$ when, for any $\Of{\phi_0,\phi_1}{X\to\Phi}$
-  such that the following diagram commutes,
-  \begin{equation}\label{diagram:support}
-    \begin{tikzcd}
-      \IMode{X}
-      \arrow[r,shift left=1,"\IMode{\phi_0}"]
-      \arrow[r,swap,shift right=1,"\IMode{\phi_1}"]
-      &
-      \IMode{\Phi}
-      \arrow[r, "\IMode{\psi}"]
-      &
-      \IMode{\Psi}
-    \end{tikzcd}
-  \end{equation}
-  we have $\IsEq{m\cdot\phi_0}{m\cdot\phi_1}$. We will write
-  $\Supports{\Psi}{\psi}{m}$ when $\IMode{\psi}$ supports $\IMode{m}$.
-\end{definition}
-
-\begin{remark}[Understanding support]
-  How can we relate the above to an intuitive notion of the positive
-  ``use'' of names? It may help to consider what the statement
-  $\Supports{\Psi}{\psi}{m}$ is saying about the renaming
-  $\Of{\psi}{\Phi\to\Psi}$. Suppose $\Match{\Phi}{\Psi\otimes\Phi'}$
-  and $\Match{\psi}{\pi_1}$; then, Diagram~\ref{diagram:support} says
-  that $\phi_0$ and $\phi_1$ can only differ in their behavior on the
-  names in $\Phi'$. So, the fact that $\IMode{\psi}$ supports
-  $\IMode{m}$ means that $m$ is insensitive to this difference, i.e.\
-  $m$ is oblivious to the names in $\Phi'$.
-\end{remark}
-
-\begin{definition}[Strengthening]
-  A presheaf $\Of{P}{\Psh{\CatI}}$ has the \emph{strengthening}
-  property when for any $\Member{m}{P(\Phi)}$, if
-  $\Supports{\Psi}{\psi}{m}$, then there is a unique
-  $\Member{m_\Psi}{P(\Psi)}$ such that $\IsEq{m}{m_\Psi\cdot\psi}$. We call
-  $m_\Psi$ the strengthening of $m$ along $\psi$.
-\end{definition}
-
-\begin{thm}\label{thm:strengthening}
-  A presheaf $\Of{P}{\Psh{\CatI}}$ has strengthening if and only if $P$ is a sheaf for the
-  atomic topology, i.e.\ $\Of{P}{\Sh{\CatI,\JAtomic}}$.
-\end{thm}
-\begin{proof}
-  ($\Rightarrow$) Suppose that $\Of{P}{\Sh{\CatI,\JAtomic}}$ and
-  $\Supports{\Psi}{\psi}{m}$ for some $\Member{m}{P(\Phi)}$; we have
-  to exhibit a unique $\Member{m_\Psi}{P(\Psi)}$ such that
-  $\IsEq{m}{m_\Psi\cdot\psi}$.
-%
-  By the Yoneda lemma, we can regard $m$ as a natural transformation
-  $\Of{\Emb{m}}{[\Yoneda{\Phi},P]}$ and it suffices to exhibit some unique
-  $\Of{\Emb{m_\Psi}}{[\Yoneda{\Psi},P]}$ such that
-  $\IsEq{\Emb{m}}{\Emb{m_\Psi}\circ\IBox{\Of{\Yoneda{\psi}}{[\Yoneda{\Phi},\Yoneda{\Psi}]}}}$, i.e.\
-  \[
-    \begin{tikzcd}[sep=large]
-      \IMode{\Yoneda{\Phi}}
-      \arrow[r,"\IMode{\Yoneda{\psi}}"]
-      \arrow[d,swap,"\IMode{\Emb{m}}"]
-      &
-      \IMode{\Yoneda{\Psi}}
-      \arrow[dl,dashed,"\OMode{\Emb{m_\Psi}}"]
-      \\
-      \IMode{P}
-    \end{tikzcd}
-  \]
-  %
-  Because $P$ is a sheaf, if we exhibit a covering sieve
-  $\Member{S}{\JAtomic(\Psi)}$ and a matching family
-  $\Of{\mathfrak{f}}{[S,P]}$, we can get a unique natural transformation
-  $\Of{\Emb{m_\Psi}}{[\Yoneda{\Psi},P]}$ such that
-  $\IsEq{\mathfrak{f}}{\Emb{m_\Psi}\circ i_S}$ where
-  $\Of{i_S}{\Mono{S}{\Yoneda{\Psi}}}$. For $S(X)$, choose the set of
-  all composites $\Of{\Psi_X}{X\to\Psi}$ factoring through $\psi$,
-  i.e.\ arrows of the following form:
-  \[
-    \begin{tikzcd}[sep=huge]
-      &
-      \IMode{X}
-      \arrow[r,dashed,"\OMode{\phi}"]
-      \arrow[rr,bend left=40,"\IBox{\Member{\psi_X}{S(X)}}"]
-      &
-      \IMode{\Phi}
-      \arrow[r,"\IMode{\psi}"]
-      &
-      \IMode{\Psi}
-    \end{tikzcd}
-  \]
-  For the matching family $\mathfrak{f}$, for any
-  $\Member{\IBox{\Of{\psi_X}{X\to\Psi}}}{S(X)}$ we have to
-  functionally exhibit some $\Member{\mathfrak{f}_X(\psi_X)}{P(X)}$,
-  naturally in $X$. Because $\Member{\psi_X}{S(X)}$, there exists some
-  (not necessarily unique) $\Of{\phi}{X\to\Phi}$ such that
-  $\IsEq{\psi_X}{\psi\circ\phi}$; therefore, choose
-  $\Define{\mathfrak{f}_X(\psi_X)}{m\cdot\phi}$. This assignment is
-  functional in $\psi_X$ because $m$ is invariant under the
-  action of any $\phi$ which is precomposed with $\psi$ (this is a
-  consequence of $\Supports{\Psi}{\psi}{m}$ and
-  Diagram~\ref{diagram:support}).
-%
-  It remains to show that $\IMode{\mathfrak{f}_X}$ is natural in
-  $\IMode{X}$, which we establish by means of a diagram chase, fixing
-  $\Of{\chi}{\Upsilon\to X}$:
-  \[
-    \begin{tikzcd}[sep=huge]
-      \IMode{S(X)}
-      \arrow[r,"\IMode{S(\chi)}"]
-      \arrow[d,swap,"\IMode{\mathfrak{f}_X}"]
-      &
-      \IMode{S(\Upsilon)}
-      \arrow[d,"\IMode{\mathfrak{f}_\Upsilon}"]
-      \\
-      \IMode{P(X)}
-      \arrow[r,swap,"\IMode{P(\chi)}"]
-      &
-      \IMode{P(\Upsilon)}
-    \end{tikzcd}
-    \quad
-    \begin{tikzcd}[sep=huge]
-      \IMode{\psi\circ\phi}
-      \arrow[r,mapsto,"\IMode{S(\chi)}"]
-      \arrow[d,mapsto,swap,"\IMode{\mathfrak{f}_X}"]
-      &
-      \OMode{\psi\circ\phi\circ\chi}
-      \arrow[d,mapsto,"\IMode{\mathfrak{f}_\Upsilon}"]
-      \\
-      \OMode{m\cdot\phi}
-      \arrow[r,swap,mapsto,"\IMode{P(\chi)}"]
-      &
-      \OBox{\IsEq{m\cdot\phi\cdot\chi}{m\cdot(\phi\circ\chi)}}
-    \end{tikzcd}
-  \]
-  Therefore, because $P$ is a sheaf, we have a unique
-  $\Of{\Emb{m_\Psi}}{[\Yoneda{\Psi},P]}$ such that
-  $\IsEq{\mathfrak{f}}{\Emb{m_\Psi}\circ i_S}$; it remains to show that
-  $\IsEq{\Emb{m}}{\Emb{m_\Psi}\circ\Yoneda{\psi}}$, i.e.\ for any
-  $\Of{X}{\CatI}$ the following diagram commutes in $\Sets$:
-  \[
-    \begin{tikzcd}[sep=huge]
-      \IMode{[X,\Phi]}
-      \arrow[r,"\IMode{\Emb{m}_X}"]
-      \arrow[d,swap,"\IMode{\psi\circ-}"]
-      &
-      \IMode{P(X)}
-      \\
-      \IMode{[X,\Psi]}
-      \arrow[ur,swap,"\IMode{\Emb{m_\Psi}_X}"]
-    \end{tikzcd}
-  \]
-  To make the above diagram commute, we need to show that for any
-  $\Of{\phi}{X\to\Phi}$, we have
-  $\IsEq{\Emb{m}_X(\phi)}{\Emb{m_\Psi}_X(\psi\circ\phi)}$,
-  i.e. $\IsEq{m\cdot\phi}{\Emb{m_\Psi}_X(\psi\circ\phi)}$; by the
-  definition of $\mathfrak{f}$, it suffices to show
-  $\IsEq{\mathfrak{f}_X(\psi\circ\phi)}{\Emb{m_\Psi}_X(\psi\circ\phi)}$,
-  which is clearly the case because we already have
-  $\IsEq{\mathfrak{f}}{\Emb{m_\Psi}\circ i_S}$ and
-  $\Member{\psi\circ\phi}{S(X)}$.
-
-  ($\Leftarrow$) Now suppose that we have a presheaf
-  $\Of{P}{\Psh{\CatI}}$ which is equipped with strengthening. Fixing a
-  covering sieve $\Member{S}{\JAtomic(\Psi)}$, recall that we have a
-  canonical restriction
-  $\Of{\IBox{\Define{i_S^*}{-\circ i_S}}}{[\Yoneda{\Psi},P]\to[S,P]}$
-  where $\Of{i_S}{\Mono{S}{\Yoneda{\Psi}}}$; to show that $P$ is a
-  sheaf, we need to show that $i_S^*$ is an isomorphism.
-
-  Given a matching family $\Of{\mathfrak{f}}{[S,P]}$, we need to
-  exhibit a unique extension $\Of{\Emb{m}}{[\Yoneda{\Psi},P]}$ such
-  that $\IsEq{\mathfrak{f}}{\Emb{m}\circ i_S}$. Because
-  $\Member{S}{\JAtomic(\Psi)}$, there exists some
-  $\Of{\psi}{\OMode{\Phi}\to\Psi}$ such that $\Member{\psi}{S(\Phi)}$,
-  whence we have $\Member{\mathfrak{f}_\Phi(\psi)}{P(\Phi)}$.
-  %
-  We want to show that
-  $\Supports{\Psi}{\psi}{\mathfrak{f}_\Phi(\psi)}$; that is, fixing
-  $\Of{\phi_0,\phi_1}{X\to\Phi}$ such that
-  $\IsEq{\psi\circ\phi_0}{\psi\circ\phi_1}$, we need to show that
-  $\IsEq{\mathfrak{f}_\Phi(\psi)\cdot\phi_0}{\mathfrak{f}_\Phi(\psi)\cdot\phi_1}$.
-
-  By naturality, we have
-  $\IsEq{P(\phi_i)\circ\mathfrak{f}_\Phi}{\mathfrak{f}_X\circ
-    P(\phi_i)}$ for $\Member{i}{\MkSet{0,1}}$; specifically, we have
-  $\IsEq{\mathfrak{f}_\Phi(\psi) \cdot
-    \phi_i}{\mathfrak{f}_X(\psi\circ\phi_i)}$, so it suffices to show
-  that
-  $\IsEq{\mathfrak{f}_X(\psi\circ\phi_0)}{\mathfrak{f}_X(\psi\circ\phi_1)}$,
-  which is clearly the case because
-  $\IsEq{\psi\circ\phi_0}{\psi\circ\phi_1}$. Therefore,
-  $\Supports{\Psi}{\psi}{\mathfrak{f}_\Phi(\psi)}$.
-  %
-  By assumption, we have a unique strengthening $\Member{m}{P(\Psi)}$
-  such that $\IsEq{\mathfrak{f}_\Phi(\psi)}{m\cdot\psi}$, i.e.\
-  $\Of{\Emb{m}}{[\Yoneda{\Psi},P]}$ such that
-  $\IsEq{\Emb{\mathfrak{f}_\Phi(\psi)}}{\Emb{m}\circ\Yoneda{\psi}}$.
-
-  It remains only to show that
-  $\IsEq{\mathfrak{f}}{\Emb{m}\circ i_S}$, i.e.\ for any
-  $\Member{\psi\circ\OMode{\phi}}{S(X)}$ we have
-  $\IsEq{\mathfrak{f}_X(\psi\circ\phi)}{m\cdot(\psi\circ\phi)}$, or by
-  naturality,
-  $\AreEq{\mathfrak{f}_\Phi(\psi)\cdot\phi,m\cdot(\psi\circ\phi),m\cdot\psi\cdot\phi}$. Canceling
-  $\phi$, it suffices to show
-  $\IsEq{\mathfrak{f}_\Phi(\psi)}{m\cdot\psi}$, which holds by
-  definition.
-
-\end{proof}
-
-
-\newcommand\ForcesOf[3]{\IMode{#1}\Vdash\IMode{#2}:\IMode{#3}}
 
 \newpage
 
