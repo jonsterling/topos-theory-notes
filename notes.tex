@@ -42,31 +42,36 @@
 \begin{document}
 \maketitle
 
-There are nearly always numerous different ways to define a
-mathematical object; in this tutorial, I prefer to optimize for
-minimal combinatorial complexity of definitions.
-
+There are always numerous different ways to define a mathematical
+object; in this tutorial, I prefer to optimize for minimal
+combinatorial complexity of definitions.
+%
 Texts in category theory are usually written for mathematicians who
 are already competent in areas of math which are far more complex than
-category theory; as a result, it is common for a virtue to be
-made of immediately unfolding an object into a purely analytic muddle.
+category theory; as a result, it is very common to immediately unfold
+an object into a purely analytic muddle, or to saddle it with
+historically-relevant baggage from neighboring fields (e.g.\ defining
+``sheaves of abelian groups'' without defining even presheaves or
+sheaves in general).
 
-Because this tutorial is meant to be useful for type theorists and
-logicians, I prefer a style based on abstract and
-synthetic definitions built up from well-understood and
-semantically rich components, as opposed to the more common
-``elementary'' definitions which are more difficult to motivate and
-understand without having first consumed the common prerequisites
-(e.g.\ classical topology, algebraic topology, algebraic geometry,
-order theory, etc.).
+This is, in the author's view, a conflation of two important processes
+in the development of mathematical science: the historical process and
+the conceptual process. The latter is synthesized over time through a
+\emph{sanitization} of history using hindsight as a weapon, a
+scientifically profitable substitution of dialectics for chronology.
+
+Because this tutorial is written by a type theorist equipped with a
+very poor working memory, a style based on abstract and synthetic
+definitions built up from well-understood and semantically rich
+components is preferred, as opposed to ``elementary'' definitions
+which are more difficult to motivate, remember, and understand without
+having developed some mathematical maturity outside of logic and basic
+algebra.
 
 To learn toposes and sheaves thoroughly, the reader is directed to
 study Mac Lane and Moerdijk's excellent and readable \emph{Sheaves in
   Geometry and Logic}~\cite{maclane-moerdijk:1992}; this tutorial
-serves only as a \emph{supplement} to the existing material, intended
-to suggest intuitions to type theorists who, like the author, may not
-have a sufficiently broad mathematical background to build up the
-usual intuitions.
+serves only as a \emph{supplement} to the existing material.
 
 
 \section{Toposes for concepts in motion}
@@ -490,10 +495,16 @@ covers $\Psi$, not just the maximal one.
   (and the Yoneda lemma) is called an \emph{amalgamation}.
 \end{definition}
 
+\section{Sheafification: the essence of Grothendieck toposes}
+
+In this section, we will assume without proof that lex reflective
+subcategories of presheaf toposes are themselves toposes.
+
+
+
 \section{Applications and examples}
 
-We will now survey a few useful topologies, beginning with the
-\emph{dense topology}.
+We will now survey a few useful topologies.
 
 \subsection{Dense and atomic topologies}
 
@@ -693,7 +704,8 @@ transformation:
 %
 The above is well-defined/natural because injective maps are precisely
 those which preserve apartness.
-%
+
+
 In fact, we can do even more and use Day's convolution to form a
 \emph{separating product} and \emph{separating function space} in
 $\Psh{\OpCat{\INJ}}$, adding a locally monoidal-closed structure which
@@ -704,7 +716,12 @@ At the level of the logic, this corresponds with four new connectives,
 $\MkSet{\FormatList{\IMode}{,}{*,\magicwand,\exists^*,\forall^*}}$
 which are separating conjunction, separating implication, separating
 existential quantification, and separating universal quantification
-respectively.  We can also define a \emph{fresh name quantifier}
+respectively.\footnote{Be cautious about trying to na\"ively develop
+  this logic in the subobject lattice of the topos; Biering, Birkedal
+  et al have shown that this construction degenerates into standard
+  structural logic~\cite{biering-birkedal-torp-smith:2007}. However,
+  at the very least, the separating quantifiers can be developed in a
+  sensible way.}  We can also define a \emph{fresh name quantifier}
 $\IMode{\newname x.\phi(x)}$ as
 $\OMode{\forall^*x:\mathbb{A}.\phi(x)}$, but we will see that this
 quantifier is not yet well-behaved.
