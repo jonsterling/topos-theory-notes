@@ -1,0 +1,6 @@
+[submodule "references"]
+	path = references
+	url = git@github.com:jonsterling/bibtex-references.git
+[submodule "notation"]
+	path = notation
+	url = git@github.com:jonsterling/latex-common-notation.git

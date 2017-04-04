@@ -1,0 +1,1023 @@
+\documentclass{article}
+\usepackage{local-macros}
+\usepackage{tikz-cd}
+\usepackage{microtype}
+\usepackage{euler}
+\usepackage{libertineRoman}
+\usepackage{sectsty}
+\allsectionsfont{\sffamily}
+
+
+\newcommand\Cats{\mathbf{Cat}}
+\newcommand\Sets{\mathbf{Set}}
+\newcommand\OpCat[1]{{{#1}^{\mathsf{op}}}}
+\newcommand\Hom[3]{\mathsf{Hom}_{#1} (#2, #3)}
+\DeclareMathOperator\OpYoneda{\mathscr{H}}
+\newcommand\Yoneda[1]{\OpYoneda_{#1}}
+\newcommand\Psh[1]{\widehat{#1}}
+\newcommand\Sh[1]{\mathbf{Sh} (#1)}
+\newcommand\IsSubfunctor[2]{\IMode{#1}\sqsubseteq\IMode{#2}}
+\newcommand\IsSubsetEq[2]{\IMode{#1}\subseteq\IMode{#2}}
+\newcommand\One{\mathbf{1}}
+\newcommand\Two{\mathbf{2}}
+\newcommand\NotMember[2]{\IMode{#1}\not\in\IMode{#2}}
+\newcommand\IsSieve[2]{\IMode{#2}\ \mathit{sieve}_{\IMode{#1}}}
+\newcommand\IsEquiv[2]{\IMode{#1}\cong\IMode{#2}}
+\newcommand\IsNotEq[2]{\IMode{#1}\not=\IMode{#2}}
+\newcommand\AreEq[1]{\FormatList{\IMode}{=}{#1}}
+\newcommand\JAtomic{J_{\mathsf{at}}}
+\newcommand\JDense{J_{\mathsf{dense}}}
+\newcommand\Emb[1]{\lfloor{#1}\rfloor}
+\newcommand\ArrId[1]{\mathsf{id}_{#1}}
+
+\title{Tutorial on the Toposes and Names}
+\author{Jonathan Sterling}
+\affil{Carnegie Mellon University}
+\date{}
+
+\begin{document}
+\maketitle
+
+This is intended to be an elementary tutorial on how atomic sites give
+rise to a form of \emph{nominal indexing} which is useful for
+describing languages with \emph{symbols} as in Harper's
+\emph{Practical Foundations for Programming
+  Languages}~\cite{harper:2016}. There are nearly always numerous
+different ways to define a mathematical object; in this tutorial, I
+prefer to optimize for minimal combinatorial complexity of
+definitions.
+
+Texts in category theory are usually written for mathematicians who
+are already competent in areas of math which are far more complex than
+category theory; as a result, it is common for a virtue to be
+made of immediately unfolding an object into a purely analytic muddle.
+
+Because this tutorial is meant to be useful for type theorists and
+logicians, I prefer a style based on abstract and
+synthetic definitions built up from well-understood and
+semantically rich components, as opposed to the more common
+``elementary'' definitions which are more difficult to motivate and
+understand without having first consumed the common prerequisites
+(e.g.\ classical topology, algebraic topology, algebraic geometry,
+order theory, etc.).
+
+To learn toposes and sheaves thoroughly, the reader is directed to
+study Mac Lane and Moerdijk's excellent and readable \emph{Sheaves in
+  Geometry and Logic}~\cite{maclane-moerdijk:1992}; this tutorial
+serves only as a \emph{supplement} to the existing material, intended
+to suggest intuitions to type theorists who, like the author, may not
+have a sufficiently broad mathematical background to build up the
+usual intuitions.
+
+
+\section{Toposes for concepts in motion}
+
+Do mathematical \emph{concepts} vary over time and space? This
+question is the fulcrum on which the contradictions between the
+competing ideologies of mathematics rest. Let us review their answers:
+\begin{description}
+\item[Platonism] No.
+\item[Constructivism] Maybe.
+\item[Intuitionism] Necessarily, but space is just an abstraction of
+  time.
+\item[Vulgar constructivism] No.\footnote{I mean, of course, the Markov school.}
+\end{description}
+
+Brouwer's radical intuitionism was the first conceptualization of
+mathematical activity which took a \emph{positive} position on this
+question; the incompatibility of intuitionism with classical
+mathematics amounts essentially to the fact that they take opposite
+positions as to the existence of mathematical objects varying over
+time.
+
+Constructivism, as exemplified by Bishop~\cite{bishop:1967} takes a
+more moderate position: we can neither confirm nor deny the variable
+character of mathematical concepts. In this way, mathematics in
+Bishop's sense is simultaneously the mathematics of \emph{all} forms
+of variation, including the chaotic (classical) form.
+
+This dispute has been partly trivialized under the unifying
+perspective of \emph{toposes},\footnote{That is, if we are content to
+  temporarily ignore the matter of \emph{predicativity}; in practice,
+  this can be dealt with using various notions of \emph{pretopos}.}
+which allow the scientific study of mathematical systems and their
+relationships, including \IMode{Platonism} (the \OMode{\emph{category
+    of sets}}), \IMode{constructivism} (the \OMode{\emph{free
+    topos}}), \IMode{intuitionism} (the \OMode{\emph{topos of sheaves
+    over the Baire space}}) and \IMode{vulgar constructivism} (the
+\OMode{\emph{effective topos}}).
+
+Toposes have both a \emph{geometric} and a \emph{logical} character;
+the geometric aspect was the first to be developed, in the form of
+\emph{Grothendieck toposes}, which are universes of sets which vary
+continuously over some (generalized) form of space. More generally,
+the \emph{logical} aspect of topos theory is developed in Lawvere and
+Tierney's notion of an elementary topos, an abstract and axiomatic
+generalization of Grothendieck's concept.
+
+These two aspects of topos theory go hand-in-hand: whilst the laws of
+an elementary topos are often justified by appealing to their
+realization in a Grothendieck topos, it is often easier understand the
+complicated and fully analytic definitions of objects in a
+Grothendieck topos by relating them to their logical counterparts. We
+will try and appeal to both the geometric and the logical intuitions
+in this tutorial.
+
+\section{Presheaves and presheaf toposes}
+Presheaves are the simplest way to capture mathematical objects which
+vary over a category $\Of{\mathbb{C}}{\Cats}$.
+
+\begin{definition}[Presheaf]
+  A presheaf on $\Of{\mathbb{C}}{\Cats}$ is a functor
+  $\Of{P}{\OpCat{\mathbb{C}}\to\Sets}$.
+\end{definition}
+
+Unfolding definitions, this means that for every object
+$\Of{\Psi}{\mathbb{C}}$, we have a set $\Of{P(\Psi)}{\Sets}$;
+moreover, for any morphism $\Of{\psi}{\Hom{\mathbb{C}}{\Phi}{\Psi}}$,
+we have an induced \emph{restriction} map
+$\Of{P(\psi)}{P(\Psi)\to P(\Phi)}$ which preserves identities and
+composition.
+%
+The presheaves on $\mathbb{C}$ form a category, which we will call
+$\Of{\Psh{\mathbb{C}}}{\Cats}$.  When the presheaf
+$\Of{P}{\Psh{\mathbb{C}}}$ is understood from context, we
+will write $\IBox{\Of{m\cdot \psi}{P(\Phi)}}$ for
+$\OMode{P(\psi)(m)}$.
+
+\begin{definition}[Yoneda embedding]
+  We have a full and faithful functor
+  $\Of{\OpYoneda}{\mathbb{C}\to\Psh{\mathbb{C}}}$ called the
+  \emph{Yoneda embedding}, which is defined as follows:
+  \[
+    \Define{
+      \Yoneda{\Psi}
+    }{
+      \Hom{\mathbb{C}}{-}{\Psi}
+    }
+  \]
+  A functor which is isomorphic to $\Yoneda{\Psi}$ is called
+  \emph{representable} by $\Psi$.
+\end{definition}
+
+\begin{definition}[Sieve]
+  A sieve on an object $\Of{\Psi}{\mathbb{C}}$ is a subfunctor of the
+  presheaf represented by $\Psi$, i.e.\
+  $\IsSubfunctor{S}{\Yoneda{\Psi}}$.\footnote{Usually, an alternative
+    definition is given in terms of ``sets of arrows closed under
+    precomposition'', but we prefer a definition with fewer moving
+    parts. In practice it will be useful to use the alternative
+    definition when reasoning.}
+%
+  In particular, a sieve on $\Psi$ picks out \emph{functorially} a
+  collection of arrows ending in $\Psi$; the \emph{maximal sieve} is
+  $\Yoneda{\Psi}$ itself, which chooses all arrows ending in $\Psi$.
+\end{definition}
+
+Accordingly, will write $\IBox{\IsSieve{\Psi}{S}}$ to mean
+$\OBox{\IsSubfunctor{S}{\Yoneda{\Psi}}}$.
+
+\subsection{Sieves and subobjects}
+
+In classical set theory, every subset $\IsSubsetEq{A}{B}$ has a
+\emph{characteristic function} $\Of{\chi_A}{B\to \Two}$, defined as
+follows:
+\[
+  \Define{
+    \chi_A(b)
+  }{
+    \begin{cases}
+      0 &{\normalcolor\textbf{if } \Member{b}{A}}
+      \\
+      1 &{\normalcolor\textbf{if } \NotMember{b}{A}}
+    \end{cases}
+  }
+\]
+
+\newcommand\Mono[2]{#1\rightarrowtail{#2}}
+\newcommand\True{\mathsf{true}}
+
+In toposes, there is always an object analogous to $\Two$, called the
+\emph{subobject classifier}; this object is always written
+$\Omega$. Following~\cite{maclane-moerdijk:1992}, a subobject
+classifier is a monomorphism $\Of{\True}{\Mono{\One}{\Omega}}$ which for any
+monomorphism $\Of{f}{\Mono{A}{B}}$ induces a characteristic morphism
+$\Of{\chi_f}{B\to\Omega}$ such that the following diagram is a
+pullback:
+\[
+  \begin{tikzcd}[sep=huge]
+    \IMode{A}
+    \arrow[r,"\IMode{!}"]
+    \arrow[d, swap, rightarrowtail, "\IMode{f}"]
+    &
+    \IMode{\One}
+    \arrow[d, rightarrowtail,"\IMode{\True}"]
+    \\
+    \IMode{B}
+    \arrow[r, dashed, swap, "\OMode{\chi_f}"]
+    &
+    \IMode{\Omega}
+  \end{tikzcd}
+\]
+
+In the category of sets, the subobject classifier is simply the
+two-element set; its construction in a presheaf topos is more
+complicated, essentially because it must be made to respect the fact
+that the objects under consideration are ``in motion''.
+
+\newcommand\MkSet[1]{\left\{#1\right\}}
+\newcommand\Pow[1]{\mathscr{P} (#1)}
+\newcommand\Dom[1]{\vert{#1}\vert}
+
+\paragraph{The subobject classifier in a presheaf topos}
+
+The subobject classifier in a presheaf topos is defined using
+\emph{sieves}:
+\begin{align*}
+  \ADefine{
+    \Omega(\Psi)
+  }{
+    \MkSet{
+      S \mid \OBox{\IsSieve{\Psi}{S}}
+    }
+  }
+  \\
+  \ADefine{
+    \True_\Psi
+  }{
+    \Yoneda{\Psi}
+  }
+\end{align*}
+
+\begin{remark}
+  It may not be immediately clear why the subobject classifier is
+  defined in this way: what does the collection of sieves have to do
+  with $\Two$ in (classical) set theory? One way to understand what is
+  happening is to observe how $\Omega$ behaves when our base category
+  $\mathbb{C}$ is \emph{discrete}, in the sense that the only arrows
+  are identities.
+%
+  If $\mathbb{C}$ is discrete, then $\IsEq{\Yoneda{\Psi}(\Phi)}{\One}$
+  for every $\Of{\Phi}{\mathbb{C}}$; therefore, the judgment
+  $\IBox{\IsSieve{\Psi}{S}}$ comes out to mean simply
+  $\OBox{\IsSubsetEq{S(\Psi)}{\One}}$,
+  i.e. $\Member{S(\Psi)}{\Pow{\One}}$. Therefore,
+  $\IsEq{\Omega(\Psi)}{\Pow{\One}}=\IMode{\Two}$. An analogous
+  argument can be made in case $\mathbb{C}$ is \emph{chaotic}, or even
+  a groupoid.
+\end{remark}
+
+\paragraph{Understanding $\Omega$ using Yoneda's Lemma as a weapon}
+\newcommand\Sub[1]{\mathsf{Sub}(#1)}
+Much like how a candidate construction of the exponential in a functor
+category can be hypothesized using an insight from the Yoneda Lemma,
+it is also possible to apply the same technique to the construction of
+the subobject classifier in a presheaf category.
+
+Based on our intention that $\Omega$ shall be a construction of the
+subobject classifier, we want to identity maps $\Of{\phi}{X\to\Omega}$
+with subobjects of $\Of{X}{\Psh{\mathbb{C}}}$, i.e.\ we intend to
+exhibit a bijection $\IsEquiv{[X,\Omega]}{\Sub{X}}$.
+%
+Now, cleverly choose $\Define{X}{\Yoneda{U}}$: then we have
+$\IsEquiv{[U,\Omega]}{\Sub{X}}$. But the Yoneda Lemma says that
+$\IsEquiv{[\Yoneda{U},\Omega]}{\Omega(U)}$! Therefore, we may take as
+a scientific hypothesis the definition
+$\Define{\Omega(U)}{\Sub{\Yoneda{U}}}$. It remains to show that this
+definition exhibits the correct properties (exercise for the reader).
+
+\section{Generalized topologies}
+
+Let us remark that so far, we have described via presheaves a notion
+of \emph{variable set} which requires only functoriality; in case we
+are varying over a poset, this corresponds to \emph{monotonicity} in
+Kripke models. We will now consider a notion of set which varies
+\emph{continuously}, a property which corresponds to \emph{local
+  character} in Beth models.
+
+The definition of a Grothendieck topology is quite complicated, but we
+will show how to understand it conceptually using the logical
+perspective that we alluded to in the introduction.
+
+\begin{definition}[Grothendieck Topology~\cite{maclane-moerdijk:1992}]
+  A Grothendieck topology is, for each object $\Of{\Psi}{\mathbb{C}}$,
+  a collection $J(\Psi)$ of sieves on $\Psi$; a sieve $\Member{S}{J(\Psi)}$
+  is called a \emph{covering sieve}. To be called a topology, the
+  predicate $J$ must be closed under the following rules:
+  \[
+    \infer[\textit{maximality}]{
+      \Member{\Yoneda{\Psi}}{J(\Psi)}
+    }{
+    }
+    \qquad
+    \infer[\textit{stability}]{
+      \Member{S\cdot\psi}{J(\Phi)}
+    }{
+      \Member{S}{J(\Psi)}
+      &
+      \Of{\psi}{\Hom{\mathbb{C}}{\Phi}{\Psi}}
+    }
+  \]
+  \[
+    \infer[\textit{transitivity}]{
+      \Member{R}{J(\Psi)}
+    }{
+      \Member{S}{J(\Psi)}
+      &
+      \IsSieve{\Psi}{R}
+      &
+      \forall\Member{\psi}{S(\Phi)}.\ \Member{R\cdot\psi}{J(\Phi)}
+    }
+  \]
+\end{definition}
+
+The above rules seem fairly poorly-motivated at first; however, it is
+easy to understand their purpose when one considers the \emph{logical}
+perspective. First, one should recognize that the \emph{stability} law
+above is a disguised form of functoriality for $J$: that is, it
+ensures that $J$ itself be a presheaf, namely, a subobject of
+$\Omega$.
+
+Now, every subobject induces a characteristic map into $\Omega$, and
+it turns out that it will be far more informative to ignore the
+geometric aspects of $J$ and focus only on the properties of its
+characteristic map $\Define{\IBox{\Of{j}{\Omega\to\Omega}}}{\chi_J}$:
+\[
+  \begin{tikzcd}[sep=huge]
+    \IMode{J}
+    \arrow[r,"\IMode{!}"]
+    \arrow[d,rightarrowtail]
+    &
+    \IMode{\One}
+    \arrow[d,rightarrowtail, "\IMode{\True}"]
+    \\
+    \IMode{\Omega}
+    \arrow[r,swap,dashed,"\Define{j}{\chi_J}"]
+    &
+    \IMode{\Omega}
+  \end{tikzcd}
+\]
+
+\subsection{The logical view}
+\newcommand\Entails[2]{\IMode{#1}\leq\IMode{#2}}
+
+\begin{definition}[Lawvere-Tierney Operator]\label{def:lawvere-tierney}
+The characteristic map $\Of{j}{\Omega\to\Omega}$ of the Grothendieck
+Topology $\Mono{\IMode{J}}{\IMode{\Omega}}$ is called a
+\emph{Lawvere-Tierney topology / local
+  operator}~\cite{maclane-moerdijk:1992} or a
+\emph{nucleus}~\cite{jacobs:1999}, and exhibits the following
+characteristics:
+\begin{gather}
+  \IsEq{j\circ\True}{\True}
+  \label{eq:preserves-true}
+  \\
+  \IsEq{j\circ j}{j}
+  \label{eq:idempotency}
+  \\
+  \IsEq{j\circ\land}{\land\circ(j\times j)}
+  \label{eq:preserves-meets}
+\end{gather}
+\end{definition}
+
+In other words, $j$ is an idempotent cartesian monad in the internal
+logic of the topos. There is, however, a better-motivated way to state
+these laws which makes more sense from a logical perspective; in
+particular, axiom~\ref{eq:preserves-meets} can be replaced with the
+more intuitive \emph{monotonicity} condition that $j$ shall preserve
+entailment:
+\begin{equation}
+  \Entails{p}{q}\Rightarrow\Entails{j(p)}{j(q)}
+  \tag{3.3*}
+  \label{eq:monotonicity}
+\end{equation}
+
+\begin{proof}
+  ($\Rightarrow$) Suppose $\IsEq{j\circ\land}{\land\circ(j\times j)}$
+  and $\Entails{p}{q}$. We need to show that $\Entails{j(p)}{j(q)}$;
+  first, observe that it suffices to show that
+  $\IsEq{j(p)\land j(q)}{j(p)}$. Because $j$ preserves meets, this is
+  the same as $\IsEq{j(p\land q)}{j(p)}$; but $\IsEq{p\land q}{p}$,
+  because $\Entails{p}{q}$.\footnote{Thanks to Danny Gratzer for
+    suggesting this argument.}
+
+  ($\Leftarrow$) Suppose that $j$ preserves entailment; we need to
+  show that it preserves meets. To show that
+  $\Entails{j(p\land q)}{j(p)\land j(q)}$, it suffices to show both
+  $\Entails{j(p\land q)}{j(p)}$ and $\Entails{j(p\land q)}{j(q)}$;
+  these obtain respectively from the fact that $\Entails{p\land q}{p}$
+  and $\Entails{p\land q}{q}$. Next, we have to show that
+  $\Entails{j(p)\land j(q)}{j(p\land q)}$; this follows from
+  idempotency and monotonicity.
+\end{proof}
+
+\paragraph{Relating the logical and the geometric views}
+
+Each of the rules for a Grothendieck topology corresponds to an
+intuitive logical requirement: \emph{maximality}, i.e.\ the inclusion
+of represented functors as covers, corresponds to the requirement that
+our local operator shall preserve truth; \emph{stability} corresponds
+to the requirement that $J$ shall in fact be a presheaf; the
+\emph{transitivity} law corresponds exactly to
+axioms~\ref{eq:idempotency} and~\ref{eq:monotonicity}, composed to
+form the Kleisli extension for the monad $j$.
+
+\begin{remark}[Pretopologies and coverages]
+  There are several other ways to define some form of topology on a
+  category, including \emph{coverages} and \emph{pretopologies}. In
+  some contexts, these are allegedly easier to work with, but they
+  tend to impose extra requirements on the category $\mathbb{C}$, and
+  end up obscuring the crisp logical character of topologies and their
+  correspondence with modal operators. From a logical perspective, the
+  concept of a ``pretopology'' is essentially meaningless, so we
+  prefer to avoid it.
+\end{remark}
+
+\section{Sheaves on a site}
+\newcommand\IsMono[2]{\Mono{\IMode{#1}}{\IMode{#2}}}
+
+A \emph{site} is a category $\mathbb{C}$ together with a topology
+$\Of{\IBox{\IsMono{J}{\Omega}}}{\Psh{\mathbb{C}}}$. We will now
+proceed to give perspicuous definitions of what it means for a
+presheaf $\Of{P}{\Psh{\mathbb{C}}}$ to be \emph{separated} and a
+\emph{sheaf} respectively.
+
+There are many different definitions of separated presheaves and
+sheaves, most of which involve a number of complicated analytic
+conditions, or that some diagram shall commute; we prefer to give an
+equivalent, simpler definition (which is usually presented as a
+\emph{theorem}).
+
+First, observe that for any $\IsSieve{\Psi}{S}$, we have a canonical
+function between hom-sets
+$\Of{i_S^*}{[\Yoneda{\Psi},P]\to [S,P]}$
+as follows:
+\[
+  \begin{tikzcd}[sep=huge]
+    \IMode{\Yoneda{\Psi}}
+    \arrow[r, "\IMode{m}"]
+    &
+    \IMode{P}
+    \\
+    \IMode{S}
+    \arrow[u,rightarrowtail,"\IMode{i_S}"]
+    \arrow[ur,swap,dashed,"\OMode{i_S^*m}"]
+  \end{tikzcd}
+\]
+
+\begin{definition}
+  The presheaf $P$ is \emph{separated} iff for every
+  $\IsSieve{\Psi}{S}$, the induced map between hom-sets
+  $\Of{i_S^*}{[\Yoneda{\Psi},P]\to[S,P]}$ is a monomorphism. $P$ is a
+  \emph{sheaf} iff this map is also an isomorphism.
+\end{definition}
+
+It is worth taking a moment to cultivate some insight as to what is
+going on here. First, recall that by the Yoneda lemma, we can identify
+elements $P(\Psi)$ with natural transformations from the maximal
+sieve, i.e.\ $[\Yoneda{\Psi},P]$. So, sheafhood for $P$ is really
+saying that as far as $P$ is concerned, the elements of $P(\Psi)$ can
+be identified with natural transformations from \emph{any} sieve that
+covers $\Psi$, not just the maximal one.
+
+\begin{definition}[Matching families and amalgamations]
+  A natural transformation $\Of{m}{[S,P]}$ for $\Member{S}{J(\Psi)}$
+  is usually called a \emph{matching family} for $S$; then, the member
+  of $P(\Psi)$ which is determined by the sheaf-induced isomorphism
+  (and the Yoneda lemma) is called an \emph{amalgamation}.
+\end{definition}
+
+\newcommand\ObjNom{\mathbf{nom}}
+\newcommand\CatI{\mathbb{I}}
+
+\section{The Schanuel Topos}
+
+The purpose of this tutorial was originally to introduce the Schanuel topos, a
+presentation of the category of nominal sets~\cite{pitts:2013} as a
+Grothendieck topos.
+
+The syntax and semantics of \emph{local names} is most popularly dealt
+with via nominal sets. In short, an ambient set of names $\mathbb{A}$
+is fixed, letting $\mathbf{Perm}$ be the group of permutations of
+subsets of $\mathbb{A}$; then, the topos of nominal sets is got by
+taking the subcategory of the category of $\mathbf{Perm}$-sets which
+obey a condition called \emph{finite support}.
+
+A more intuitive way to work with objects indexed in local names is to
+consider an alternative presentation of nominal sets as a particular
+Grothendieck topos, called the Schanuel topos. This presentation has
+the advantage of being similar in form to standard methods for
+developing syntax with binding; when \emph{combined} with the latter,
+the sheaf-based presentation of nominal sets leads to greater harmony.
+
+\begin{definition}[The category of nominal contexts]
+  We will begin by defining a category of \emph{nominal contexts and
+    renamings}; typically a covariant presentation based on finite
+  sets and injections is given, but it will be clearer and more
+  suitable for generalization to work with a contravariant
+  presentation. Let $\CatI$ be the \emph{free strict
+    semi-cartesian category} generated by a single object $\Of{\ObjNom}{\CatI}$;
+  that is to say, every object of $\CatI$ is a finite power of
+  $\ObjNom$ with $\IsEq{\One}{\ObjNom^0}$, and we have a unique map
+  $\Of{!}{\ObjNom^n\to\One}$.
+\end{definition}
+
+\begin{remark}
+  The opposite category $\OpCat\CatI$ is the same as $\mathbf{Inj}$,
+  the category of finite sets and injective maps.
+\end{remark}
+
+\begin{definition}[Ore condition]\label{def:ore}
+  A category $\mathbb{C}$ satisfies the \emph{right Ore condition} if
+  every pair of morphisms
+  $\Of{\psi_0}{\Phi_0\to\Psi}$ and
+  $\Of{\psi_1}{\Phi_1\to\Psi}$ can be completed into
+  a commutative square:
+  \[
+    \begin{tikzcd}[sep=large]
+      \OMode{\Phi}
+      \arrow[r,dashed]
+      \arrow[d,dashed]
+      &
+      \IMode{\Phi_0}
+      \arrow[d,"\IMode{\psi_0}"]
+      \\
+      \IMode{\Phi_1}
+      \arrow[r,swap,"\IMode{\psi_1}"]
+      &
+      \IMode{\Psi}
+    \end{tikzcd}
+  \]
+  Having pullbacks is a sufficient condition, but not a necessary one.
+\end{definition}
+
+\newcommand\IsInh[1]{\IMode{#1}\ \mathit{inhabited}}
+
+\begin{definition}[Atomic topology]
+  If $\mathbb{C}$ satisfies the right Ore condition from
+  Definition~\ref{def:ore}, then it is possible to impose the
+  \emph{atomic topology} on $\mathbb{C}$, where all inhabited
+  sieves\footnote{In classical sheaf theory, the covering sieves for
+    the atomic topology are the \emph{non-empty} ones; however, in a
+    constructive metatheory, this is not enough to develop the
+    necessary results, including Lemma~\ref{lem:atomic-dense} and
+    Theorem~\ref{thm:strengthening}.}  are covering:
+  \[
+    \Define{
+      \JAtomic(\Psi)
+    }{
+      \MkSet{
+        \OBox{\IsSieve{\Psi}{S}}
+        \mid
+        \OBox{\IsInh{\cup_\Phi S(\Phi)}}
+      }
+    }
+  \]
+\end{definition}
+
+\begin{definition}[Schanuel topos]
+  The Schanuel topos is the topos of sheaves on the atomic site
+  $(\CatI,\JAtomic)$.
+\end{definition}
+
+We will see that the atomic topology is a special case of something
+called the \emph{dense topology} or, classically, the
+\emph{double-negation topology}, which will give us some insight into
+the logical characteristics of the Schanuel topos when formulated in a
+classical metatheory.
+
+\newcommand\Forces[2]{\IMode{#1}\Vdash\IMode{#2}}
+
+\begin{definition}[Dense topology]
+  The \emph{dense topology} is defined as follows:
+  \[
+    \Define{
+      \JDense(\Psi)
+    }{
+      \MkSet{
+        \OBox{
+          \IsSieve{\Psi}{S}
+        }
+        \mid
+        \OBox{
+          \forall\Of{\psi}{\Phi\to\Psi}.\
+          \exists\Of{\phi}{X\to\Phi}.\
+          \Member{\psi\circ \phi}{S(X)}
+        }
+      }
+    }
+  \]
+\end{definition}
+
+\begin{lem}
+  When distilled into its pure essence as a Lawvere-Tierney local
+  operator (Definition~\ref{def:lawvere-tierney}), the dense topology
+  corresponds classically to the double-negation modality
+  $\lnot\lnot$.\footnote{The definition of the dense topology that we
+    have assumed is \emph{not}, however, equivalent to the double
+    negation topology in a constructive metatheory, since the
+    equivalence relies on De Morgan
+    duality~\cite{spitters:2010,coquand:2013}.}
+\end{lem}
+\begin{proof}
+  It suffices to ``compile'' double-negations from the internal
+  language of the topos into statements about sieves. Recall that
+  $\Member{S}{J(\Psi)}$ iff $\Forces{\Psi}{S=\top}$, where
+  $\Define{\top}{\Yoneda{\Psi}}$ is the maximal sieve. First, we
+  unfold the meaning of
+  $\Forces{\Psi}{\lnot\lnot\IBox{\IsEq{S}{\top}}}$ using
+  Beth-Kripke-Joyal semantics of the topos as a weapon:
+  \begin{gather}
+    \Forces{\Psi}{\lnot\lnot\IBox{\IsEq{S}{\top}}}
+    \\
+    \forall\Of{\psi}{\Phi\to\Psi}.\
+    \lnot(\Forces{\Phi}{\lnot\IBox{\IsEq{S\cdot\psi}{\top}}})
+    \\
+    \forall\Of{\psi}{\Phi\to\Psi}.\
+    \lnot(
+      \forall\Of{\phi}{X\to\Phi}.\
+      \lnot(\Forces{X}{\IBox{\IsEq{S\cdot\psi\cdot\phi}{\top}}})
+    )
+    \label{de-morgan-1}
+    \\
+    \forall\Of{\psi}{\Phi\to\Psi}.\
+    \exists\Of{\phi}{X\to \Phi}.\
+    \Forces{X}{\IBox{\IsEq{S\cdot\psi\cdot\phi}{\top}}}
+    \label{de-morgan-2}
+    \\
+    \forall\Of{\psi}{\Phi\to\Psi}.\
+    \exists\Of{\phi}{X\to \Phi}.\
+    \Forces{X}{\IBox{\IsEq{S\cdot(\psi\circ\phi)}{\top}}}
+  \end{gather}
+  %
+  Now it suffices to show that
+  $\Forces{X}{\IBox{\IsEq{S\cdot(\psi\circ\phi)}{\top}}}$ iff
+  $\Member{\psi\circ\phi}{S(X)}$.
+  %
+  ($\Rightarrow$) Unfolding the meaning of our assumption, we have for
+  all $\Of{\rho}{Y\to X}$ that
+  $\Member{\psi\circ\phi\circ\rho}{S(Y)}$. Now choose $\Define{Y}{X}$
+  and $\Define{\rho}{\ArrId{X}}$; therefore
+  $\Member{\psi\circ\phi}{S(X)}$.
+  %
+  ($\Leftarrow$) Now suppose $\Member{\psi\circ\phi}{S(X)}$. We have
+  to show that for all $\Of{\rho}{Y\to X}$, then
+  $\Member{\psi\circ\phi\circ\rho}{S(Y)}$. This follows because sieves
+  are closed under precomposition.
+\end{proof}
+
+\begin{remark}
+  Observe the essential use of De Morgan's duality in the passage
+  between~\ref{de-morgan-1}~and~\ref{de-morgan-2} above. The dense
+  topology does not correspond to the double negation topology in a
+  constructive metatheory; moreover, the version of the dense topology
+  which \emph{does} correspond to double negation cannot suffice for
+  our purposes, as the author observed
+  in~\cite{sterling:math-stack-exchange-dense-topology}.
+\end{remark}
+
+\begin{lem}\label{lem:atomic-dense}
+  The atomic topology coincides with the dense topology.
+\end{lem}
+\begin{proof}
+  ($\Rightarrow$) Suppose $\Member{S}{\JAtomic(\Psi)}$, i.e.\
+  $\IsSieve{\Psi}{S}$ and $\IsInh{\cup_\Phi S(\Phi)}$. Fix
+  $\Of{\psi}{\Phi\to\Psi}$; we have to exhibit some
+  $\Of{\phi}{X\to\Phi}$ such that $\Member{\psi\circ\phi}{S(X)}$.
+  %
+  By assumption, there is some $\Of{\Upsilon}{\CatI}$ for which we
+  have some $\Of{\psi'}{\Upsilon\to\Psi}$ such that
+  $\Member{\psi'}{S(\Upsilon)}$; by the right Ore condition (Definition~\ref{def:ore}), we have
+  some $\Of{X}{\CatI}$ with the following property:
+  \[
+    \begin{tikzcd}
+      \OMode{X}
+      \arrow[r,dashed,"\OMode{\phi}"]
+      \arrow[d,dashed,swap,"\OMode{\upsilon}"]
+      &
+      \IMode{\Phi}
+      \arrow[d,"\IMode{\psi}"]
+      \\
+      \IMode{\Upsilon}
+      \arrow[r,swap,"\IMode{\psi'}"]
+      &
+      \IMode{\Psi}
+    \end{tikzcd}
+  \]
+  %
+  Because sieves are closed under precomposition, we have
+  $\Member{\psi'\circ \upsilon}{S(X)}$; because the diagram above
+  commutes, we therefore have $\Member{\psi\circ\phi}{S(X)}$.
+
+  ($\Leftarrow$) Suppose $\Member{S}{\JDense(\Psi)}$, i.e.\
+  $\IsSieve{\Psi}{S}$ and for any $\Of{\psi}{\Phi\to\Psi}$ there
+  exists some $\Of{\phi}{X\to\Phi}$ such that
+  $\Member{\psi\circ\phi}{S(X)}$. We have to exhibit some
+  $\Of{\Upsilon}{\CatI}$ together with some
+  $\Of{\psi'}{\Upsilon\to\Psi}$ such that
+  $\Member{\psi'}{S(\Upsilon)}$.
+  %
+  Choose $\Define{\Phi}{\Psi}$ and $\Define{\psi}{1}$; then, we have
+  some $\Of{\phi}{X\to\Psi}$ such that $\Member{\phi}{S(X)}$. Then
+  choose $\Define{\Upsilon}{X}$ and $\Define{\psi'}{\phi}$.
+
+\end{proof}
+
+\paragraph{Remark on constructivity}
+
+One should be cautious about the numerous results in topos theory of
+the form ``Any topos with property $X$ is boolean'' (e.g.\
+$\Define{X}{\textit{``well-pointed''}}$), which, far from elucidating
+an essential consequence of the property $X$, merely expose a leakage
+of information from the (Platonistic) external world into the
+topos. This kind of glitch serves only to underscore the essentially
+Tarskian deviation~\cite{girard:2011} which classical topos theory has
+inherited from old-fashioned mathematics and semantics.
+
+To resist this deviation amounts to adopting Bishop's dictum that
+meaningful distinctions must be preserved; in doing so, we enter a
+profoundly alien world in which, for instance, the Schanuel topos is
+\emph{not} boolean. We do not take a strident position on this here;
+our remarks are meant only to provide hope to the radical
+constructivist that it is possible to develop a semantics for names
+which does not incidentally commit one to a classical ontology.
+
+
+\subsection{Understanding nominal indexing}
+
+The mathematical specification of concepts which vary over nominal
+atoms is most clearly captured in the Schanuel topos; such a concept
+is a sheaf on the site $(\CatI,\JAtomic)$. Someone more familiar with
+the syntactic aspects of nominal indexing may have a few questions,
+however, which we will try to address in this section.
+
+\subsubsection{What is $\CatI$ really?}
+
+We have defined $\CatI$ as the free strict semicartesian category on a
+single object $\Of{\ObjNom}{\CatI}$. What is this really, and how does
+this correspond to contexts of names? It will be more familiar to
+consider a locative~\cite{girard:2011} notation for $\CatI$, in
+which objects $\Of{\ObjNom\otimes\ObjNom\otimes\ObjNom}{\CatI}$ are
+written as (meta)-named contexts $\Of{a,b,c}{\CatI}$; then,
+contexts and renamings are identified up to permutations of
+metavariables.
+
+This presentation corresponds to the usual view of contexts in syntax
+and programming languages; it is equivalent to the combinatorial
+version, which is less convenient in practice but also less
+complicated from a mathematical perspective.
+
+\subsubsection{Why sheaves instead of presheaves?}
+
+A first-cut attempt to define concepts which are indexed in nominal
+atoms would be to define them as presheaves on $\CatI$: that
+is, sets which are defined over name contexts $\Of{\Psi}{\CatI}$ and
+implement the appropriate renamings from $\CatI$ (weakening and exchange).
+
+\paragraph{Presheaves on $\CatI$ justify comparing names}
+Because $\CatI$ has only projections and permutations (which
+correspond respectively to weakening and exchange), and not diagonals
+(which correspond to contraction), natural transformations between
+presheaves on $\CatI$ are able to proceed by comparing the identity of
+different atoms. This is because the provenience and distinctness of
+names are preserved, whereas they would not be preserved in the
+presence of diagonals, in which two names could become identified.
+
+\paragraph{Sheaves justify \emph{support} and strengthening}
+
+When developing a language that is indexed in some form of name
+or variable, there is usually a well-defined way to talk about which
+names are free in a term. If the category of name contexts
+includes projections, then it is always possible that a term in
+context $\Phi\otimes\Psi$ may only ``use'' variables from $\Phi$.
+
+In syntax, the question of which variables are ``used'' can be
+answered by traversing a term; however, this notion is not sufficient
+for dealing with mathematical objects in general which vary over
+names, especially when these objects may not be finitary or
+  syntactically presentable in any sense.
+%
+The semantical analogue to the ``use'' of names is that of
+\emph{support}; necessarily, support has a behavioral definition
+rather than a structural one. Fixing a presheaf $\Of{P}{\Psh{\CatI}}$,
+we can define what it means for a renaming $\Of{\psi}{\Phi\to\Psi}$ to
+support a term $\Of{m}{P(\Phi)}$:
+
+\newcommand\Supports[3]{\IMode{#3}\lhd\IMode{#2}:\IMode{#1}}
+\begin{definition}[Support]\label{def:support}
+  An arrow $\Of{\psi}{\Phi\to\Psi}$ \emph{supports} a term
+  $\Member{m}{P(\Phi)}$ when, for any $\Of{\phi_0,\phi_1}{X\to\Phi}$
+  such that the following diagram commutes,
+  \begin{equation}\label{diagram:support}
+    \begin{tikzcd}
+      \IMode{X}
+      \arrow[r,shift left=1,"\IMode{\phi_0}"]
+      \arrow[r,swap,shift right=1,"\IMode{\phi_1}"]
+      &
+      \IMode{\Phi}
+      \arrow[r, "\IMode{\psi}"]
+      &
+      \IMode{\Psi}
+    \end{tikzcd}
+  \end{equation}
+  we have $\IsEq{m\cdot\phi_0}{m\cdot\phi_1}$. We will write
+  $\Supports{\Psi}{\psi}{m}$ when $\IMode{\psi}$ supports $\IMode{m}$.
+\end{definition}
+
+\begin{remark}[Understanding support]
+  How can we relate the above to an intuitive notion of the positive
+  ``use'' of names? It may help to consider what the statement
+  $\Supports{\Psi}{\psi}{m}$ is saying about the renaming
+  $\Of{\psi}{\Phi\to\Psi}$. Suppose $\Match{\Phi}{\Psi\otimes\Phi'}$
+  and $\Match{\psi}{\pi_1}$; then, Diagram~\ref{diagram:support} says
+  that $\phi_0$ and $\phi_1$ can only differ in their behavior on the
+  names in $\Phi'$. So, the fact that $\IMode{\psi}$ supports
+  $\IMode{m}$ means that $m$ is insensitive to this difference, i.e.\
+  $m$ is oblivious to the names in $\Phi'$.
+\end{remark}
+
+\begin{definition}[Strengthening]
+  A presheaf $\Of{P}{\Psh{\CatI}}$ has the \emph{strengthening}
+  property when for any $\Member{m}{P(\Phi)}$, if
+  $\Supports{\Psi}{\psi}{m}$, then there is a unique
+  $\Member{m_\Psi}{P(\Psi)}$ such that $\IsEq{m}{m_\Psi\cdot\psi}$. We call
+  $m_\Psi$ the strengthening of $m$ along $\psi$.
+\end{definition}
+
+\begin{thm}\label{thm:strengthening}
+  A presheaf $\Of{P}{\Psh{\CatI}}$ has strengthening if and only if $P$ is a sheaf for the
+  atomic topology, i.e.\ $\Of{P}{\Sh{\CatI,\JAtomic}}$.
+\end{thm}
+\begin{proof}
+  ($\Rightarrow$) Suppose that $\Of{P}{\Sh{\CatI,\JAtomic}}$ and
+  $\Supports{\Psi}{\psi}{m}$ for some $\Member{m}{P(\Phi)}$; we have
+  to exhibit a unique $\Member{m_\Psi}{P(\Psi)}$ such that
+  $\IsEq{m}{m_\Psi\cdot\psi}$.
+%
+  By the Yoneda lemma, we can regard $m$ as a natural transformation
+  $\Of{\Emb{m}}{[\Yoneda{\Phi},P]}$ and it suffices to exhibit some unique
+  $\Of{\Emb{m_\Psi}}{[\Yoneda{\Psi},P]}$ such that
+  $\IsEq{\Emb{m}}{\Emb{m_\Psi}\circ\IBox{\Of{\Yoneda{\psi}}{[\Yoneda{\Phi},\Yoneda{\Psi}]}}}$, i.e.\
+  \[
+    \begin{tikzcd}[sep=large]
+      \IMode{\Yoneda{\Phi}}
+      \arrow[r,"\IMode{\Yoneda{\psi}}"]
+      \arrow[d,swap,"\IMode{\Emb{m}}"]
+      &
+      \IMode{\Yoneda{\Psi}}
+      \arrow[dl,dashed,"\OMode{\Emb{m_\Psi}}"]
+      \\
+      \IMode{P}
+    \end{tikzcd}
+  \]
+  %
+  Because $P$ is a sheaf, if we exhibit a covering sieve
+  $\Member{S}{\JAtomic(\Psi)}$ and a matching family
+  $\Of{\mathfrak{f}}{[S,P]}$, we can get a unique natural transformation
+  $\Of{\Emb{m_\Psi}}{[\Yoneda{\Psi},P]}$ such that
+  $\IsEq{\mathfrak{f}}{\Emb{m_\Psi}\circ i_S}$ where
+  $\Of{i_S}{\Mono{S}{\Yoneda{\Psi}}}$. For $S(X)$, choose the set of
+  all composites $\Of{\Psi_X}{X\to\Psi}$ factoring through $\psi$,
+  i.e.\ arrows of the following form:
+  \[
+    \begin{tikzcd}[sep=huge]
+      &
+      \IMode{X}
+      \arrow[r,dashed,"\OMode{\phi}"]
+      \arrow[rr,bend left=40,"\IBox{\Member{\psi_X}{S(X)}}"]
+      &
+      \IMode{\Phi}
+      \arrow[r,"\IMode{\psi}"]
+      &
+      \IMode{\Psi}
+    \end{tikzcd}
+  \]
+  For the matching family $\mathfrak{f}$, for any
+  $\Member{\IBox{\Of{\psi_X}{X\to\Psi}}}{S(X)}$ we have to
+  functionally exhibit some $\Member{\mathfrak{f}_X(\psi_X)}{P(X)}$,
+  naturally in $X$. Because $\Member{\psi_X}{S(X)}$, there exists some
+  (not necessarily unique) $\Of{\phi}{X\to\Phi}$ such that
+  $\IsEq{\psi_X}{\psi\circ\phi}$; therefore, choose
+  $\Define{\mathfrak{f}_X(\psi_X)}{m\cdot\phi}$. This assignment is
+  functional in $\psi_X$ because $m$ is invariant under the
+  action of any $\phi$ which is precomposed with $\psi$ (this is a
+  consequence of $\Supports{\Psi}{\psi}{m}$ and
+  Diagram~\ref{diagram:support}).
+%
+  It remains to show that $\IMode{\mathfrak{f}_X}$ is natural in
+  $\IMode{X}$, which we establish by means of a diagram chase, fixing
+  $\Of{\chi}{\Upsilon\to X}$:
+  \[
+    \begin{tikzcd}[sep=huge]
+      \IMode{S(X)}
+      \arrow[r,"\IMode{S(\chi)}"]
+      \arrow[d,swap,"\IMode{\mathfrak{f}_X}"]
+      &
+      \IMode{S(\Upsilon)}
+      \arrow[d,"\IMode{\mathfrak{f}_\Upsilon}"]
+      \\
+      \IMode{P(X)}
+      \arrow[r,swap,"\IMode{P(\chi)}"]
+      &
+      \IMode{P(\Upsilon)}
+    \end{tikzcd}
+    \quad
+    \begin{tikzcd}[sep=huge]
+      \IMode{\psi\circ\phi}
+      \arrow[r,mapsto,"\IMode{S(\chi)}"]
+      \arrow[d,mapsto,swap,"\IMode{\mathfrak{f}_X}"]
+      &
+      \OMode{\psi\circ\phi\circ\chi}
+      \arrow[d,mapsto,"\IMode{\mathfrak{f}_\Upsilon}"]
+      \\
+      \OMode{m\cdot\phi}
+      \arrow[r,swap,mapsto,"\IMode{P(\chi)}"]
+      &
+      \OBox{\IsEq{m\cdot\phi\cdot\chi}{m\cdot(\phi\circ\chi)}}
+    \end{tikzcd}
+  \]
+  Therefore, because $P$ is a sheaf, we have a unique
+  $\Of{\Emb{m_\Psi}}{[\Yoneda{\Psi},P]}$ such that
+  $\IsEq{\mathfrak{f}}{\Emb{m_\Psi}\circ i_S}$; it remains to show that
+  $\IsEq{\Emb{m}}{\Emb{m_\Psi}\circ\Yoneda{\psi}}$, i.e.\ for any
+  $\Of{X}{\CatI}$ the following diagram commutes in $\Sets$:
+  \[
+    \begin{tikzcd}[sep=huge]
+      \IMode{[X,\Phi]}
+      \arrow[r,"\IMode{\Emb{m}_X}"]
+      \arrow[d,swap,"\IMode{\psi\circ-}"]
+      &
+      \IMode{P(X)}
+      \\
+      \IMode{[X,\Psi]}
+      \arrow[ur,swap,"\IMode{\Emb{m_\Psi}_X}"]
+    \end{tikzcd}
+  \]
+  To make the above diagram commute, we need to show that for any
+  $\Of{\phi}{X\to\Phi}$, we have
+  $\IsEq{\Emb{m}_X(\phi)}{\Emb{m_\Psi}_X(\psi\circ\phi)}$,
+  i.e. $\IsEq{m\cdot\phi}{\Emb{m_\Psi}_X(\psi\circ\phi)}$; by the
+  definition of $\mathfrak{f}$, it suffices to show
+  $\IsEq{\mathfrak{f}_X(\psi\circ\phi)}{\Emb{m_\Psi}_X(\psi\circ\phi)}$,
+  which is clearly the case because we already have
+  $\IsEq{\mathfrak{f}}{\Emb{m_\Psi}\circ i_S}$ and
+  $\Member{\psi\circ\phi}{S(X)}$.
+
+  ($\Leftarrow$) Now suppose that we have a presheaf
+  $\Of{P}{\Psh{\CatI}}$ which is equipped with strengthening. Fixing a
+  covering sieve $\Member{S}{\JAtomic(\Psi)}$, recall that we have a
+  canonical restriction
+  $\Of{\IBox{\Define{i_S^*}{-\circ i_S}}}{[\Yoneda{\Psi},P]\to[S,P]}$
+  where $\Of{i_S}{\Mono{S}{\Yoneda{\Psi}}}$; to show that $P$ is a
+  sheaf, we need to show that $i_S^*$ is an isomorphism.
+
+  Given a matching family $\Of{\mathfrak{f}}{[S,P]}$, we need to
+  exhibit a unique extension $\Of{\Emb{m}}{[\Yoneda{\Psi},P]}$ such
+  that $\IsEq{\mathfrak{f}}{\Emb{m}\circ i_S}$. Because
+  $\Member{S}{\JAtomic(\Psi)}$, there exists some
+  $\Of{\psi}{\OMode{\Phi}\to\Psi}$ such that $\Member{\psi}{S(\Phi)}$,
+  whence we have $\Member{\mathfrak{f}_\Phi(\psi)}{P(\Phi)}$.
+  %
+  We want to show that
+  $\Supports{\Psi}{\psi}{\mathfrak{f}_\Phi(\psi)}$; that is, fixing
+  $\Of{\phi_0,\phi_1}{X\to\Phi}$ such that
+  $\IsEq{\psi\circ\phi_0}{\psi\circ\phi_1}$, we need to show that
+  $\IsEq{\mathfrak{f}_\Phi(\psi)\cdot\phi_0}{\mathfrak{f}_\Phi(\psi)\cdot\phi_1}$.
+
+  By naturality, we have
+  $\IsEq{P(\phi_i)\circ\mathfrak{f}_\Phi}{\mathfrak{f}_X\circ
+    P(\phi_i)}$ for $\Member{i}{\MkSet{0,1}}$; specifically, we have
+  $\IsEq{\mathfrak{f}_\Phi(\psi) \cdot
+    \phi_i}{\mathfrak{f}_X(\psi\circ\phi_i)}$, so it suffices to show
+  that
+  $\IsEq{\mathfrak{f}_X(\psi\circ\phi_0)}{\mathfrak{f}_X(\psi\circ\phi_1)}$,
+  which is clearly the case because
+  $\IsEq{\psi\circ\phi_0}{\psi\circ\phi_1}$. Therefore,
+  $\Supports{\Psi}{\psi}{\mathfrak{f}_\Phi(\psi)}$.
+  %
+  By assumption, we have a unique strengthening $\Member{m}{P(\Psi)}$
+  such that $\IsEq{\mathfrak{f}_\Phi(\psi)}{m\cdot\psi}$, i.e.\
+  $\Of{\Emb{m}}{[\Yoneda{\Psi},P]}$ such that
+  $\IsEq{\Emb{\mathfrak{f}_\Phi(\psi)}}{\Emb{m}\circ\Yoneda{\psi}}$.
+
+  It remains only to show that
+  $\IsEq{\mathfrak{f}}{\Emb{m}\circ i_S}$, i.e.\ for any
+  $\Member{\psi\circ\OMode{\phi}}{S(X)}$ we have
+  $\IsEq{\mathfrak{f}_X(\psi\circ\phi)}{m\cdot(\psi\circ\phi)}$, or by
+  naturality,
+  $\AreEq{\mathfrak{f}_\Phi(\psi)\cdot\phi,m\cdot(\psi\circ\phi),m\cdot\psi\cdot\phi}$. Canceling
+  $\phi$, it suffices to show
+  $\IsEq{\mathfrak{f}_\Phi(\psi)}{m\cdot\psi}$, which holds by
+  definition.
+
+\end{proof}
+
+
+\newcommand\ForcesOf[3]{\IMode{#1}\Vdash\IMode{#2}:\IMode{#3}}
+
+\newpage
+
+\bibliography{references/refs}
+\bibliographystyle{abbrv}
+
+\end{document}

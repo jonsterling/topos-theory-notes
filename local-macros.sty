@@ -1,0 +1,45 @@
+\usepackage{notation/modes}
+\usepackage{notation/judgments}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{stmaryrd}
+\usepackage{jms-proof}
+\usepackage{booktabs}
+\usepackage{pgffor}
+\usepackage{array}
+\usepackage[affil-it]{authblk}
+
+\usepackage{enumitem}
+
+\newcommand\ProofCaseLabel[1]{\textit{Case} #1.}
+\newlist{proofcases}{description}{4}
+\setlist[proofcases]{font=\normalfont\ProofCaseLabel, leftmargin=0pt, itemsep=10pt}
+
+
+\usepackage[
+  backref,
+  colorlinks,
+  hyperfigures,
+  hyperfootnotes,
+  pagebackref,
+  pdfdisplaydoctitle,
+  pdfencoding=auto,
+  psdextra,
+  unicode,
+  citecolor=NavyBlue
+]{hyperref}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[thm]{Definition}
+\newtheorem{example}[thm]{Example}
+\newtheorem{notation}[thm]{Notation}
+\newtheorem{convention}[thm]{Convention}
+\newtheorem{construction}[thm]{Construction}
+\theoremstyle{remark}
+\newtheorem{remark}[thm]{Remark}
+
+\numberwithin{equation}{section}
