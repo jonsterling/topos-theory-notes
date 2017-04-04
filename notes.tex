@@ -2,7 +2,7 @@
 \usepackage{local-macros}
 \usepackage{tikz-cd}
 \usepackage{microtype}
-\usepackage{euler}
+\usepackage{eulervm}
 \usepackage{libertineRoman}
 \usepackage{sectsty}
 \allsectionsfont{\sffamily}
@@ -32,6 +32,12 @@
 \newcommand\Forces[2]{\IMode{#1}\Vdash\IMode{#2}}
 \newcommand\INJ{\mathbf{Inj}}
 \newcommand\IsInh[1]{\IMode{#1}\ \mathit{inhabited}}
+\DeclareMathOperator{\Sheafify}{\mathfrak{a}}
+\newcommand\AreAdjoint[1]{\FormatList{\IMode}{\dashv}{#1}}
+\newcommand\AOf[2]{\IMode{#1}&:\IMode{#2}}
+\newcommand\magicwand{\mathrel{-\mkern-6mu*}}
+\newcommand\newname{\reflectbox{\ensuremath{\mathsf{N}}}} 
+
 
 
 \title{Notes on topos theory}
@@ -230,7 +236,7 @@ complicated, essentially because it must be made to respect the fact
 that the objects under consideration are ``in motion''.
 
 \newcommand\MkSet[1]{\left\{#1\right\}}
-\newcommand\Pow[1]{\mathscr{P} (#1)}
+\newcommand\Pow[1]{\mathcal{P} (#1)}
 \newcommand\Dom[1]{\vert{#1}\vert}
 
 \paragraph{The subobject classifier in a presheaf topos}
@@ -445,7 +451,7 @@ form the Kleisli extension for the monad $j$.
 \newcommand\IsMono[2]{\Mono{\IMode{#1}}{\IMode{#2}}}
 
 A \emph{site} is a category $\mathbb{C}$ together with a topology
-$\Of{\IBox{\IsMono{J}{\Omega}}}{\Psh{\mathbb{C}}}$. We will now
+$\IsSubobject{J}{\Omega}{\Psh{\mathbb{C}}}$. We will now
 proceed to give perspicuous definitions of what it means for a
 presheaf $\Of{P}{\Psh{\mathbb{C}}}$ to be \emph{separated} and a
 \emph{sheaf} respectively.
@@ -495,13 +501,120 @@ covers $\Psi$, not just the maximal one.
   (and the Yoneda lemma) is called an \emph{amalgamation}.
 \end{definition}
 
-\section{Sheafification: the essence of Grothendieck toposes}
 
-In this section, we will assume without proof that lex reflective
-subcategories of presheaf toposes are themselves toposes.
+\newcommand\Plus[1]{{#1}^+}
+
+\section{Sheafification: the essence of toposes}
+
+For any Grothendieck topology
+$\IsSubobject{J}{\Omega}{\Psh{\mathbb{C}}}$, there is a canonical way
+to turn a presheaf on $\mathbb{C}$ into a sheaf on the site
+$(\mathbb{C},J)$. Later on, we will see that this is actually this can
+actually be taken as \emph{definitive} without explicitly invoking
+Grothendieck (or Lawvere-Tierney) topologies, exposing the principal
+contradiction of sheaf theory as the adjunction induced by a \emph{lex
+  reflective subcategory} of a topos.
+
+To begin with, we will exhibit the $J$-sheaves as a lex reflective
+subcategory of the topos $\Psh{\mathbb{C}}$ in the sense that we have
+a geometric morphism
+$\AreAdjoint{\IBox{\Of{\Sheafify}{\Psh{\mathbb{C}}}\to
+    \Sh{\mathbb{C},J}},\IBox{\Of{\iota}{\Sh{\mathbb{C},J}\hookrightarrow\Psh{\mathbb{C}}}}}$,
+where $\iota$ is the (full and faithful) inclusion of sheaves into
+presheaves and $\Sheafify$ is a ``sheafification'' functor.
+
+Sheafification in presheaf toposes is obtained from the iterated
+application of something called ``Grothendieck's plus construction'',
+which we define below, fixing a presheaf $\Of{P}{\Psh{\mathbb{C}}}$:
+\begin{align*}
+  \AOf{
+    \Plus{(-)}
+  }{
+    \Psh{\mathbb{C}}\to\Psh{\mathbb{C}}
+  }
+  \\
+  \ADefine{
+    \Plus{P}(\Psi)
+  }{
+    \int^{\Member{S}{J(\Psi)}}
+    [S,P]
+  }
+\end{align*}
+
+In other words, the \emph{plus construction} for a presheaf replaces
+its elements by covering sieves equipped with matching families:
+conceptually, this means equipping a presheaf with ``formal
+glueings''. Remarkably, we will see that this process is highly
+well-behaved.
+
+\newcommand\IsEqOf[3]{\IMode{#1}=\IMode{#2}:\IMode{#3}}
 
 
 
+\begin{thm}
+  When $\Of{P}{\Psh{\mathbb{C}}}$ is any presheaf, its plus
+  construction $\Of{\Plus{P}}{\Psh{\mathbb{C}}}$ is \emph{separated},
+  i.e.\ for any sieve $\Member{S}{J(\Psi)}$ the precomposition map
+  between hom-sets induced by
+  $\Of{i_S}{S\rightarrowtail\Yoneda{\Psi}}$ is injective:
+  \[
+    \begin{tikzcd}[sep=huge]
+      \IMode{[\Yoneda{\Psi},\Plus{P}]}
+      \arrow[r,tail,"\IMode{i_S^*}"]
+      &
+      \IMode{[S,\Plus{P}]}
+    \end{tikzcd}
+  \]
+\end{thm}
+\begin{proof}
+  Fix two matching families
+  $\Of{\mathfrak{m}_1,\mathfrak{m}_2}{[\Yoneda{\Psi},\Plus{P}]}$. We
+  need to show that if
+  $\IsEqOf{\mathfrak{m}_1\circ i_S}{\mathfrak{m}_2\circ
+    i_S}{[S,\Plus{P}]}$, then already
+  $\IsEqOf{\mathfrak{m}_1}{\mathfrak{m}_2}{[\Yoneda{\Psi},\Plus{P}]}$.
+  
+  % Unfolding things, need to show that for all $\Of{f}{\Phi\to\Psi}$,
+  % we have
+  % $\IsEqOf{\mathfrak{m}_1(f)}{\mathfrak{m}_2(f)}{\Plus{P}(\Phi)}$.
+
+  By the Yoneda Lemma it suffices to prove only
+  $\IsEqOf{m_1}{m_2}{\Plus{P}(\Psi)}$ (defining
+  $\Define{m_i}{\mathfrak{m}_i(\ArrId{\Psi})}$), and we can rewrite
+  our assumption to say that for all $\Member{\psi}{S(\Phi)}$ we have
+  $\IsEqOf{m_1\cdot\psi}{m_2\cdot\psi}{\Plus{P}(\Phi)}$.
+
+  By definition,
+  $\Match{m_i}{(\OBox{\Member{T_i}{J(\Psi)}},\OBox{\Member{\mathfrak{n_i}}{[T_i,P]}})}$,
+  and (unfolding the meaning of equality for a coend), and for all
+  $\Member{\psi}{S(\Phi)}$ there exists some
+  $\Of{\mathfrak{l}_\psi}{[T_1\cdot\psi,T_2\cdot\psi]}$ such that
+  $\IsEqOf{\mathfrak{n}_1\cdot\psi}{\mathfrak{n_2}\cdot\psi\circ\mathfrak{l}_\psi}{[T_1\cdot\psi,P]}$,
+  i.e.\
+  $\IsEqOf{\mathfrak{n}_1(\psi\circ\phi)}{\mathfrak{n_2}(\mathfrak{l}_\psi(\psi\circ\phi))}{P(X)}$
+  for all $\Member{\IBox{\Of{\phi}{X\to\Phi}}}{T_1\cdot\psi(X)}$.
+
+  We need to exhibit some $\Of{\mathfrak{l}}{[T_1,T_2]}$ such that
+  $\IsEqOf{\mathfrak{n}_1}{\mathfrak{n}_2\circ\mathfrak{l}}{[T_1,P]}$.
+
+  
+  
+
+ % Now
+ %  proceed by case on whether $\Member{f}{S(\Phi)}$:
+ %  \begin{proofcases}
+ %  \item[$\Member{f}{S(\Phi)}$] Then we are done.
+ %  \item[$\NotMember{f}{S(\Phi)}$] In this case, we will
+ %  \end{proofcases}
+
+\end{proof}
+
+%In this section, we will assume without proof that lex reflective
+%subcategories of presheaf toposes are themselves toposes.
+
+
+
+\newpage
 \section{Applications and examples}
 
 We will now survey a few useful topologies.
@@ -661,9 +774,6 @@ should be aware that the atomic topology is the one generated from
 \emph{singleton} covering families.
 
 \paragraph{Applications of the atomic topology}
-\newcommand\AOf[2]{\IMode{#1}&:\IMode{#2}}
-\newcommand\magicwand{\mathrel{-\mkern-6mu*}}
-\newcommand\newname{\reflectbox{\ensuremath{\mathsf{N}}}} 
 
 
 Letting $\Of{\INJ}{\Cats}$ be the category of finite sets and only
