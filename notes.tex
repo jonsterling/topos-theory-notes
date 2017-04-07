@@ -235,7 +235,7 @@ two-element set; its construction in a presheaf topos is more
 complicated, essentially because it must be made to respect the fact
 that the objects under consideration are ``in motion''.
 
-\newcommand\MkSet[1]{\left\{#1\right\}}
+\newcommand\MkSet[1]{\{#1\}}
 \newcommand\Pow[1]{\mathcal{P} (#1)}
 \newcommand\Dom[1]{\vert{#1}\vert}
 
@@ -544,12 +544,56 @@ which we define below, fixing a presheaf $\Of{P}{\Psh{\mathbb{C}}}$:
 In other words, the \emph{plus construction} for a presheaf replaces
 its elements by covering sieves equipped with matching families:
 conceptually, this means equipping a presheaf with ``formal
-glueings''. Remarkably, we will see that this process is highly
+amalgamations''. We will see that this process is remarkably
 well-behaved.
 
 \newcommand\IsEqOf[3]{\IMode{#1}=\IMode{#2}:\IMode{#3}}
+\newcommand\Sim[2]{\IMode{#1}\sim\IMode{#2}}
 
+\begin{lem}[Equality in $\Plus{P}$]
+  The following are equivalent:
+  \begin{enumerate}
+  \item $\IsEqOf{(R,\mathfrak{m})}{(S,\mathfrak{n})}{\Plus{P}(\Psi)}$
+  \item $\Sim{(R,\mathfrak{m})}{(S,\mathfrak{n})}$, where
+    $\sim$ is the smallest equivalence relation which relates
+    $\IMode{(R,\mathfrak{m})}$ and $\IMode{(S,\mathfrak{n})}$ when
+    there exists a natural transformation $\Of{\mathfrak{l}}{R\to S}$
+    such that for all
+    $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{R(\Phi)}$, we have
+    $\IsEqOf{\mathfrak{m}(\psi)}{\mathfrak{n}(\mathfrak{l}(\psi))}{P(\Phi)}$.
+  \item There exists some common refinement $\IsSubsetEq{T}{R\cap S}$ such that for all $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{T(\Phi)}$, we have $\IsEqOf{\mathfrak{m}(\psi)}{\mathfrak{n}(\psi)}{P(\Phi)}$.
+  \end{enumerate}
+\end{lem}
+\begin{proof}
+  (1)~$\Leftrightarrow$~(2) is the definition of equality for a colimit in
+  $\Sets$. % To show (1) $\Rightarrow$ (3), observe that we have both $\IsEqOf{(R\cap S)}{?}{?}$
+   
+  Next, we will show (2)~$\Rightarrow$~(3).
+%
+  First, observe that the relation in (2) which we have closed under
+  reflexivity, symmetry and transitivity is already reflexive and
+  transitive. So assuming $\Sim{(R,\mathfrak{m})}{(S,\mathfrak{n})}$,
+  we have either some $\Of{\mathfrak{l}}{R\to S}$ or
+  $\Of{\mathfrak{l}}{S\to R}$; the cases are themselves symmetric, so
+  we will only consider $\Of{\mathfrak{l}}{R\to S}$. Choose
+  $\Define{T(\Phi)}{\MkSet{\OBox{\Member{\psi}{(R\cap S)(\Phi)}} \mid
+      \OBox{\IsEq{\mathfrak{l}(\psi)}{\psi}}}}$; we need to show that
+  for all $\Member{\psi}{T(\Phi)}$, we have
+  $\IsEqOf{\mathfrak{m}(\psi)}{\mathfrak{n}(\psi)}{P(\Phi)}$, which
+  holds immediately from our assumption.
 
+  To show (3)~$\Rightarrow$~(2), observe the following:
+  \begin{enumerate}
+  \item $\Sim{(T,\mathfrak{m})}{(R,\mathfrak{m})}$, choosing the
+    inclusion $\Of{\mathfrak{l}}{T\to R\cap S\to R}$.
+  \item $\Sim{(T,\mathfrak{n})}{(R,\mathfrak{n})}$, choosing the
+    inclusion $\Of{\mathfrak{l}}{T\to R\cap S\to S}$.
+  \item $\Sim{(T,\mathfrak{m})}{(T,\mathfrak{n})}$, by reflexivity
+    (recall that $\mathfrak{m}$ and $\mathfrak{n}$ agree when
+    restricted to $T$).
+  \end{enumerate}
+  By transitivity, we have $\Sim{(R,\mathfrak{m})}{(S,\mathfrak{n})}$.
+\end{proof}
 
 \begin{thm}
   When $\Of{P}{\Psh{\mathbb{C}}}$ is any presheaf, its plus
@@ -584,18 +628,33 @@ well-behaved.
   our assumption to say that for all $\Member{\psi}{S(\Phi)}$ we have
   $\IsEqOf{m_1\cdot\psi}{m_2\cdot\psi}{\Plus{P}(\Phi)}$.
 
-  By definition,
-  $\Match{m_i}{(\OBox{\Member{T_i}{J(\Psi)}},\OBox{\Member{\mathfrak{n_i}}{[T_i,P]}})}$,
-  and (unfolding the meaning of equality for a coend), and for all
-  $\Member{\psi}{S(\Phi)}$ there exists some
-  $\Of{\mathfrak{l}_\psi}{[T_1\cdot\psi,T_2\cdot\psi]}$ such that
-  $\IsEqOf{\mathfrak{n}_1\cdot\psi}{\mathfrak{n_2}\cdot\psi\circ\mathfrak{l}_\psi}{[T_1\cdot\psi,P]}$,
-  i.e.\
-  $\IsEqOf{\mathfrak{n}_1(\psi\circ\phi)}{\mathfrak{n_2}(\mathfrak{l}_\psi(\psi\circ\phi))}{P(X)}$
-  for all $\Member{\IBox{\Of{\phi}{X\to\Phi}}}{T_1\cdot\psi(X)}$.
+  % By definition,
+  % $\Match{m_i}{(\OBox{\Member{T_i}{J(\Psi)}},\OBox{\Member{\mathfrak{n_i}}{[T_i,P]}})}$;
+  % by unfolding our equality hypothesis, for all
+  % $\Member{\psi}{S(\Phi)}$ there exists some
+  % $\Of{\mathfrak{l}_\psi}{[T_1\cdot\psi,T_2\cdot\psi]}$ such that
+  % $\IsEqOf{\mathfrak{n}_1\cdot\psi}{\mathfrak{n_2}\cdot\psi\circ\mathfrak{l}_\psi}{[T_1\cdot\psi,P]}$,
+  % i.e.\
+  % $\IsEqOf{\mathfrak{n}_1(\psi\circ\phi)}{\mathfrak{n_2}(\mathfrak{l}_\psi(\psi\circ\phi))}{P(X)}$
+  % for all $\Member{\IBox{\Of{\phi}{X\to\Phi}}}{T_1\cdot\psi(X)}$.
 
-  We need to exhibit some $\Of{\mathfrak{l}}{[T_1,T_2]}$ such that
-  $\IsEqOf{\mathfrak{n}_1}{\mathfrak{n}_2\circ\mathfrak{l}}{[T_1,P]}$.
+  % We need to exhibit some $\Of{\mathfrak{l}}{[T_1,T_2]}$ such that
+  % $\IsEqOf{\mathfrak{n}_1}{\mathfrak{n}_2\circ\mathfrak{l}}{[T_1,P]}$. Unfolding
+  % things, we need to exhibit an $\mathfrak{l}$ such that for all
+  % $\Member{\psi}{T_1(\Phi)}$, we have
+  % $\IsEqOf{\mathfrak{n}_1(\psi)}{\mathfrak{n}_2(\mathfrak{l}(\psi))}{P(\Phi)}$.
+
+  % \begin{enumerate}
+  % \item Have $\Of{\mathfrak{l}_\psi}{[T_1\cdot\psi,T_2\cdot\psi]}$
+  % \item That is $\Of{\mathfrak{l}_\psi}{\MkSet{\phi\mid \psi\circ\phi\in T_1} \to \MkSet{\phi\mid\psi\circ\phi\in T_2}}$
+  % \item Can we turn this into $\Of{\mathfrak{l}}{\MkSet{\psi\mid\psi\in T_1}\to\MkSet{\psi\mid\psi\in T_2}}$
+  %   \[
+  %     \Define{
+  %       \mathfrak{l}_\P
+  %     }{
+  %     }
+  %   \]
+  % \end{enumerate}
 
   
   
