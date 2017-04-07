@@ -7,6 +7,8 @@
 \usepackage{sectsty}
 \allsectionsfont{\sffamily}
 
+\newcommand\AreSubsetEq[1]{\FormatList{\IMode}{\subseteq}{#1}}
+
 \newcommand\Cats{\mathbf{Cat}}
 \newcommand\Sets{\mathbf{Set}}
 \newcommand\Posets{\mathbf{Pos}}
@@ -541,6 +543,8 @@ which we define below, fixing a presheaf $\Of{P}{\Psh{\mathbb{C}}}$:
     [S,P]
   }
 \end{align*}
+In the above colimiting construction, we write $J(\Psi)$ for the
+\emph{poset} of covering sieves on $\Psi$.
 
 In other words, the \emph{plus construction} for a presheaf replaces
 its elements by covering sieves equipped with matching families:
@@ -557,11 +561,9 @@ well-behaved.
   \item $\IsEqOf{(R,\mathfrak{m})}{(S,\mathfrak{n})}{\Plus{P}(\Psi)}$
   \item $\Sim{(R,\mathfrak{m})}{(S,\mathfrak{n})}$, where
     $\sim$ is the smallest equivalence relation which relates
-    $\IMode{(R,\mathfrak{m})}$ and $\IMode{(S,\mathfrak{n})}$ when
-    there exists a natural transformation $\Of{\mathfrak{l}}{R\to S}$
-    such that for all
+    $\IMode{(R,\mathfrak{m})}$ and $\IMode{(S,\mathfrak{n})}$ when $\IsSubsetEq{R}{S}$
     $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{R(\Phi)}$, we have
-    $\IsEqOf{\mathfrak{m}(\psi)}{\mathfrak{n}(\mathfrak{l}(\psi))}{P(\Phi)}$.
+    $\IsEqOf{\mathfrak{m}(\psi)}{\mathfrak{n}(\psi)}{P(\Phi)}$.
   \item There exists some common refinement
     $\Member{\IBox{\IsSubsetEq{T}{R\cap S}}}{J(\Psi)}$ such that for all
     $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{T(\Phi)}$, we have
@@ -577,11 +579,10 @@ well-behaved.
   First, observe that the relation in (2) which we have closed under
   reflexivity, symmetry and transitivity is already reflexive and
   transitive. So assuming $\Sim{(R,\mathfrak{m})}{(S,\mathfrak{n})}$,
-  we have either some $\Of{\mathfrak{l}}{R\to S}$ or
-  $\Of{\mathfrak{l}}{S\to R}$; the cases are themselves symmetric, so
-  we will only consider $\Of{\mathfrak{l}}{R\to S}$. Choose
-  $\Define{T(\Phi)}{\MkSet{\OBox{\Member{\psi}{(R\cap S)(\Phi)}} \mid
-      \OBox{\IsEq{\mathfrak{l}(\psi)}{\psi}}}}$; we need to show that
+  we have either some $\IsSubsetEq{R}{S}$ or
+  $\IsSubsetEq{S}{R}$; the cases are themselves symmetric, so
+  we will only consider $\IsSubsetEq{R}{S}$. Choose
+  $\Define{T}{R\cap S}$; we need to show that
   for all $\Member{\psi}{T(\Phi)}$, we have
   $\IsEqOf{\mathfrak{m}(\psi)}{\mathfrak{n}(\psi)}{P(\Phi)}$, which
   holds immediately from our assumption.
@@ -589,9 +590,9 @@ well-behaved.
   To show (3)~$\Rightarrow$~(2), observe the following:
   \begin{enumerate}
   \item $\Sim{(T,\mathfrak{m})}{(R,\mathfrak{m})}$, choosing the
-    inclusion $\Of{\mathfrak{l}}{T\to R\cap S\to R}$.
+    inclusion $\AreSubsetEq{T,R\cap S,R}$.
   \item $\Sim{(T,\mathfrak{n})}{(R,\mathfrak{n})}$, choosing the
-    inclusion $\Of{\mathfrak{l}}{T\to R\cap S\to S}$.
+    inclusion $\AreSubsetEq{T,R\cap S,S}$.
   \item $\Sim{(T,\mathfrak{m})}{(T,\mathfrak{n})}$, by reflexivity
     (recall that $\mathfrak{m}$ and $\mathfrak{n}$ agree when
     restricted to $T$).
@@ -770,7 +771,7 @@ subfunctors and matching families as natural transformations.
   $\AreEq{m_S\cdot\psi,{(T_\psi,\mathfrak{n}_\psi)},\mathfrak{m}_S(\psi)}$.
 \end{proof}
 
-\begin{cor}[Sheafification]
+\begin{cor}
   For any presheaf $\Of{P}{\Psh{\mathbb{C}}}$, the double application
   of the plus construction $\PlusPlus{P}$ is a sheaf, i.e.\
   $\Of{\PlusPlus{P}}{\Sh{\mathbb{C},J}}$.
@@ -778,6 +779,22 @@ subfunctors and matching families as natural transformations.
 \begin{proof}
   By Theorems~\ref{thm:plus-sheaf} and~\ref{thm:plus-separated}.
 \end{proof}
+
+
+
+\begin{thm}[Sheafification]
+  We are now equipped to show that the $J$-sheaves comprise a lex
+  reflective subcategory of the presheaf topos $\mathbb{C}$, defining
+  $\Define{\Sheafify(P)}{\PlusPlus{P}}$. In other words,
+  \begin{enumerate}
+  \item $\Of{\Sheafify}{\Sh{\mathbb{C},J}\to\Psh{\mathbb{C}}}$
+    preserves finite limits.
+  \item $\Of{\iota}{\Sh{\mathbb{C},J}\to\Psh{\mathbb{C}}}$ is full and
+    faithful.
+  \item We have the adjunction $\AreAdjoint{\Sheafify,\iota}$.
+  \end{enumerate}
+\end{thm}
+
 
 
 \newpage
