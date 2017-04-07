@@ -9,6 +9,7 @@
 
 \newcommand\AreSubsetEq[1]{\FormatList{\IMode}{\subseteq}{#1}}
 
+\newcommand\Char[1]{\mathbf{char}_{#1}}
 \newcommand\Cats{\mathbf{Cat}}
 \newcommand\Sets{\mathbf{Set}}
 \newcommand\Posets{\mathbf{Pos}}
@@ -192,11 +193,11 @@ $\OBox{\IsSubobject{S}{\Yoneda{\Psi}}{\Psh{\mathbb{C}}}}$.
 \subsection{Sieves and subobjects}
 
 In classical set theory, every subset $\IsSubsetEq{A}{B}$ has a
-\emph{characteristic function} $\Of{\chi_A}{B\to \Two}$, defined as
+\emph{characteristic function} $\Of{\Char{A}}{B\to \Two}$, defined as
 follows:
 \[
   \Define{
-    \chi_A(b)
+    \Char{A}(b)
   }{
     \begin{cases}
       0 &{\normalcolor\textbf{if } \Member{b}{A}}
@@ -214,7 +215,7 @@ In toposes, there is always an object analogous to $\Two$, called the
 $\Omega$. Following~\cite{maclane-moerdijk:1992}, a subobject
 classifier is a monomorphism $\Of{\True}{\Mono{\One}{\Omega}}$ which for any
 monomorphism $\Of{f}{\Mono{A}{B}}$ induces a characteristic morphism
-$\Of{\chi_f}{B\to\Omega}$ such that the following diagram is a
+$\Of{\Char{f}}{B\to\Omega}$ such that the following diagram is a
 pullback:
 \[
   \begin{tikzcd}[sep=huge]
@@ -226,7 +227,7 @@ pullback:
     \arrow[d, rightarrowtail,"\IMode{\True}"]
     \\
     \IMode{B}
-    \arrow[r, dashed, swap, "\OMode{\chi_f}"]
+    \arrow[r, dashed, swap, "\OMode{\Char{f}}"]
     &
     \IMode{\Omega}
   \end{tikzcd}
@@ -353,7 +354,7 @@ $\Omega$.
 Now, every subobject induces a characteristic map into $\Omega$, and
 it turns out that it will be far more informative to ignore the
 analytic aspects of $J$ and focus only on the properties of its
-characteristic map $\Define{\IBox{\Of{j}{\Omega\to\Omega}}}{\chi_J}$:
+characteristic map $\Define{\IBox{\Of{j}{\Omega\to\Omega}}}{\Char{J}}$:
 \[
   \begin{tikzcd}[sep=huge]
     \IMode{J}
@@ -364,7 +365,7 @@ characteristic map $\Define{\IBox{\Of{j}{\Omega\to\Omega}}}{\chi_J}$:
     \arrow[d,rightarrowtail, "\IMode{\True}"]
     \\
     \IMode{\Omega}
-    \arrow[r,swap,dashed,"\Define{j}{\chi_J}"]
+    \arrow[r,swap,dashed,"\Define{j}{\Char{J}}"]
     &
     \IMode{\Omega}
   \end{tikzcd}
