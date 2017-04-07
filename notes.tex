@@ -598,10 +598,12 @@ well-behaved.
   By transitivity, we have $\Sim{(R,\mathfrak{m})}{(S,\mathfrak{n})}$.
 \end{proof}
 
-In what follows, we will follow the proofs given
-in~\cite{maclane-moerdijk:1992}, but giving more detail and phrasing
-things in terms of the definitions that we have used.
-\begin{thm}
+In what follows, we will follow in the broad strokes the proofs given
+in~\cite{maclane-moerdijk:1992}, but giving more detail and using a
+more ``nuts-and-bolts'' style based on the view of sieves as
+subfunctors and matching families as natural transformations.
+
+\begin{thm}\label{thm:plus-separated}
   When $\Of{P}{\Psh{\mathbb{C}}}$ is any presheaf, its plus
   construction $\Of{\Plus{P}}{\Psh{\mathbb{C}}}$ is \emph{separated},
   i.e.\ for any sieve $\Member{S}{J(\Psi)}$ the precomposition map
@@ -670,49 +672,106 @@ things in terms of the definitions that we have used.
     which we have already assumed.
   \end{enumerate}
 
-  % By definition,
-  % $\Match{m_i}{(\OBox{\Member{T_i}{J(\Psi)}},\OBox{\Member{\mathfrak{n_i}}{[T_i,P]}})}$;
-  % by unfolding our equality hypothesis, for all
-  % $\Member{\psi}{S(\Phi)}$ there exists some
-  % $\Of{\mathfrak{l}_\psi}{[T_1\cdot\psi,T_2\cdot\psi]}$ such that
-  % $\IsEqOf{\mathfrak{n}_1\cdot\psi}{\mathfrak{n_2}\cdot\psi\circ\mathfrak{l}_\psi}{[T_1\cdot\psi,P]}$,
-  % i.e.\
-  % $\IsEqOf{\mathfrak{n}_1(\psi\circ\phi)}{\mathfrak{n_2}(\mathfrak{l}_\psi(\psi\circ\phi))}{P(X)}$
-  % for all $\Member{\IBox{\Of{\phi}{X\to\Phi}}}{T_1\cdot\psi(X)}$.
-
-  % We need to exhibit some $\Of{\mathfrak{l}}{[T_1,T_2]}$ such that
-  % $\IsEqOf{\mathfrak{n}_1}{\mathfrak{n}_2\circ\mathfrak{l}}{[T_1,P]}$. Unfolding
-  % things, we need to exhibit an $\mathfrak{l}$ such that for all
-  % $\Member{\psi}{T_1(\Phi)}$, we have
-  % $\IsEqOf{\mathfrak{n}_1(\psi)}{\mathfrak{n}_2(\mathfrak{l}(\psi))}{P(\Phi)}$.
-
-  % \begin{enumerate}
-  % \item Have $\Of{\mathfrak{l}_\psi}{[T_1\cdot\psi,T_2\cdot\psi]}$
-  % \item That is $\Of{\mathfrak{l}_\psi}{\MkSet{\phi\mid \psi\circ\phi\in T_1} \to \MkSet{\phi\mid\psi\circ\phi\in T_2}}$
-  % \item Can we turn this into $\Of{\mathfrak{l}}{\MkSet{\psi\mid\psi\in T_1}\to\MkSet{\psi\mid\psi\in T_2}}$
-  %   \[
-  %     \Define{
-  %       \mathfrak{l}_\P
-  %     }{
-  %     }
-  %   \]
-  % \end{enumerate}
-
-  
-  
-
- % Now
- %  proceed by case on whether $\Member{f}{S(\Phi)}$:
- %  \begin{proofcases}
- %  \item[$\Member{f}{S(\Phi)}$] Then we are done.
- %  \item[$\NotMember{f}{S(\Phi)}$] In this case, we will
- %  \end{proofcases}
-
 \end{proof}
 
 %In this section, we will assume without proof that lex reflective
 %subcategories of presheaf toposes are themselves toposes.
 
+\begin{thm}
+  When $\Of{P}{\Psh{\mathbb{C}}}$ is a separated presheaf, its plus
+  construction $\Of{\Plus{P}}{\mathbb{C}}$ is in fact a sheaf, i.e.\
+  for any covering sieve $\Member{S}{J(\Psi)}$ the precomposition map
+  between hom-sets induced by $\Of{i_S}{S\to\Yoneda{\Psi}}$ is
+  bijective:
+  \[
+    \begin{tikzcd}[sep=huge]
+      \IMode{[\Yoneda{\Psi},\Plus{P}]}
+      \arrow[r,leftrightarrow,"\IMode{i_S^*}"]
+      &
+      \IMode{[S,\Plus{P}]}
+    \end{tikzcd}
+  \]
+\end{thm}
+\begin{proof}
+  Fix a matching family $\Of{\mathfrak{m}_S}{[S,\Plus{P}]}$; we need
+  to exhibit a unique amalgamation
+  $\OBox{\Member{m_S}{\Plus{P}(\Psi)}}$ for $\mathfrak{m}_S$.
+  %
+  Because $\Plus{P}$ is separated (Theorem~\ref{thm:plus-separated}),
+  it suffices to merely exhibit \emph{some} such amalgamation, since
+  its uniqueness will follow.
+
+  First, observe that for each
+  $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{S(\Phi)}$, the matching
+  family gives a ``formal amalgamation'' for some covering sieve,
+  i.e.\
+  $\Match{\IBox{\Member{\mathfrak{m}_S(\psi)}{\Plus{P}(\Phi)}}}{(T_\psi,\mathfrak{n}_\psi)}$
+  for some $\Member{T_\psi}{J(\Phi)}$ and
+  $\Of{\mathfrak{n}_\psi}{[T_\psi,P]}$.
+  
+  Our task is to choose a suitable covering sieve
+  $\OBox{\Member{R}{J(\Psi)}}$, together with a matching family
+  $\OBox{\Of{\mathfrak{m}_R}{[R,P]}}$ so that we can define
+  $\Define{m_S}{(R,\mathfrak{m}_R)}$. Using a tactic similar to what
+  we did in the proof of Theorem~\ref{thm:plus-separated}, choose:
+  \[
+    \Define{ R(X) }{ \MkSet{
+        \begin{tikzcd}[ampersand replacement=\&,cramped]
+          X \arrow[r,"\phi"] \& \Phi \arrow[r,"\psi"] \& \Psi
+        \end{tikzcd}
+        \mid
+        \OBox{\Member{\psi}{S(\Phi)}},\OBox{\Member{\phi}{T_\psi(X)}}
+      } }
+  \]
+  As in Theorem~\ref{thm:plus-separated}, we have
+  $\Member{R}{J(\Psi)}$ by the transitivity axiom.
+%
+  Now we need to exhibit a matching family
+  $\OBox{\Of{\mathfrak{m}_R}{[R,P]}}$; first define its components as
+  follows:
+%
+  \[
+    \Define{ \mathfrak{m}_R(\psi\circ\phi) }{ \mathfrak{n}_\psi(\phi)
+    }
+  \]
+%
+  We still have to show that this candidate definition of
+  $\mathfrak{m}_R$ is in fact a natural transformation. Fixing
+  $\Of{\upsilon}{X\to\Upsilon}$, we have to show that the following
+  diagram commutes:
+  \[
+    \begin{tikzcd}[sep=large]
+      \IMode{S(\Upsilon)} \arrow[r,"\IMode{-\cdot\upsilon}"]
+      \arrow[d,swap,"\IMode{\mathfrak{m}_R^\Upsilon}"] & \IMode{S(X)}
+      \arrow[d,"\IMode{\mathfrak{m}_R^X}"]
+      \\
+      \IMode{P(\Upsilon)} \arrow[r,swap,"\IMode{-\cdot\upsilon}"] &
+      \IMode{P(X)}
+    \end{tikzcd}
+    \qquad
+    \begin{tikzcd}[sep=large]
+      \IMode{\psi\circ\phi} \arrow[r,mapsto,"\IMode{-\cdot\upsilon}"]
+      \arrow[d,mapsto,swap,"\IMode{\mathfrak{m}_R^\Upsilon}"] &
+      \IBox{\OMode{\psi\circ\phi\circ\upsilon}}
+      \arrow[d,mapsto,"\IMode{\mathfrak{m}_R^X}"]
+      \\
+      \IBox{\OMode{\mathfrak{n}_\psi(\phi)}}
+      \arrow[r,mapsto,swap,"\IMode{-\cdot\upsilon}"] &
+      \OBox{\IsEq{\mathfrak{n}_\psi(\phi)\cdot\upsilon}{\mathfrak{n}_\psi(\phi\circ\upsilon)}}
+    \end{tikzcd}
+  \]
+  In this way, the naturality of $\mathfrak{m}_R$ reduces directly to
+  the naturality of $\mathfrak{n}_\psi$. We may now define
+  $\Define{m_S}{(R,\mathfrak{m}_R)}$.
+
+  All that remains is to show that for all
+  $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{S(\Phi)}$, we have
+  $\IsEqOf{m_S\cdot\psi}{\mathfrak{m}_S(\psi)}{\Plus{P}(\Phi)}$. First,
+  observe that $\IsEq{R\cdot\psi}{T_\psi}$, and that
+  $\AreEq{(\mathfrak{m}_R\cdot\psi)(\phi),\mathfrak{m}_R(\psi\circ\phi),\mathfrak{n}_\psi(\phi)}$,
+  whence
+  $\AreEq{m_S\cdot\psi,{(T_\psi,\mathfrak{n}_\psi)},\mathfrak{m}_S(\psi)}$.
+\end{proof}
 
 
 \newpage
