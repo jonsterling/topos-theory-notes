@@ -503,6 +503,7 @@ covers $\Psi$, not just the maximal one.
 
 
 \newcommand\Plus[1]{{#1}^+}
+\newcommand\PlusPlus[1]{{#1}^{++}}
 
 \section{Sheafification: the essence of toposes}
 
@@ -626,10 +627,6 @@ subfunctors and matching families as natural transformations.
     i_S}{[S,\Plus{P}]}$, then already
   $\IsEqOf{\mathfrak{m}_1}{\mathfrak{m}_2}{[\Yoneda{\Psi},\Plus{P}]}$.
   
-  % Unfolding things, need to show that for all $\Of{f}{\Phi\to\Psi}$,
-  % we have
-  % $\IsEqOf{\mathfrak{m}_1(f)}{\mathfrak{m}_2(f)}{\Plus{P}(\Phi)}$.
-
   By the Yoneda Lemma it suffices to prove only
   $\IsEqOf{m_1}{m_2}{\Plus{P}(\Psi)}$ (defining
   $\Define{m_i}{\mathfrak{m}_i(\ArrId{\Psi})}$), and we can rewrite
@@ -677,7 +674,7 @@ subfunctors and matching families as natural transformations.
 %In this section, we will assume without proof that lex reflective
 %subcategories of presheaf toposes are themselves toposes.
 
-\begin{thm}
+\begin{thm}\label{thm:plus-sheaf}
   When $\Of{P}{\Psh{\mathbb{C}}}$ is a separated presheaf, its plus
   construction $\Of{\Plus{P}}{\mathbb{C}}$ is in fact a sheaf, i.e.\
   for any covering sieve $\Member{S}{J(\Psi)}$ the precomposition map
@@ -771,6 +768,15 @@ subfunctors and matching families as natural transformations.
   $\AreEq{(\mathfrak{m}_R\cdot\psi)(\phi),\mathfrak{m}_R(\psi\circ\phi),\mathfrak{n}_\psi(\phi)}$,
   whence
   $\AreEq{m_S\cdot\psi,{(T_\psi,\mathfrak{n}_\psi)},\mathfrak{m}_S(\psi)}$.
+\end{proof}
+
+\begin{cor}[Sheafification]
+  For any presheaf $\Of{P}{\Psh{\mathbb{C}}}$, the double application
+  of the plus construction $\PlusPlus{P}$ is a sheaf, i.e.\
+  $\Of{\PlusPlus{P}}{\Sh{\mathbb{C},J}}$.
+\end{cor}
+\begin{proof}
+  By Theorems~\ref{thm:plus-sheaf} and~\ref{thm:plus-separated}.
 \end{proof}
 
 
