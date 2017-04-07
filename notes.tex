@@ -637,10 +637,38 @@ things in terms of the definitions that we have used.
   Let
   $\Match{m_i}{(\IBox{\Member{T_i}{J(\Psi)}},\IBox{\Of{\mathfrak{n}_i}{[T_i,P]}})}$;
   by Lemma~\ref{lem:plus-construction-equality}, our equality
-  hypothesis is the same as to say that there exists a common
-  refinement $\IsSubsetEq{T}{T_1\cap T_2}$ such that
-  $\IsEqOf{\mathfrak{n}_1(\psi)}{\mathfrak{n}_2(\psi)}{P(\Phi)}$ for
-  all $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{T(\Phi)}$.
+  hypothesis is the same as to say that there exists common
+  refinements $\IsSubsetEq{T_\psi}{(T_1\cdot\psi)\cap (T_2\cdot\psi)}$
+  such that
+  $\IsEqOf{\mathfrak{n}_1(\psi\circ\phi)}{\mathfrak{n}_2(\psi\circ\phi)}{P(X)}$
+  for all $\Member{\IBox{\Of{\phi}{X\to\Psi}}}{T_\psi(X)}$.
+
+  We need to show that there exists a common refinement
+  $\IsSubsetEq{T}{T_1\cap T_2}$ such that for all
+  $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{T(\Phi)}$, we have
+  $\IsEqOf{\mathfrak{n}_1(\psi)}{\mathfrak{n}_2(\psi)}{P(\Phi)}$. Now
+  we will choose
+  $\Define{T(X)}{\MkSet{\psi \circ \phi \mid
+      \OBox{\Member{\psi}{S(\Phi)}}, \OBox{\Member{\phi}{T_\psi(X)}}}}$;
+  clearly $\IsSubsetEq{T}{T_1\cap T_2}$. It remains to show the
+  following:
+  \begin{enumerate}
+  \item $\Member{T}{J(\Psi)}$. Applying the \emph{transitivity} axiom
+    for covering sieves with $\Member{S}{J(\Psi)}$, it suffices to
+    show that for all $\Member{\psi}{S(\Phi)}$ we have
+    $\Member{T\cdot\psi}{J(\Phi)}$. Observe that
+    $\Match{(T\cdot\psi)(X)}{\MkSet{\phi\mid
+        \OBox{\Member{\psi\circ\phi}{T(X)}}}}$, i.e.\
+    $\IsEq{T\cdot\psi}{T_\psi}$ which we have already assumed to be a
+    cover.
+
+  \item For all $\Member{\psi}{T(X)}$,
+    $\IsEqOf{\mathfrak{n}_1(\psi)}{\mathfrak{n}_2(\psi)}{P(X)}$. Unfolding
+    things, this means that for all $\Member{\psi}{S(\Phi)}$ and
+    $\Member{\phi}{T_\psi(X)}$ we must show
+    $\IsEqOf{\mathfrak{n}_1(\psi\circ\phi)}{\mathfrak{n}_2(\psi\circ\phi)}{P(X)}$,
+    which we have already assumed.
+  \end{enumerate}
 
   % By definition,
   % $\Match{m_i}{(\OBox{\Member{T_i}{J(\Psi)}},\OBox{\Member{\mathfrak{n_i}}{[T_i,P]}})}$;
