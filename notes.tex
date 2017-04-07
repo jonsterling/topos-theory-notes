@@ -550,7 +550,7 @@ well-behaved.
 \newcommand\IsEqOf[3]{\IMode{#1}=\IMode{#2}:\IMode{#3}}
 \newcommand\Sim[2]{\IMode{#1}\sim\IMode{#2}}
 
-\begin{lem}[Equality in $\Plus{P}$]
+\begin{lem}[Equality in $\Plus{P}$]\label{lem:plus-construction-equality}
   The following are equivalent:
   \begin{enumerate}
   \item $\IsEqOf{(R,\mathfrak{m})}{(S,\mathfrak{n})}{\Plus{P}(\Psi)}$
@@ -561,12 +561,15 @@ well-behaved.
     such that for all
     $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{R(\Phi)}$, we have
     $\IsEqOf{\mathfrak{m}(\psi)}{\mathfrak{n}(\mathfrak{l}(\psi))}{P(\Phi)}$.
-  \item There exists some common refinement $\IsSubsetEq{T}{R\cap S}$ such that for all $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{T(\Phi)}$, we have $\IsEqOf{\mathfrak{m}(\psi)}{\mathfrak{n}(\psi)}{P(\Phi)}$.
+  \item There exists some common refinement
+    $\Member{\IBox{\IsSubsetEq{T}{R\cap S}}}{J(\Psi)}$ such that for all
+    $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{T(\Phi)}$, we have
+    $\IsEqOf{\mathfrak{m}(\psi)}{\mathfrak{n}(\psi)}{P(\Phi)}$.
   \end{enumerate}
 \end{lem}
 \begin{proof}
   (1)~$\Leftrightarrow$~(2) is the definition of equality for a colimit in
-  $\Sets$. % To show (1) $\Rightarrow$ (3), observe that we have both $\IsEqOf{(R\cap S)}{?}{?}$
+  $\Sets$.
    
   Next, we will show (2)~$\Rightarrow$~(3).
 %
@@ -595,6 +598,9 @@ well-behaved.
   By transitivity, we have $\Sim{(R,\mathfrak{m})}{(S,\mathfrak{n})}$.
 \end{proof}
 
+In what follows, we will follow the proofs given
+in~\cite{maclane-moerdijk:1992}, but giving more detail and phrasing
+things in terms of the definitions that we have used.
 \begin{thm}
   When $\Of{P}{\Psh{\mathbb{C}}}$ is any presheaf, its plus
   construction $\Of{\Plus{P}}{\Psh{\mathbb{C}}}$ is \emph{separated},
@@ -627,6 +633,14 @@ well-behaved.
   $\Define{m_i}{\mathfrak{m}_i(\ArrId{\Psi})}$), and we can rewrite
   our assumption to say that for all $\Member{\psi}{S(\Phi)}$ we have
   $\IsEqOf{m_1\cdot\psi}{m_2\cdot\psi}{\Plus{P}(\Phi)}$.
+
+  Let
+  $\Match{m_i}{(\IBox{\Member{T_i}{J(\Psi)}},\IBox{\Of{\mathfrak{n}_i}{[T_i,P]}})}$;
+  by Lemma~\ref{lem:plus-construction-equality}, our equality
+  hypothesis is the same as to say that there exists a common
+  refinement $\IsSubsetEq{T}{T_1\cap T_2}$ such that
+  $\IsEqOf{\mathfrak{n}_1(\psi)}{\mathfrak{n}_2(\psi)}{P(\Phi)}$ for
+  all $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{T(\Phi)}$.
 
   % By definition,
   % $\Match{m_i}{(\OBox{\Member{T_i}{J(\Psi)}},\OBox{\Member{\mathfrak{n_i}}{[T_i,P]}})}$;
