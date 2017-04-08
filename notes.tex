@@ -565,9 +565,9 @@ well-behaved.
     $\IMode{(R,\mathfrak{m})}$ and $\IMode{(S,\mathfrak{n})}$ when $\IsSubsetEq{R}{S}$
     $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{R(\Phi)}$, we have
     $\IsEqOf{\mathfrak{m}(\psi)}{\mathfrak{n}(\psi)}{P(\Phi)}$.
-  \item There exists some common refinement
-    $\Member{\IBox{\IsSubsetEq{T}{R\cap S}}}{J(\Psi)}$ such that for all
-    $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{T(\Phi)}$, we have
+  \item There is a common refinement
+    $\Member{\IBox{\IsSubsetEq{T}{R\cap S}}}{J(\Psi)}$ such that for
+    all $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{T(\Phi)}$, we have
     $\IsEqOf{\mathfrak{m}(\psi)}{\mathfrak{n}(\psi)}{P(\Phi)}$.
   \end{enumerate}
 \end{lem}
@@ -762,11 +762,12 @@ subfunctors and matching families as natural transformations.
   In this way, the naturality of $\mathfrak{m}_R$ reduces directly to
   the naturality of $\mathfrak{n}_\psi$. We may now define
   $\Define{m_S}{(R,\mathfrak{m}_R)}$.
-
+%
   All that remains is to show that for all
   $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{S(\Phi)}$, we have
-  $\IsEqOf{m_S\cdot\psi}{\mathfrak{m}_S(\psi)}{\Plus{P}(\Phi)}$. First,
-  observe that $\IsEq{R\cdot\psi}{T_\psi}$, and that
+  $\IsEqOf{m_S\cdot\psi}{\mathfrak{m}_S(\psi)}{\Plus{P}(\Phi)}$.
+
+  First, observe that $\IsEq{R\cdot\psi}{T_\psi}$, and that
   $\AreEq{(\mathfrak{m}_R\cdot\psi)(\phi),\mathfrak{m}_R(\psi\circ\phi),\mathfrak{n}_\psi(\phi)}$,
   whence
   $\AreEq{m_S\cdot\psi,{(T_\psi,\mathfrak{n}_\psi)},\mathfrak{m}_S(\psi)}$.
@@ -1090,11 +1091,11 @@ quantifier becomes self-dual, in the following sense:
 
 One should be cautious about the numerous results in topos theory of
 the form ``Any topos with property $X$ is boolean'' (e.g.\
-$\Define{X}{\textit{``well-pointed''}}$), which, far from elucidating
-an essential consequence of the property $X$, merely expose a leakage
-of information from the (Platonistic) external world into the
-topos. This kind of glitch serves only to underscore the essentially
-Tarskian deviation~\cite{girard:2011} which classical topos theory has
+``well-pointed''), which, far from elucidating an essential
+consequence of the property $X$, merely expose a leakage of
+information from the (Platonistic) external world into the topos. This
+kind of glitch serves only to underscore the essentially Tarskian
+deviation~\cite{girard:2011} which classical topos theory has
 inherited from old-fashioned mathematics and semantics.
 
 To resist this deviation amounts to adopting Bishop's dictum that
