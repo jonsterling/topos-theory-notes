@@ -282,22 +282,23 @@ The subobject classifier in a presheaf topos is defined using
   }
 \end{align*}
 
+\newcommand\Zero{\mathbf{0}}
 \begin{remark}
   It may not be immediately clear why the subobject classifier is
   defined in this way: what does the collection of sieves have to do
   with $\Two$ in (classical) set theory? One way to understand what is
   happening is to observe how $\Omega$ behaves when our base category
-  $\mathbb{C}$ is \emph{discrete}, in the sense that the only arrows
-  are identities.
+  $\mathbb{C}$ is \emph{chaotic}, in the sense that every two objects
+  is connected by exactly one arrow.
 %
-  If $\mathbb{C}$ is discrete, then $\IsEq{\Yoneda{\Psi}(\Phi)}{\One}$
-  for every $\Of{\Phi}{\mathbb{C}}$; therefore, the judgment
+  If $\mathbb{C}$ is chaotic, then either
+  $\IsEq{\Yoneda{\Psi}(\Phi)}{\One}$ for every
+  $\Of{\Phi}{\mathbb{C}}$; therefore, the judgment
   $\IBox{\IsSieve{\Psi}{S}}$ comes out to mean simply
   $\OBox{\IsSubsetEq{S(\Psi)}{\One}}$,
   i.e. $\Member{S(\Psi)}{\Pow{\One}}$. Therefore,
   $\IsEq{\Omega(\Psi)}{\Pow{\One}}=\IMode{\Two}$. An analogous
-  argument can be made in case $\mathbb{C}$ is \emph{chaotic}, or even
-  a groupoid.
+  argument can be made in case $\mathbb{C}$ is a groupoid.
 \end{remark}
 
 \paragraph{Understanding $\Omega$ using Yoneda's Lemma as a weapon}
