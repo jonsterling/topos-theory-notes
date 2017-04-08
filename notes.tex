@@ -256,6 +256,20 @@ The subobject classifier in a presheaf topos is defined using
   }
   \\
   \ADefine{
+    (S\cdot\IBox{\Of{\psi}{\Phi\to\Psi}})(X)
+  }{
+    \MkSet{
+      \OBox{
+        \Of{\phi}{X\to\Phi}
+      }
+      \mid
+      \OBox{
+        \Member{\psi\circ\phi}{S(X)}
+      }
+    }
+  }
+  \\
+  \ADefine{
     \True_\Psi
   }{
     \Yoneda{\Psi}
@@ -365,7 +379,7 @@ characteristic map $\Define{\IBox{\Of{j}{\Omega\to\Omega}}}{\Char{J}}$:
     \arrow[d,rightarrowtail, "\IMode{\True}"]
     \\
     \IMode{\Omega}
-    \arrow[r,swap,dashed,"\Define{j}{\Char{J}}"]
+    \arrow[r,swap,dashed,"\textstyle\Define{j}{\Char{J}}"]
     &
     \IMode{\Omega}
   \end{tikzcd}
