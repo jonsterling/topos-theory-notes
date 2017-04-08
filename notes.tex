@@ -44,18 +44,22 @@
 
 
 \title{Notes on topos theory}
-\author{Jonathan Sterling}
+\author{Jon Sterling}
 \affil{Carnegie Mellon University}
 \date{}
 
 \begin{document}
 \maketitle
 
-There are always numerous different ways to define a mathematical
-object; in this tutorial, I prefer to optimize for minimal
-combinatorial complexity of definitions.
-%
-Texts in category theory are usually written for mathematicians who
+In the subjectivization of mathematical objects, the activity of a
+scientist centers on the artificial delineation of their
+characteristics into \emph{definitions} and \emph{theorems}. Depending
+on the ends, different delineations will be preferred; in these notes,
+we prefer to work with concise and memorable definitions constituted
+from a common body of semantically rich building blocks, and treat
+alternative characterizations as theorems.
+
+Texts in category theory are often written for mathematicians who
 are already competent in areas of math which are far more complex than
 category theory; as a result, it is very common to immediately unfold
 an object into a purely analytic muddle, or to saddle it with
@@ -63,20 +67,14 @@ historically-relevant baggage from neighboring fields (e.g.\ defining
 ``sheaves of abelian groups'' without defining even presheaves or
 sheaves in general).
 
-This is, in the author's view, a conflation of two important processes
-in the development of mathematical science: the historical process and
-the conceptual process. The latter is synthesized over time through a
-\emph{sanitization} of history using hindsight as a weapon, a
-scientifically necessary substitution of dialectics for chronology.
+This is, in the author's view, a confounding of two important
+processes in the development of mathematical science: the historical
+process and the conceptual process. The latter is synthesized over
+time through a \emph{sanitization} of history using hindsight as a
+weapon, a scientifically necessary substitution of dialectics for
+chronology.
 
-Because this tutorial is written by a type theorist equipped with a
-very poor working memory, a style based on abstract and synthetic
-definitions built up from well-understood and semantically rich
-components is preferred, as opposed to ``elementary'' definitions
-which are more difficult to motivate, remember, and understand without
-having developed some mathematical maturity outside of logic and basic
-algebra.
-
+\paragraph{Other texts}
 To learn toposes and sheaves thoroughly, the reader is directed to
 study Mac Lane and Moerdijk's excellent and readable \emph{Sheaves in
   Geometry and Logic}~\cite{maclane-moerdijk:1992}; this tutorial
@@ -857,7 +855,7 @@ We will now survey a few useful topologies.
   $\Member{S}{J(\Psi)}$ iff $\Forces{\Psi}{S=\top}$, where
   $\Define{\top}{\Yoneda{\Psi}}$ is the maximal sieve. First, we
   unfold the meaning of
-  $\Forces{\Psi}{\lnot\lnot\IBox{\IsEq{S}{\top}}}$ using
+  $\Forces{\Psi}{\lnot\lnot\IBox{\IsEq{S}{\top}}}$ using the
   Beth-Kripke-Joyal semantics of the topos as a weapon:
   \begin{gather}
     \Forces{\Psi}{\lnot\lnot\IBox{\IsEq{S}{\top}}}
