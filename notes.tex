@@ -780,10 +780,70 @@ subfunctors and matching families as natural transformations.
   components as follows:
 %
   \[
-    \Define{ \mathfrak{m}_R(\psi\circ\phi) }{ \mathfrak{n}_\psi(\phi)
+    \Define{ \mathfrak{m}_R^X(\psi\circ\phi) }{\mathfrak{n}_\psi^X(\phi)
     }
   \]
-%
+  
+  \paragraph{Functionality}
+  To show that the components of this matching family are well-defined
+  (functional), fix $\IsEqOf{\phi_1}{\phi_2}{T_\psi(X)}$; we need to
+  show that
+  $\IsEqOf{\mathfrak{n}_\psi^X(\phi_1)}{\mathfrak{n}_\psi^X(\phi_2)}{\mathcal{F}(X)}$.
+
+  By naturality of $\mathfrak{m}_S$, we have
+  $\IsEqOf{(T_\psi\cdot\phi, \mathfrak{n}_\psi\cdot
+    \phi)}{(T_{\psi\circ\phi},\mathfrak{n}_{\psi\circ\phi})}{\Plus{\mathcal{F}}(X)}$
+  for all $\Of{\phi}{X\to\Phi}$; by
+  Lemma~\ref{lem:plus-construction-equality}, this means that there is
+  some family of covering sieves
+  $\Member{\IBox{\IsSubsetEq{U_{\psi,\phi}}{(T_\psi\cdot\phi)\cap(T_{\psi\circ\phi})}}}{J(X)}$
+  such that
+  $\IsEqOf{\mathfrak{n}_\psi^\Upsilon(\phi\circ\chi)}{\mathfrak{n}_{\psi\circ\phi}^\Upsilon(\chi)}{\mathcal{F}(\Upsilon)}$
+  for all
+  $\Member{\IBox{\Of{\chi}{\Upsilon\to X}}}{U_{\psi,\phi}(\Upsilon)}$.
+
+  Because covering sieves are closed under intersection, we also have
+  a cover $\Member{U_{\psi,\phi_1}\cap U_{\psi,\phi_2}}{J(X)}$. Fixing
+  $\Member{\IBox{\Of{\chi}{\Upsilon\to X}}}{(U_{\psi,\phi_1}\cap
+    U_{\psi,\phi_2})(\Upsilon)}$, calculate:
+  \begin{align*}
+    \AIsEq{
+      \mathfrak{n}_\psi^X(\phi_1)\cdot \chi
+    }{
+      \mathfrak{n}_\psi^\Upsilon(\phi_1\circ\chi)
+    }
+    \tag{naturality of $\mathfrak{n}_\psi$}
+    \\
+    \AIsEq{
+    }{
+      \mathfrak{n}_{\psi\circ\phi_1}^\Upsilon(\chi)
+    }
+    \tag{see above}
+    \\
+    \AIsEq{
+    }{
+      \mathfrak{n}_{\psi\circ\phi_2}^\Upsilon(\chi)
+    }
+    \tag{assumption}
+    \\
+    \AIsEq{
+    }{
+      \mathfrak{n}_\psi^\Upsilon(\phi_2\circ\chi)
+    }
+    \tag{see above}
+    \\
+    \AIsEq{
+    }{
+      \mathfrak{n}_\psi^X(\phi_2)\cdot\chi
+    }
+    \tag{naturality of $\mathfrak{n}_\psi$}
+  \end{align*}
+  Because $\mathcal{F}$ is separated, we have immediately our equality
+  goal
+  $\IsEqOf{\mathfrak{n}_\psi^X(\phi_1)}{\mathfrak{n}_\psi^X(\phi_2)}{\mathcal{F}(X)}$. Therefore,
+  the components $\mathfrak{m}_R^X$ are well-defined, i.e.\ functional.
+
+  \paragraph{Naturality}
   We still have to show that this candidate definition of
   $\mathfrak{m}_R$ is in fact a natural transformation. Fixing
   $\Of{\upsilon}{X\to\Upsilon}$, we have to show that the following
