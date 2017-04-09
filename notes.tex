@@ -8,7 +8,7 @@
 \allsectionsfont{\sffamily}
 
 \newcommand\AreSubsetEq[1]{\FormatList{\IMode}{\subseteq}{#1}}
-
+\newcommand\AIsEq[2]{\IMode{#1} &=\IMode{#2}}
 \newcommand\Char[1]{\mathbf{char}_{#1}}
 \newcommand\Cats{\mathbf{Cat}}
 \newcommand\Sets{\mathbf{Set}}
@@ -156,21 +156,22 @@ vary over a category $\Of{\mathbb{C}}{\Cats}$.
 
 \begin{definition}[Presheaf]
   A presheaf on $\Of{\mathbb{C}}{\Cats}$ is a functor
-  $\Of{P}{\OpCat{\mathbb{C}}\to\Sets}$.
+  $\Of{\mathcal{F}}{\OpCat{\mathbb{C}}\to\Sets}$.
 \end{definition}
 
 Unfolding definitions, this means that for every object
-$\Of{\Psi}{\mathbb{C}}$, we have a set $\Of{P(\Psi)}{\Sets}$;
-moreover, for any morphism $\Of{\psi}{\Hom{\mathbb{C}}{\Phi}{\Psi}}$,
-we have an induced \emph{restriction} map
-$\Of{P(\psi)}{P(\Psi)\to P(\Phi)}$ which preserves identities and
-composition.
+$\Of{\Psi}{\mathbb{C}}$, we have a set
+$\Of{\mathcal{F}(\Psi)}{\Sets}$; moreover, for any morphism
+$\Of{\psi}{\Hom{\mathbb{C}}{\Phi}{\Psi}}$, we have an induced
+\emph{restriction} map
+$\Of{\mathcal{F}(\psi)}{\mathcal{F}(\Psi)\to \mathcal{F}(\Phi)}$ which preserves
+identities and composition.
 %
 The presheaves on $\mathbb{C}$ form a category, which we will call
 $\Of{\Psh{\mathbb{C}}}{\Cats}$.  When the presheaf
-$\Of{P}{\Psh{\mathbb{C}}}$ is understood from context, we
-will write $\IBox{\Of{m\cdot \psi}{P(\Phi)}}$ for
-$\OMode{P(\psi)(m)}$.
+$\Of{\mathcal{F}}{\Psh{\mathbb{C}}}$ is understood from context, we
+will write $\IBox{\Of{m\cdot \psi}{\mathcal{F}(\Phi)}}$ for
+$\OMode{\mathcal{F}(\psi)(m)}$.
 
 \begin{definition}[Yoneda embedding]
   We have a full and faithful functor
@@ -517,7 +518,7 @@ order.
 A \emph{site} is a category $\mathbb{C}$ together with a topology
 $\IsSubobject{J}{\Omega}{\Psh{\mathbb{C}}}$. We will now
 proceed to give perspicuous definitions of what it means for a
-presheaf $\Of{P}{\Psh{\mathbb{C}}}$ to be \emph{separated} and a
+presheaf $\Of{\mathcal{F}}{\Psh{\mathbb{C}}}$ to be \emph{separated} and a
 \emph{sheaf} respectively.
 
 There are many different definitions of separated presheaves and
@@ -528,14 +529,14 @@ equivalent, simpler definition (which is usually presented as a
 
 First, observe that for any $\IsSieve{\Psi}{S}$, we have a canonical
 function between hom-sets
-$\Of{i_S^*}{[\Yoneda{\Psi},P]\to [S,P]}$
+$\Of{i_S^*}{[\Yoneda{\Psi},\mathcal{F}]\to [S,\mathcal{F}]}$
 as follows:
 \[
   \begin{tikzcd}[sep=huge]
     \IMode{\Yoneda{\Psi}}
     \arrow[r, "\IMode{m}"]
     &
-    \IMode{P}
+    \IMode{\mathcal{F}}
     \\
     \IMode{S}
     \arrow[u,rightarrowtail,"\IMode{i_S}"]
@@ -544,24 +545,27 @@ as follows:
 \]
 
 \begin{definition}
-  The presheaf $P$ is \emph{separated} iff for every
-  $\IsSieve{\Psi}{S}$, the induced map between hom-sets
-  $\Of{i_S^*}{[\Yoneda{\Psi},P]\to[S,P]}$ is a monomorphism. $P$ is a
-  \emph{sheaf} iff this map is also an isomorphism.
+  The presheaf $\Of{\mathcal{F}}{\Psh{\mathbb{C}}}$ is
+  \emph{separated} iff for every $\IsSieve{\Psi}{S}$, the induced map
+  between hom-sets
+  $\Of{i_S^*}{[\Yoneda{\Psi},\mathcal{F}]\to[S,\mathcal{F}]}$ is a
+  monomorphism. $\mathcal{F}$ is a \emph{sheaf} iff this map is also
+  an isomorphism.
 \end{definition}
 
 It is worth taking a moment to cultivate some insight as to what is
 going on here. First, recall that by the Yoneda lemma, we can identify
-elements of $P(\Psi)$ with natural transformations from the maximal
-sieve, i.e.\ $[\Yoneda{\Psi},P]$. So, sheafhood for $P$ is really
-saying that as far as $P$ is concerned, the elements of $P(\Psi)$ can
-be identified with natural transformations from \emph{any} sieve that
-covers $\Psi$, not just the maximal one.
+elements of $\mathcal{F}(\Psi)$ with natural transformations from the
+maximal sieve, i.e.\ $[\Yoneda{\Psi},\mathcal{F}]$. So, sheafhood for
+$\mathcal{F}$ is really saying that as far as $\mathcal{F}$ is
+concerned, the elements of $\mathcal{F}(\Psi)$ can be identified with
+natural transformations from \emph{any} sieve that covers $\Psi$, not
+just the maximal one.
 
 \begin{definition}[Matching families and amalgamations]
-  A natural transformation $\Of{\mathfrak{m}}{[S,P]}$ for
+  A natural transformation $\Of{\mathfrak{m}}{[S,\mathcal{F}]}$ for
   $\Member{S}{J(\Psi)}$ is usually called a \emph{matching family} for
-  $S$; then, the member of $P(\Psi)$ which is determined by the
+  $S$; then, the member of $\mathcal{F}(\Psi)$ which is determined by the
   sheaf-induced isomorphism (and the Yoneda lemma) is called an
   \emph{amalgamation}.
 \end{definition}
@@ -596,7 +600,7 @@ presheaves and $\Sheafify$ is a ``sheafification'' functor.
 
 Sheafification in presheaf toposes is obtained from the iterated
 application of something called ``Grothendieck's plus construction'',
-which we define below, fixing a presheaf $\Of{P}{\Psh{\mathbb{C}}}$:
+which we define below, fixing a presheaf $\Of{\mathcal{F}}{\Psh{\mathbb{C}}}$:
 \begin{align*}
   \AOf{
     \Plus{(-)}
@@ -605,10 +609,10 @@ which we define below, fixing a presheaf $\Of{P}{\Psh{\mathbb{C}}}$:
   }
   \\
   \ADefine{
-    \Plus{P}(\Psi)
+    \Plus{\mathcal{F}}(\Psi)
   }{
     \int^{\Of{S}{\OpCat{J(\Psi)}}}
-    [S,P]
+    [S,\mathcal{F}]
   }
 \end{align*}
 In the above colimiting construction, we write $J(\Psi)$ for the
@@ -621,19 +625,19 @@ amalgamations''. We will see that this process is remarkably
 well-behaved.
 
 
-\begin{lem}[Equality in $\Plus{P}$]\label{lem:plus-construction-equality}
+\begin{lem}[Equality in $\Plus{\mathcal{F}}$]\label{lem:plus-construction-equality}
   The following are equivalent:
   \begin{enumerate}
-  \item $\IsEqOf{(R,\mathfrak{m})}{(S,\mathfrak{n})}{\Plus{P}(\Psi)}$
+  \item $\IsEqOf{(R,\mathfrak{m})}{(S,\mathfrak{n})}{\Plus{\mathcal{F}}(\Psi)}$
   \item $\Sim{(R,\mathfrak{m})}{(S,\mathfrak{n})}$, where
     $\sim$ is the smallest equivalence relation which relates
     $\IMode{(R,\mathfrak{m})}$ and $\IMode{(S,\mathfrak{n})}$ when $\IsSubsetEq{R}{S}$
     $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{R(\Phi)}$, we have
-    $\IsEqOf{\mathfrak{m}(\psi)}{\mathfrak{n}(\psi)}{P(\Phi)}$.
+    $\IsEqOf{\mathfrak{m}(\psi)}{\mathfrak{n}(\psi)}{\mathcal{F}(\Phi)}$.
   \item There is a common refinement
     $\Member{\IBox{\IsSubsetEq{T}{R\cap S}}}{J(\Psi)}$ such that for
     all $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{T(\Phi)}$, we have
-    $\IsEqOf{\mathfrak{m}(\psi)}{\mathfrak{n}(\psi)}{P(\Phi)}$.
+    $\IsEqOf{\mathfrak{m}(\psi)}{\mathfrak{n}(\psi)}{\mathcal{F}(\Phi)}$.
   \end{enumerate}
 \end{lem}
 \begin{proof}
@@ -653,47 +657,47 @@ more ``nuts-and-bolts'' style based on the view of sieves as
 subfunctors and matching families as natural transformations.
 
 \begin{thm}\label{thm:plus-separated}
-  When $\Of{P}{\Psh{\mathbb{C}}}$ is any presheaf, its plus
-  construction $\Of{\Plus{P}}{\Psh{\mathbb{C}}}$ is \emph{separated},
+  When $\Of{\mathcal{F}}{\Psh{\mathbb{C}}}$ is any presheaf, its plus
+  construction $\Of{\Plus{\mathcal{F}}}{\Psh{\mathbb{C}}}$ is \emph{separated},
   i.e.\ for any sieve $\Member{S}{J(\Psi)}$ the precomposition map
   between hom-sets induced by
   $\Of{i_S}{S\rightarrowtail\Yoneda{\Psi}}$ is injective:
   \[
     \begin{tikzcd}[sep=huge]
-      \IMode{[\Yoneda{\Psi},\Plus{P}]}
+      \IMode{[\Yoneda{\Psi},\Plus{\mathcal{F}}]}
       \arrow[r,tail,"\IMode{i_S^*}"]
       &
-      \IMode{[S,\Plus{P}]}
+      \IMode{[S,\Plus{\mathcal{F}}]}
     \end{tikzcd}
   \]
 \end{thm}
 \begin{proof}
   Fix two matching families
-  $\Of{\mathfrak{m}_1,\mathfrak{m}_2}{[\Yoneda{\Psi},\Plus{P}]}$. We
+  $\Of{\mathfrak{m}_1,\mathfrak{m}_2}{[\Yoneda{\Psi},\Plus{\mathcal{F}}]}$. We
   need to show that if
   $\IsEqOf{\mathfrak{m}_1\circ i_S}{\mathfrak{m}_2\circ
-    i_S}{[S,\Plus{P}]}$, then already
-  $\IsEqOf{\mathfrak{m}_1}{\mathfrak{m}_2}{[\Yoneda{\Psi},\Plus{P}]}$.
+    i_S}{[S,\Plus{\mathcal{F}}]}$, then already
+  $\IsEqOf{\mathfrak{m}_1}{\mathfrak{m}_2}{[\Yoneda{\Psi},\Plus{\mathcal{F}}]}$.
   
   By the Yoneda Lemma it suffices to prove only
-  $\IsEqOf{m_1}{m_2}{\Plus{P}(\Psi)}$ (defining
+  $\IsEqOf{m_1}{m_2}{\Plus{\mathcal{F}}(\Psi)}$ (defining
   $\Define{m_i}{\mathfrak{m}_i(\ArrId{\Psi})}$), and we can rewrite
   our assumption to say that for all $\Member{\psi}{S(\Phi)}$ we have
-  $\IsEqOf{m_1\cdot\psi}{m_2\cdot\psi}{\Plus{P}(\Phi)}$.
+  $\IsEqOf{m_1\cdot\psi}{m_2\cdot\psi}{\Plus{\mathcal{F}}(\Phi)}$.
 
   Let
-  $\Match{m_i}{(\IBox{\Member{T_i}{J(\Psi)}},\IBox{\Of{\mathfrak{n}_i}{[T_i,P]}})}$;
+  $\Match{m_i}{(\IBox{\Member{T_i}{J(\Psi)}},\IBox{\Of{\mathfrak{n}_i}{[T_i,\mathcal{F}]}})}$;
   by Lemma~\ref{lem:plus-construction-equality}, our equality
   hypothesis is the same as to say that there exists common
   refinements $\IsSubsetEq{T_\psi}{(T_1\cdot\psi)\cap (T_2\cdot\psi)}$
   such that
-  $\IsEqOf{\mathfrak{n}_1(\psi\circ\phi)}{\mathfrak{n}_2(\psi\circ\phi)}{P(X)}$
+  $\IsEqOf{\mathfrak{n}_1(\psi\circ\phi)}{\mathfrak{n}_2(\psi\circ\phi)}{\mathcal{F}(X)}$
   for all $\Member{\IBox{\Of{\phi}{X\to\Psi}}}{T_\psi(X)}$.
 
   We need to show that there exists a common refinement
   $\IsSubsetEq{T}{T_1\cap T_2}$ such that for all
   $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{T(\Phi)}$, we have
-  $\IsEqOf{\mathfrak{n}_1(\psi)}{\mathfrak{n}_2(\psi)}{P(\Phi)}$. Now
+  $\IsEqOf{\mathfrak{n}_1(\psi)}{\mathfrak{n}_2(\psi)}{\mathcal{F}(\Phi)}$. Now
   we will choose
   $\Define{T(X)}{\MkSet{\psi \circ \phi \mid
       \OBox{\Member{\psi}{S(\Phi)}}, \OBox{\Member{\phi}{T_\psi(X)}}}}$;
@@ -710,10 +714,10 @@ subfunctors and matching families as natural transformations.
     cover.
 
   \item For all $\Member{\psi}{T(X)}$,
-    $\IsEqOf{\mathfrak{n}_1(\psi)}{\mathfrak{n}_2(\psi)}{P(X)}$. Unfolding
+    $\IsEqOf{\mathfrak{n}_1(\psi)}{\mathfrak{n}_2(\psi)}{\mathcal{F}(X)}$. Unfolding
     things, this means that for all $\Member{\psi}{S(\Phi)}$ and
     $\Member{\phi}{T_\psi(X)}$ we must show
-    $\IsEqOf{\mathfrak{n}_1(\psi\circ\phi)}{\mathfrak{n}_2(\psi\circ\phi)}{P(X)}$,
+    $\IsEqOf{\mathfrak{n}_1(\psi\circ\phi)}{\mathfrak{n}_2(\psi\circ\phi)}{\mathcal{F}(X)}$,
     which we have already assumed.
   \end{enumerate}
 
@@ -723,26 +727,26 @@ subfunctors and matching families as natural transformations.
 %subcategories of presheaf toposes are themselves toposes.
 
 \begin{thm}\label{thm:plus-sheaf}
-  When $\Of{P}{\Psh{\mathbb{C}}}$ is a separated presheaf, its plus
-  construction $\Of{\Plus{P}}{\mathbb{C}}$ is in fact a sheaf, i.e.\
+  When $\Of{\mathcal{F}}{\Psh{\mathbb{C}}}$ is a separated presheaf, its plus
+  construction $\Of{\Plus{\mathcal{F}}}{\mathbb{C}}$ is in fact a sheaf, i.e.\
   for any covering sieve $\Member{S}{J(\Psi)}$ the precomposition map
   between hom-sets induced by $\Of{i_S}{S\to\Yoneda{\Psi}}$ is
   bijective:
   \[
     \begin{tikzcd}[sep=huge]
-      \IMode{[\Yoneda{\Psi},\Plus{P}]}
+      \IMode{[\Yoneda{\Psi},\Plus{\mathcal{F}}]}
       \arrow[r,leftrightarrow,"\IMode{i_S^*}"]
       &
-      \IMode{[S,\Plus{P}]}
+      \IMode{[S,\Plus{\mathcal{F}}]}
     \end{tikzcd}
   \]
 \end{thm}
 \begin{proof}
-  Fix a matching family $\Of{\mathfrak{m}_S}{[S,\Plus{P}]}$; we need
+  Fix a matching family $\Of{\mathfrak{m}_S}{[S,\Plus{\mathcal{F}}]}$; we need
   to exhibit a unique amalgamation
-  $\OBox{\Member{m_S}{\Plus{P}(\Psi)}}$ for $\mathfrak{m}_S$.
+  $\OBox{\Member{m_S}{\Plus{\mathcal{F}}(\Psi)}}$ for $\mathfrak{m}_S$.
   %
-  Because $\Plus{P}$ is separated (Theorem~\ref{thm:plus-separated}),
+  Because $\Plus{\mathcal{F}}$ is separated (Theorem~\ref{thm:plus-separated}),
   it suffices to merely exhibit \emph{some} such amalgamation, since
   its uniqueness will follow.
 
@@ -750,13 +754,13 @@ subfunctors and matching families as natural transformations.
   $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{S(\Phi)}$, the matching
   family gives a ``formal amalgamation'' for some covering sieve,
   i.e.\
-  $\Match{\IBox{\Member{\mathfrak{m}_S(\psi)}{\Plus{P}(\Phi)}}}{(T_\psi,\mathfrak{n}_\psi)}$
+  $\Match{\IBox{\Member{\mathfrak{m}_S(\psi)}{\Plus{\mathcal{F}}(\Phi)}}}{(T_\psi,\mathfrak{n}_\psi)}$
   for some $\Member{T_\psi}{J(\Phi)}$ and
-  $\Of{\mathfrak{n}_\psi}{[T_\psi,P]}$.
+  $\Of{\mathfrak{n}_\psi}{[T_\psi,\mathcal{F}]}$.
   
   Our task is to choose a suitable covering sieve
   $\OBox{\Member{R}{J(\Psi)}}$, together with a matching family
-  $\OBox{\Of{\mathfrak{m}_R}{[R,P]}}$ so that we can define
+  $\OBox{\Of{\mathfrak{m}_R}{[R,\mathcal{F}]}}$ so that we can define
   $\Define{m_S}{(R,\mathfrak{m}_R)}$. Using a tactic similar to what
   we did in the proof of Theorem~\ref{thm:plus-separated}, choose:
   \[
@@ -772,8 +776,8 @@ subfunctors and matching families as natural transformations.
   $\Member{R}{J(\Psi)}$ by the transitivity axiom.
 %
   Now we need to exhibit a matching family
-  $\OBox{\Of{\mathfrak{m}_R}{[R,P]}}$; first define its components as
-  follows:
+  $\OBox{\Of{\mathfrak{m}_R}{[R,\mathcal{F}]}}$; first define its
+  components as follows:
 %
   \[
     \Define{ \mathfrak{m}_R(\psi\circ\phi) }{ \mathfrak{n}_\psi(\phi)
@@ -790,8 +794,8 @@ subfunctors and matching families as natural transformations.
       \arrow[d,swap,"\IMode{\mathfrak{m}_R^\Upsilon}"] & \IMode{S(X)}
       \arrow[d,"\IMode{\mathfrak{m}_R^X}"]
       \\
-      \IMode{P(\Upsilon)} \arrow[r,swap,"\IMode{-\cdot\upsilon}"] &
-      \IMode{P(X)}
+      \IMode{\mathcal{F}(\Upsilon)} \arrow[r,swap,"\IMode{-\cdot\upsilon}"] &
+      \IMode{\mathcal{F}(X)}
     \end{tikzcd}
     \qquad
     \begin{tikzcd}[sep=large]
@@ -811,7 +815,7 @@ subfunctors and matching families as natural transformations.
 %
   All that remains is to show that for all
   $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{S(\Phi)}$, we have
-  $\IsEqOf{m_S\cdot\psi}{\mathfrak{m}_S(\psi)}{\Plus{P}(\Phi)}$.
+  $\IsEqOf{m_S\cdot\psi}{\mathfrak{m}_S(\psi)}{\Plus{\mathcal{F}}(\Phi)}$.
 
   First, observe that $\IsEq{R\cdot\psi}{T_\psi}$, and that
   $\AreEq{(\mathfrak{m}_R\cdot\psi)(\phi),\mathfrak{m}_R(\psi\circ\phi),\mathfrak{n}_\psi(\phi)}$,
@@ -820,9 +824,9 @@ subfunctors and matching families as natural transformations.
 \end{proof}
 
 \begin{cor}
-  For any presheaf $\Of{P}{\Psh{\mathbb{C}}}$, the double application
-  of the plus construction $\PlusPlus{P}$ is a sheaf, i.e.\
-  $\Of{\PlusPlus{P}}{\Sh{\mathbb{C},J}}$.
+  For any presheaf $\Of{\mathcal{F}}{\Psh{\mathbb{C}}}$, the double application
+  of the plus construction $\PlusPlus{\mathcal{F}}$ is a sheaf, i.e.\
+  $\Of{\PlusPlus{\mathcal{F}}}{\Sh{\mathbb{C},J}}$.
 \end{cor}
 \begin{proof}
   By Theorems~\ref{thm:plus-sheaf} and~\ref{thm:plus-separated}.
@@ -833,7 +837,7 @@ subfunctors and matching families as natural transformations.
 \begin{thm}[Sheafification]
   We are now equipped to show that the $J$-sheaves comprise a lex
   reflective subcategory of the presheaf topos $\mathbb{C}$, defining
-  $\Define{\Sheafify(P)}{\PlusPlus{P}}$. In other words,
+  $\Define{\Sheafify{\mathcal{F}}}{\PlusPlus{\mathcal{F}}}$. In other words,
   \begin{enumerate}
   \item $\Of{\Sheafify}{\Psh{\mathbb{C}}\to\Sh{\mathbb{C},J}}$
     preserves finite limits.
@@ -842,7 +846,24 @@ subfunctors and matching families as natural transformations.
   \item We have the adjunction $\AreAdjoint{\Sheafify,\iota}$.
   \end{enumerate}
 \end{thm}
+\begin{proof}
+\newcommand\Amalg[1]{\llparenthesis{#1}\rrparenthesis}
+  We will prove the above facts in short order.
 
+  \begin{enumerate}
+  \item To show that $\Sheafify$ preserves finite limits, it suffices
+    to show that the plus construction preserves finite limits in
+    $\Psh{\mathbb{C}}$. Because finite limits in a Grothendieck topos
+    are formed pointwise, it suffices to show that finite limits are
+    preserved at the level of sets. But this condition is actually
+    equivalent to the fact that the plus construction is a filtered
+    colimit into $\Sets$, which we have already observed.
+  \item Clearly $\iota$ is full and faithful, because it is the identity
+    on morphisms.
+  \item To show $\AreAdjoint{\Sheafify,\iota}$ ...
+    
+  \end{enumerate}
+\end{proof}
 
 
 \newpage
