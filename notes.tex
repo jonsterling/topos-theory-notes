@@ -53,6 +53,7 @@
 \newcommand\IsMono[2]{\Mono{\IMode{#1}}{\IMode{#2}}}
 \newcommand\IsEqOf[3]{\IMode{#1}=\IMode{#2}:\IMode{#3}}
 \newcommand\Sim[2]{\IMode{#1}\sim\IMode{#2}}
+\newcommand\Zero{\mathbf{0}}
 
 
 
@@ -282,7 +283,6 @@ The subobject classifier in a presheaf topos is defined using
   }
 \end{align*}
 
-\newcommand\Zero{\mathbf{0}}
 \begin{remark}
   It may not be immediately clear why the subobject classifier is
   defined in this way: what does the collection of sieves have to do
@@ -469,6 +469,49 @@ form the Kleisli extension for the monad $j$.
   prefer to avoid it.
 \end{remark}
 
+\subsection{Covering sieves as a poset}
+\newcommand\IsLEQ[2]{\IMode{#1}\leq\IMode{#2}}
+
+As we have described it, the covering sieves $J(\Psi)$ form a set, but
+we can also regard $J(\Psi)$ as a poset by imposing the inclusion
+order.
+
+\begin{definition}[Filtered poset]
+  A poset $\Of{P}{\Posets}$ is \emph{filtered} or \emph{directed} iff
+  it is inhabited, and every pair of elements $\Of{m,n}{P}$ has an
+  upper bound $\Of{l}{P}$, i.e.\ both $\IsLEQ{m}{l}$ and
+  $\IsLEQ{n}{l}$.
+\end{definition}
+
+
+\begin{lem}[Covers are cofiltered]\label{lem:covering-sieves-filtered}
+  For every $\Of{\Psi}{\mathbb{C}}$ the poset $\Of{J(\Psi)}{\Posets}$
+  is \emph{cofiltered}, i.e.\ the opposite poset
+  $\Of{\OpCat{J(\Psi)}}{\Posets}$ is filtered.
+\end{lem}
+\begin{proof}
+  First, $J(\Psi)$ is inhabited by the maximal sieve $\Yoneda{\Psi}$,
+  so it suffices to show that for any $\Of{S,T}{J(\Psi)}$ we can
+  exhibit $\Of{S\cap T}{J(\Psi)}$ such that $\IsSubsetEq{S\cap T}{S}$
+  and $\IsSubsetEq{S\cap T}{T}$. The construction of this intersection
+  is clear, but we need to show that it is still a cover.
+
+  At an analytic level, we can use the \emph{transitivity} axiom of a
+  Grothendieck topology to show that the intersection of two covering
+  sieves is a covering sieve. But it is more clear and less
+  bureaucratic to work internally, using
+  axiom~\ref{eq:preserves-meets} for a Lawvere-Tierney topology which
+  states that $\IsEq{j\circ\land}{\land\circ(j\times j)}$.
+%
+  Because $\Of{j}{\Omega\to\Omega}$ is the characteristic map of the
+  subobject $\IsSubobject{J}{\Omega}{\Psh{\mathbb{C}}}$, this really
+  means that
+  $\IBox{\Member{S\cap
+      T}{J}}\Leftrightarrow\IBox{\Member{S}{J}\land\Member{T}{J}}$
+  from an internal perspective, which is precisely what we were trying
+  to prove.
+\end{proof}
+
 \section{Sheaves on a site}
 
 A \emph{site} is a category $\mathbb{C}$ together with a topology
@@ -596,31 +639,12 @@ well-behaved.
 \begin{proof}
   (1)~$\Leftrightarrow$~(2) is the definition of equality for a colimit in
   $\Sets$.
-   
-  Next, we will show (2)~$\Rightarrow$~(3).
-%
-  First, observe that the relation in (2) which we have closed under
-  reflexivity, symmetry and transitivity is already reflexive and
-  transitive. So assuming $\Sim{(R,\mathfrak{m})}{(S,\mathfrak{n})}$,
-  we have either some $\IsSubsetEq{R}{S}$ or
-  $\IsSubsetEq{S}{R}$; the cases are themselves symmetric, so
-  we will only consider $\IsSubsetEq{R}{S}$. Choose
-  $\Define{T}{R\cap S}$; we need to show that
-  for all $\Member{\psi}{T(\Phi)}$, we have
-  $\IsEqOf{\mathfrak{m}(\psi)}{\mathfrak{n}(\psi)}{P(\Phi)}$, which
-  holds immediately from our assumption.
-
-  To show (3)~$\Rightarrow$~(2), observe the following:
-  \begin{enumerate}
-  \item $\Sim{(T,\mathfrak{m})}{(R,\mathfrak{m})}$, choosing the
-    inclusion $\AreSubsetEq{T,R\cap S,R}$.
-  \item $\Sim{(T,\mathfrak{n})}{(R,\mathfrak{n})}$, choosing the
-    inclusion $\AreSubsetEq{T,R\cap S,S}$.
-  \item $\Sim{(T,\mathfrak{m})}{(T,\mathfrak{n})}$, by reflexivity
-    (recall that $\mathfrak{m}$ and $\mathfrak{n}$ agree when
-    restricted to $T$).
-  \end{enumerate}
-  By transitivity, we have $\Sim{(R,\mathfrak{m})}{(S,\mathfrak{n})}$.
+  % 
+  (1)~$\Leftrightarrow$~(3) is an equivalent characterization of
+  equality for a \emph{filtered} colimit, i.e.\ a colimit of a digram
+  whose domain is a filtered category. We have shown that
+  $\OpCat{J(\Psi)}$ is indeed filtered in
+  Lemma~\ref{lem:covering-sieves-filtered}.
 \end{proof}
 
 In what follows, we will follow in the broad strokes the proofs given
