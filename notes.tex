@@ -7,6 +7,8 @@
 \usepackage{sectsty}
 \allsectionsfont{\sffamily}
 
+\DeclareMathOperator\Colim{\mathbf{colim}}
+
 \newcommand\AreSubsetEq[1]{\FormatList{\IMode}{\subseteq}{#1}}
 \newcommand\AIsEq[2]{\IMode{#1} &=\IMode{#2}}
 \newcommand\Char[1]{\mathbf{char}_{#1}}
@@ -617,7 +619,7 @@ which we define below, fixing a presheaf $\Of{\mathcal{F}}{\Psh{\mathbb{C}}}$:
   \ADefine{
     \Plus{\mathcal{F}}(\Psi)
   }{
-    \int^{\Of{S}{\OpCat{J(\Psi)}}}
+    \Colim_{\Of{S}{\OpCat{J(\Psi)}}}
     [S,\mathcal{F}]
   }
   \\
