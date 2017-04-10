@@ -706,14 +706,15 @@ the maximal sieve:
   inverse to $\eta_+^{\mathcal{F}}$.
 \end{notation}
 
-Now, we reproduce a lemma from~\cite{maclane-moerdijk:1992}.
+Now, we reproduce a lemma from~\cite{maclane-moerdijk:1992}, giving a
+bit more detail.
 \begin{lem}
   For $\Of{\mathcal{F}}{\Sh{\mathbb{C},J}}$ and
   $\Of{\mathcal{G}}{\Psh{\mathbb{C}}}$, any map
   $\Of{f}{\mathcal{G}\to\mathcal{F}}$ in $\Psh{\mathbb{C}}$ factors as
   $\IsEq{f}{\widetilde{f}\circ\eta_+^{\mathcal{G}}}$ for some unique
   $\Of{\widetilde{f}}{\Plus{\mathcal{G}}\to\mathcal{F}}$:
-  \[
+  \begin{equation}\label{diagram:plus-f-tilde}
     \begin{tikzcd}[sep=large]
       \IMode{\mathcal{G}}
       \arrow[r,"\IMode{\eta_+^\mathcal{G}}"]
@@ -725,7 +726,7 @@ Now, we reproduce a lemma from~\cite{maclane-moerdijk:1992}.
       &
       \IMode{\mathcal{F}}
     \end{tikzcd}
-  \]
+  \end{equation}
 \end{lem}
 \begin{proof}
   Explicitly, we can construct a candidate definition of
@@ -763,7 +764,61 @@ Now, we reproduce a lemma from~\cite{maclane-moerdijk:1992}.
   \]
 
   Next we have to show $\Glue{\mathcal{F}}\circ\Plus{f}$ is the only
-  possible $\widetilde{f}$ such that our diagram commutes. \textbf{TODO}
+  possible $\widetilde{f}$ such that our diagram commutes.
+
+  Fix $\Member{(S,\mathfrak{m})}{\Plus{\mathcal{G}}(\Psi)}$; we will
+  show that $\IMode{\widetilde{f}_\Psi(S,\mathfrak{m})}$ \emph{must}
+  be $\Glue{\mathcal{F}}^\Psi(\Plus{f}_\Psi(S,\mathfrak{m}))$.
+%
+  For all $\Member{\psi}{S(\Phi)}$, we have the following:
+  \begin{align*}
+    \AIsEq{
+      \widetilde{f}_\Psi(S,\mathfrak{m})\cdot\psi
+    }{
+      \widetilde{f}_\Phi((S,\mathfrak{m})\cdot\psi)
+    }
+    \tag{naturality}
+    \\
+    \AIsEq{
+    }{
+      \widetilde{f}_\Phi(S\cdot\psi,\mathfrak{m}\circ(\psi\circ-))
+    }
+    \tag{definition}
+  \end{align*}
+%
+  Observe that because $\Member{\psi}{S(\Phi)}$, the sieve
+  $\IMode{S\cdot\psi}$ is in fact the maximal sieve
+  $\OMode{\Yoneda{\Phi}}$. So we have:
+  \begin{align*}
+    \AIsEq{
+      \widetilde{f}_\Psi(S,\mathfrak{m})\cdot\psi
+    }{
+      \widetilde{f}_\Phi(\Yoneda{\Phi},\mathfrak{m}_\Phi(\psi)\cdot-)
+    }
+    \\
+    \AIsEq{
+    }{
+      \widetilde{f}_\Phi(\eta_+^{\mathcal{G}}(\mathfrak{m}_\Phi(\psi)))
+    }
+    \tag{definition}
+    \\
+    \AIsEq{
+    }{
+      f_\Phi(\mathfrak{m}_\Phi(\psi))
+    }
+    \tag{diagram~\ref{diagram:plus-f-tilde}}
+  \end{align*}
+
+  Now, because $\mathcal{F}$ is a sheaf, and $S$ is a covering sieve
+  and $\Of{f\circ\mathfrak{m}}{[S,\mathcal{F}]}$ is a matching family,
+  $\widetilde{f}_\Psi(S,\mathfrak{m})$ is the \emph{unique} element
+  $\Member{n}{\mathcal{F}(\Psi)}$ such that
+  $\IsEq{n\cdot\psi}{f_\Phi(\mathfrak{m}_\Phi(\psi))}$.  In other
+  words
+  $\AreEq{{\widetilde{f}_\Psi(S,\mathfrak{m})}, n,
+    {\Glue{\mathcal{F}}^\Psi(S,f\circ\mathfrak{m})}}$, so it suffices
+  to confirm that
+  $\IsEq{\Plus{f}_\Psi(S,\mathfrak{m})}{(S,f\circ\mathfrak{m})}$.
 \end{proof}
 
 
