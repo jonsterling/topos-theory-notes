@@ -663,9 +663,105 @@ well-behaved.
   Lemma~\ref{lem:covering-sieves-filtered}.
 \end{proof}
 
-In what follows, we will follow in the broad strokes the proofs given
-in~\cite{maclane-moerdijk:1992}, but giving more detail and using a
-more ``nuts-and-bolts'' style based on the view of sieves as
+\paragraph{The unit to the plus construction}
+We can also form a unit natural transformation
+$\Of{\eta_+^{\mathcal{F}}}{\mathcal{F}\to\Plus{\mathcal{F}}}$ using
+the maximal sieve:
+\begin{align*}
+  \AOf{\eta_+^{\mathcal{F}}}{\mathcal{F}\to\Plus{\mathcal{F}}}
+  \\
+  \ADefine{
+    {\left(\eta_+^{\mathcal{F}}\right)}_\Psi(m)
+  }{
+    (\Yoneda{\Psi},m\cdot-)
+  }
+\end{align*}
+
+\newcommand\Glue[1]{\mathsf{glue}_{#1}}
+
+\begin{lem}[Executing formal amalgamations]\label{lem:executing-formal-amalgamations}
+  When $\Of{\mathcal{F}}{\Sh{\mathbb{C},J}}$ is a sheaf, the unit
+  $\Of{\eta_+^{\mathcal{F}}}{\mathcal{F}\to\Plus{\mathcal{F}}}$ is an
+  isomorphism.
+\end{lem}
+\begin{proof}
+  This holds by definition; the action of the inverse to the unit is
+  to use the sheaf structure to turn a formal amalgamation (a covering
+  sieve together with a matching family) into the appropriate unique
+  element of $\mathcal{F}$.
+\end{proof}
+
+
+\begin{notation}
+  We will write
+  $\Of{\Glue{\mathcal{F}}}{\Plus{\mathcal{F}}\to\mathcal{F}}$ for the
+  inverse to $\eta_+^{\mathcal{F}}$.
+\end{notation}
+
+Now, we reproduce a lemma from~\cite{maclane-moerdijk:1992}.
+\begin{lem}
+  For $\Of{\mathcal{F}}{\Sh{\mathbb{C},J}}$ and
+  $\Of{\mathcal{G}}{\Psh{\mathbb{C}}}$, any map
+  $\Of{f}{\mathcal{G}\to\mathcal{F}}$ in $\Psh{\mathbb{C}}$ factors as
+  $\IsEq{f}{\widetilde{f}\circ\eta_+^{\mathcal{G}}}$ for some unique
+  $\Of{\widetilde{f}}{\Plus{\mathcal{G}}\to\mathcal{F}}$:
+  \[
+    \begin{tikzcd}[sep=large]
+      \IMode{\mathcal{G}}
+      \arrow[r,"\IMode{\eta_+^\mathcal{G}}"]
+      \arrow[dr,swap,"\IMode{f}"]
+      &
+      \IMode{\Plus{\mathcal{G}}}
+      \arrow[d,dashed,"\OMode{\widetilde{f}}"]
+      \\
+      &
+      \IMode{\mathcal{F}}
+    \end{tikzcd}
+  \]
+\end{lem}
+\begin{proof}
+  Explicitly, we can construct a candidate definition of
+  $\widetilde{f}$ using the functoriality of the plus construction and
+  Lemma~\ref{lem:executing-formal-amalgamations}:
+  \[
+    \begin{tikzcd}[sep=large]
+      \IMode{\Plus{\mathcal{G}}}
+      \arrow[r,"\IMode{\Plus{f}}"]
+      \arrow[rr,swap,dashed,bend right=40,"\OMode{\widetilde{f}}"]
+      &
+      \IMode{\Plus{\mathcal{F}}}
+      \arrow[r,"\IMode{\Glue{\mathcal{F}}}"]
+      &
+      \IMode{\mathcal{F}}
+    \end{tikzcd}
+  \]
+%
+  First, we have to show that
+  $\IsEq{\Glue{\mathcal{F}}\circ\Plus{f}\circ\eta_+^{\mathcal{G}}}{f}$;
+  this is easily established:
+  \[
+    \begin{tikzcd}[sep=large]
+      m
+      \arrow[r,mapsto,"\left(\eta_+^{\mathcal{G}}\right)_\Psi"]
+      &
+      (\Yoneda{\Psi},m\cdot-)
+      \arrow[r,mapsto,"\Plus{f}_\Psi"]
+      &
+      (\Yoneda{\Psi},f_\Psi(m)\cdot-)
+      \arrow[r,"\Glue{\mathcal{F}}^\Psi"]
+      &
+      f_\psi(m)
+    \end{tikzcd}
+  \]
+
+  Next we have to show $\Glue{\mathcal{F}}\circ\Plus{f}$ is the only
+  possible $\widetilde{f}$ such that our diagram commutes. \textbf{TODO}
+\end{proof}
+
+
+In the theorems below, we will follow in the broad strokes the proofs
+given in~\cite{maclane-moerdijk:1992}, but giving more detail and
+using a more ``nuts-and-bolts'' style based on the view of sieves as
 subfunctors and matching families as natural transformations.
 
 \begin{thm}\label{thm:plus-separated}
