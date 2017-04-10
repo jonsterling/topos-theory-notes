@@ -49,7 +49,6 @@
 \newcommand\Pow[1]{\mathcal{P} (#1)}
 \newcommand\Dom[1]{\vert{#1}\vert}
 \newcommand\Sub[1]{\mathsf{Sub} (#1)}
-\newcommand\Entails[2]{\IMode{#1}\leq\IMode{#2}}
 \newcommand\IsMono[2]{\Mono{\IMode{#1}}{\IMode{#2}}}
 \newcommand\IsEqOf[3]{\IMode{#1}=\IMode{#2}:\IMode{#3}}
 \newcommand\Sim[2]{\IMode{#1}\sim\IMode{#2}}
@@ -431,28 +430,29 @@ particular, axiom~\ref{eq:preserves-meets} can be replaced with the
 more intuitive \emph{monotonicity} condition that $j$ shall preserve
 entailment:
 \begin{equation}
-  \Entails{p}{q}\Rightarrow\Entails{j(p)}{j(q)}
+  \forall p,q:\Omega. (p\supset q) \supset  j(p)\supset j(q)
   \tag{3.3*}
   \label{eq:monotonicity}
 \end{equation}
 
 \begin{proof}
-  ($\Rightarrow$) Suppose $\IsEq{j\circ\land}{\land\circ(j\times j)}$
-  and $\Entails{p}{q}$. We need to show that $\Entails{j(p)}{j(q)}$;
-  first, observe that it suffices to show that
-  $\IsEq{j(p)\land j(q)}{j(p)}$. Because $j$ preserves meets, this is
-  the same as $\IsEq{j(p\land q)}{j(p)}$; but $\IsEq{p\land q}{p}$,
-  because $\Entails{p}{q}$.\footnote{Thanks to Danny Gratzer for
-    suggesting this argument.}
+  We will work na\"ively in the internal logic, using the fact that
+  $\Omega$ forms an internal Heyting algebra. ($\Rightarrow$) Suppose
+  $\IsEq{j\circ\land}{\land\circ(j\times j)}$ and $p\supset q$. We
+  need to show that $j(p) \supset j(q)$; first, observe that it
+  suffices to show that $\IsEq{j(p)\land j(q)}{j(p)}$. Because $j$
+  preserves meets, this is the same as $\IsEq{j(p\land q)}{j(p)}$; but
+  $\IsEq{p\land q}{p}$, because $p\supset q$.\footnote{Thanks to Danny
+    Gratzer for suggesting this argument.}
 
   ($\Leftarrow$) Suppose that $j$ preserves entailment; we need to
   show that it preserves meets. To show that
-  $\Entails{j(p\land q)}{j(p)\land j(q)}$, it suffices to show both
-  $\Entails{j(p\land q)}{j(p)}$ and $\Entails{j(p\land q)}{j(q)}$;
-  these obtain respectively from the fact that $\Entails{p\land q}{p}$
-  and $\Entails{p\land q}{q}$. Next, we have to show that
-  $\Entails{j(p)\land j(q)}{j(p\land q)}$; this follows from
-  idempotency and monotonicity.
+  $j(p\land q)\supset j(p)\land j(q)$, it suffices to show both
+  $j(p\land q)\supset j(p)$ and $j(p\land q)\supset j(q)$; these
+  obtain respectively from the fact that $(p\land q)\supset p$ and
+  $(p\land q)\supset q$. Next, we have to show that
+  $(j(p)\land j(q))\supset j(p\land q)$; this follows from idempotency
+  and monotonicity.
 \end{proof}
 
 \paragraph{Relating the logical and the geometric views}
