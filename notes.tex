@@ -429,8 +429,8 @@ In other words, $j$ is an idempotent cartesian monad in the internal
 logic of the topos. There is, however, a better-motivated way to state
 these laws which makes more sense from a logical perspective; in
 particular, axiom~\ref{eq:preserves-meets} can be replaced with the
-more intuitive \emph{monotonicity} condition that $j$ shall preserve
-entailment:
+more intuitive internal \emph{monotonicity} condition that $j$ shall
+preserve implication:
 \begin{equation}
   \forall p,q:\Omega. (p\supset q) \supset  j(p)\supset j(q)
   \tag{3.3*}
@@ -447,7 +447,7 @@ entailment:
   $\IsEq{p\land q}{p}$, because $p\supset q$.\footnote{Thanks to Danny
     Gratzer for suggesting this argument.}
 
-  ($\Leftarrow$) Suppose that $j$ preserves entailment; we need to
+  ($\Leftarrow$) Suppose that $j$ preserves implication; we need to
   show that it preserves meets. To show that
   $j(p\land q)\supset j(p)\land j(q)$, it suffices to show both
   $j(p\land q)\supset j(p)$ and $j(p\land q)\supset j(q)$; these
