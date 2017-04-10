@@ -37,7 +37,7 @@
 \newcommand\Forces[2]{\IMode{#1}\Vdash\IMode{#2}}
 \newcommand\INJ{\mathbf{Inj}}
 \newcommand\IsInh[1]{\IMode{#1}\ \mathit{inhabited}}
-\DeclareMathOperator{\Sheafify}{\mathbf{a}}
+\DeclareMathOperator{\Sheafify}{{\mathbf{a}}}
 \newcommand\AreAdjoint[1]{\FormatList{\IMode}{\dashv}{#1}}
 \newcommand\AOf[2]{\IMode{#1}&:\IMode{#2}}
 \newcommand\magicwand{\mathrel{-\mkern-6mu*}}
@@ -1078,22 +1078,77 @@ subfunctors and matching families as natural transformations.
   \end{enumerate}
 \end{thm}
 \begin{proof}
-\newcommand\Amalg[1]{\llparenthesis{#1}\rrparenthesis}
-  We will prove the above facts in short order.
-
-  \begin{enumerate}
-  \item To show that $\Sheafify$ preserves finite limits, it suffices
-    to show that the plus construction preserves finite limits in
-    $\Psh{\mathbb{C}}$. Because finite limits in a Grothendieck topos
-    are formed pointwise, it suffices to show that finite limits are
-    preserved at the level of sets. This follows from the fact that
-    the plus construction is a filtered colimit, and that $[S,-]$
-    preserves limits.
-  \item Clearly $\iota$ is full and faithful, because it is the identity
-    on morphisms.
-  \item To show $\AreAdjoint{\Sheafify,\iota}$ ...
+  We will prove the above facts in reverse order. First, to show that
+  $\AreAdjoint{\Sheafify,\iota}$, let us begin by explicitly
+  constructing candidate units and the counits for the adjunction.
+  \begin{gather*}
+    \begin{aligned}
+      \AOf{
+        \eta
+      }{
+        \ArrId{\Psh{\mathbb{C}}}
+        \to
+        \iota\Sheafify
+      }
+      \\
+      \ADefine{
+        \eta_{\mathcal{F}}^\Psi(m)
+      }{
+        \eta_+^\Psi(\eta_+^\Psi(m))
+      }
+    \end{aligned}
+    \qquad
+    \begin{aligned}
+      \AOf{
+        \epsilon
+      }{
+        \Sheafify\iota\to\ArrId{\Sh{\mathbb{C},J}}
+      }
+      \\
+      \ADefine{
+        \epsilon_{\mathcal{F}}^\Psi(m)
+      }{
+        \Glue{\mathcal{F}}^\Psi(\Glue{\Plus{\mathcal{F}}}^\Psi(m))
+      }
+    \end{aligned}
+  \end{gather*}
+  Now we have to show that the following identities hold:
+  \[
+    \begin{tikzcd}[sep=large]
+      \IMode{\Sheafify}
+      \arrow[r,"\IMode{\Sheafify\eta}"]
+      \arrow[rr,swap,bend right=40,"\IMode{\ArrId{\Sheafify}}"]
+      &
+      \IMode{\Sheafify\iota\Sheafify}
+      \arrow[r,"\IMode{\epsilon\Sheafify}"]
+      &
+      \IMode{\Sheafify}
+    \end{tikzcd}
+    \qquad
+    \begin{tikzcd}[sep=large]
+      \IMode{\iota}
+      \arrow[r,"\IMode{\eta\iota}"]
+      \arrow[rr,swap,bend right=40,"\IMode{\ArrId{\iota}}"]
+      &
+      \IMode{\iota\Sheafify\iota}
+      \arrow[r,"\IMode{\iota\epsilon}"]
+      &
+      \IMode{\iota}
+    \end{tikzcd}
+  \]
+  % \begin{enumerate}
+  % \item To show that $\Sheafify$ preserves finite limits, it suffices
+  %   to show that the plus construction preserves finite limits in
+  %   $\Psh{\mathbb{C}}$. Because finite limits in a Grothendieck topos
+  %   are formed pointwise, it suffices to show that finite limits are
+  %   preserved at the level of sets. This follows from the fact that
+  %   the plus construction is a filtered colimit, and that $[S,-]$
+  %   preserves limits.
+  % \item Clearly $\iota$ is full and faithful, because it is the identity
+  %   on morphisms.
+  % \item To show $\AreAdjoint{\Sheafify,\iota}$ ...
     
-  \end{enumerate}
+  % \end{enumerate}
 \end{proof}
 
 
