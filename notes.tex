@@ -56,6 +56,9 @@
 \newcommand\Sim[2]{\IMode{#1}\sim\IMode{#2}}
 \newcommand\Zero{\mathbf{0}}
 
+\newcommand\Glue[1]{\mathsf{glue}_{#1}}
+
+
 
 
 \title{Notes on topos theory}
@@ -606,6 +609,8 @@ $\AreAdjoint{\IBox{\Of{\Sheafify}{\Psh{\mathbb{C}}}\to
 where $\iota$ is the (full and faithful) inclusion of sheaves into
 presheaves and $\Sheafify$ is a ``sheafification'' functor.
 
+\subsection{The plus construction}
+
 Sheafification in presheaf toposes is obtained from the iterated
 application of something called ``Grothendieck's plus construction'',
 which we define below, fixing a presheaf $\Of{\mathcal{F}}{\Psh{\mathbb{C}}}$:
@@ -613,7 +618,7 @@ which we define below, fixing a presheaf $\Of{\mathcal{F}}{\Psh{\mathbb{C}}}$:
   \AOf{
     \Plus{(-)}
   }{
-    \Psh{\mathbb{C}}\to\Psh{\mathbb{C}}
+  \Psh{\mathbb{C}}\to\Psh{\mathbb{C}}
   }
   \\
   \ADefine{
@@ -684,8 +689,6 @@ the maximal sieve:
     (\Yoneda{\Psi},m\cdot-)
   }
 \end{align*}
-
-\newcommand\Glue[1]{\mathsf{glue}_{#1}}
 
 \begin{lem}[Executing formal amalgamations]\label{lem:executing-formal-amalgamations}
   When $\Of{\mathcal{F}}{\Sh{\mathbb{C},J}}$ is a sheaf, the unit
@@ -765,7 +768,7 @@ bit more detail.
 
   Next we have to show $\Glue{\mathcal{F}}\circ\Plus{f}$ is the only
   possible $\widetilde{f}$ such that our diagram commutes.
-
+%
   Fix $\Member{(S,\mathfrak{m})}{\Plus{\mathcal{G}}(\Psi)}$; we will
   show that $\IMode{\widetilde{f}_\Psi(S,\mathfrak{m})}$ \emph{must}
   be $\Glue{\mathcal{F}}^\Psi(\Plus{f}_\Psi(S,\mathfrak{m}))$.
@@ -777,13 +780,13 @@ bit more detail.
     }{
       \widetilde{f}_\Phi((S,\mathfrak{m})\cdot\psi)
     }
-    \tag{naturality}
+    \tag{Naturality}
     \\
     \AIsEq{
     }{
       \widetilde{f}_\Phi(S\cdot\psi,\mathfrak{m}\circ(\psi\circ-))
     }
-    \tag{definition}
+    \tag{Definition}
   \end{align*}
 %
   Observe that because $\Member{\psi}{S(\Phi)}$, the sieve
@@ -806,7 +809,7 @@ bit more detail.
     }{
       f_\Phi(\mathfrak{m}_\Phi(\psi))
     }
-    \tag{diagram~\ref{diagram:plus-f-tilde}}
+    \tag{Diagram~\ref{diagram:plus-f-tilde}}
   \end{align*}
 
   Now, because $\mathcal{F}$ is a sheaf, and $S$ is a covering sieve
@@ -819,6 +822,52 @@ bit more detail.
     {\Glue{\mathcal{F}}^\Psi(S,f\circ\mathfrak{m})}}$, so it suffices
   to confirm that
   $\IsEq{\Plus{f}_\Psi(S,\mathfrak{m})}{(S,f\circ\mathfrak{m})}$.
+\end{proof}
+
+\begin{lem}\label{lem:plus-eta-plus}
+  For any presheaf $\Of{\mathcal{G}}{\Psh{\mathbb{C}}}$, we have the
+  identity
+  $\IsEqOf{\Plus{\left(\eta_+^{\mathcal{G}}\right)}}{\eta_+^{\Plus{\mathcal{G}}}}{\Plus{\mathcal{G}}\to\PlusPlus{\mathcal{G}}}$.
+\end{lem}
+\begin{proof}
+  Working pointwise, we have the following:
+  \begin{align*}
+    \AIsEq{
+      \Plus{\left(\eta_+^{\mathcal{G}}\right)}_\Psi(S,\mathfrak{m})
+    }{
+      (S,\eta_+^{\mathcal{G}}\circ\mathfrak{m})
+    }
+    \\
+    \AIsEq{
+      {\left({\eta_+^{\Plus{\mathcal{G}}}}\right)}_\Psi(S,\mathfrak{m})
+    }{
+      (\Yoneda{\Psi}, (S,\mathfrak{m})\cdot-)
+    }
+  \end{align*}
+  We need to show that
+  $\IsEq{(S,\eta_+^{\mathcal{G}}\circ\mathfrak{m})}{(\Yoneda{\Psi},
+    (S,\mathfrak{m})\cdot-)}$. By the definition of equality for
+  formal amalgamations (Lemma~\ref{lem:plus-construction-equality}),
+  it suffices to show that for all
+  $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{S(\Phi)}$ we have
+  $\IsEq{\eta_+^{\mathcal{G}}(\mathfrak{m}_\Phi(\psi))}{(S,\mathfrak{m})\cdot\psi}$. Calculate:
+  \begin{align*}
+    \AIsEq{
+      (S,\mathfrak{m})\cdot\psi
+    }{
+      (S\cdot\psi,\mathfrak{m}_\Phi\circ(\psi\circ-))
+    }
+    \\
+    \AIsEq{
+    }{
+      (\Yoneda{\Phi},\mathfrak{m}_\Phi(\psi)\cdot-)
+    }
+    \\
+    \AIsEq{
+    }{
+      \eta_+^{\mathcal{G}}(\mathfrak{m}_\Phi(\psi))
+    }
+  \end{align*}
 \end{proof}
 
 
@@ -894,8 +943,6 @@ subfunctors and matching families as natural transformations.
 
 \end{proof}
 
-%In this section, we will assume without proof that lex reflective
-%subcategories of presheaf toposes are themselves toposes.
 
 \begin{thm}\label{thm:plus-sheaf}
   When $\Of{\mathcal{F}}{\Psh{\mathbb{C}}}$ is a separated presheaf, its plus
@@ -1063,52 +1110,7 @@ subfunctors and matching families as natural transformations.
   By Theorems~\ref{thm:plus-sheaf} and~\ref{thm:plus-separated}.
 \end{proof}
 
-\begin{lem}\label{lem:plus-eta-plus}
-  For any presheaf $\Of{\mathcal{G}}{\Psh{\mathbb{C}}}$, we have the
-  identity
-  $\IsEqOf{\Plus{\left(\eta_+^{\mathcal{G}}\right)}}{\eta_+^{\Plus{\mathcal{G}}}}{\Plus{\mathcal{G}}\to\PlusPlus{\mathcal{G}}}$.
-\end{lem}
-\begin{proof}
-  Working pointwise, we have the following:
-  \begin{align*}
-    \AIsEq{
-      \Plus{\left(\eta_+^{\mathcal{G}}\right)}_\Psi(S,\mathfrak{m})
-    }{
-      (S,\eta_+^{\mathcal{G}}\circ\mathfrak{m})
-    }
-    \\
-    \AIsEq{
-      {\left({\eta_+^{\Plus{\mathcal{G}}}}\right)}_\Psi(S,\mathfrak{m})
-    }{
-      (\Yoneda{\Psi}, (S,\mathfrak{m})\cdot-)
-    }
-  \end{align*}
-  We need to show that
-  $\IsEq{(S,\eta_+^{\mathcal{G}}\circ\mathfrak{m})}{(\Yoneda{\Psi},
-    (S,\mathfrak{m})\cdot-)}$. By the definition of equality for
-  formal amalgamations (Lemma~\ref{lem:plus-construction-equality}),
-  it suffices to show that for all
-  $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{S(\Phi)}$ we have
-  $\IsEq{\eta_+^{\mathcal{G}}(\mathfrak{m}_\Phi(\psi))}{(S,\mathfrak{m})\cdot\psi}$. Calculate:
-  \begin{align*}
-    \AIsEq{
-      (S,\mathfrak{m})\cdot\psi
-    }{
-      (S\cdot\psi,\mathfrak{m}_\Phi\circ(\psi\circ-))
-    }
-    \\
-    \AIsEq{
-    }{
-      (\Yoneda{\Phi},\mathfrak{m}_\Phi(\psi)\cdot-)
-    }
-    \\
-    \AIsEq{
-    }{
-      \eta_+^{\mathcal{G}}(\mathfrak{m}_\Phi(\psi))
-    }
-  \end{align*}
-  We are done.
-\end{proof}
+\subsection{Sheafification}
 
 \begin{thm}[Sheafification]
   We are now equipped to show that the $J$-sheaves comprise a lex
@@ -1134,7 +1136,9 @@ subfunctors and matching families as natural transformations.
   limits.
 
   Finally, to show that $\AreAdjoint{\Sheafify,\iota}$, we must
-  exhibit the following bijection of hom-sets:
+  exhibit the following bijection of hom-sets, natural in
+  $\IMode{\mathcal{F}},\IMode{\mathcal{G}}$ (we leave naturality as an
+  exercise to the reader):
   \[
     \infer={
       \Of{\mathcal{G}\to\iota\mathcal{F}}{\Psh{\mathbb{C}}}
@@ -1208,7 +1212,8 @@ subfunctors and matching families as natural transformations.
   \end{align*}
 
   The other direction will require some effort and careful
-  manipulation.
+  manipulation, using Lemma~\ref{lem:plus-factoring} and
+  Lemma~\ref{lem:plus-eta-plus}.
   \begin{align*}
     \AIsEq{
       {\left(f^\sharp\right)}_\sharp
@@ -1225,20 +1230,6 @@ subfunctors and matching families as natural transformations.
       \Glue{\mathcal{F}}
       \circ
       \Plus{
-        \widetilde{
-          \left(
-            f\circ\eta_+^{\Plus{\mathcal{G}}}\circ\eta_+^{\mathcal{G}}
-          \right)
-        }
-      }
-    }
-    \tag{Lemma~\ref{lem:plus-factoring}}
-    \\
-    \AIsEq{
-    }{
-      \Glue{\mathcal{F}}
-      \circ
-      \Plus{
         \left(
           \Glue{\mathcal{F}}\circ
           \Plus{
@@ -1249,7 +1240,7 @@ subfunctors and matching families as natural transformations.
         \right)
       }
     }
-    \tag{Lemma~\ref{lem:plus-factoring}}
+    \tag{definition of $\widetilde{f}$}
     \\
     \AIsEq{
     }{
@@ -1267,7 +1258,7 @@ subfunctors and matching families as natural transformations.
         \right)
       }
     }
-    \tag{Functoriality}
+    \tag{functoriality}
     \\
     \AIsEq{
     }{
@@ -1283,7 +1274,7 @@ subfunctors and matching families as natural transformations.
         \right)
       }
     }
-    \tag{Lemma~\ref{lem:plus-factoring}}
+    \tag{definition of $\widetilde{f}$}
     \\
     \AIsEq{
     }{
@@ -1313,7 +1304,7 @@ subfunctors and matching families as natural transformations.
         \right)
       }
     }
-    \tag{Lemma~\ref{lem:plus-factoring}}
+    \tag{Diagram~\ref{diagram:plus-f-tilde}}
     \\
     \AIsEq{
     }{
@@ -1325,7 +1316,7 @@ subfunctors and matching families as natural transformations.
         \left(\eta_+^{\Plus{\mathcal{G}}}\right)
       }
     }
-    \tag{Functoriality}
+    \tag{functoriality}
     \\
     \AIsEq{
     }{
@@ -1341,7 +1332,7 @@ subfunctors and matching families as natural transformations.
     }{
       f
     }
-    \tag{Lemma~\ref{lem:plus-factoring}}
+    \tag{Diagram~\ref{diagram:plus-f-tilde}}
   \end{align*}
 
   We have shown that $\Sh{\mathbb{C},J}$ is a lex reflective
@@ -1349,7 +1340,7 @@ subfunctors and matching families as natural transformations.
 
 \end{proof}
 
-
+\newpage
 \section{Applications and examples}
 
 We will now survey a few useful topologies.
