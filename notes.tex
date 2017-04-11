@@ -26,7 +26,6 @@
 \newcommand\One{\mathbf{1}}
 \newcommand\Two{\mathbf{2}}
 \newcommand\NotMember[2]{\IMode{#1}\not\in\IMode{#2}}
-\newcommand\IsSieve[2]{\IMode{#2}\ \mathit{sieve}_{\IMode{#1}}}
 \newcommand\IsEquiv[2]{\IMode{#1}\cong\IMode{#2}}
 \newcommand\IsNotEq[2]{\IMode{#1}\not=\IMode{#2}}
 \newcommand\AreEq[1]{\FormatList{\IMode}{=}{#1}}
@@ -214,9 +213,6 @@ $\OMode{\mathcal{F}(\psi)(m)}$.
   $\Yoneda{\Psi}$ itself, which chooses all arrows ending in $\Psi$.
 \end{definition}
 
-Accordingly, will write $\IBox{\IsSieve{\Psi}{S}}$ to mean
-$\OBox{\IsSubobject{S}{\Yoneda{\Psi}}{\Psh{\mathbb{C}}}}$.
-
 \subsection{Sieves and subobjects}
 
 In classical set theory, every subset $\IsSubsetEq{A}{B}$ has a
@@ -237,10 +233,10 @@ follows:
 In toposes, there is always an object analogous to $\Two$, called the
 \emph{subobject classifier}; this object is always written
 $\Omega$. Following~\cite{maclane-moerdijk:1992}, a subobject
-classifier is a monomorphism $\Of{\True}{\Mono{\One}{\Omega}}$ which for any
-monomorphism $\Of{f}{\Mono{A}{B}}$ induces a characteristic morphism
-$\Of{\Char{f}}{B\to\Omega}$ such that the following diagram is a
-pullback:
+classifier is a monomorphism $\Of{\True}{\Mono{\One}{\Omega}}$ which
+for any monomorphism $\Of{f}{\Mono{A}{B}}$ induces a \emph{unique}
+characteristic morphism $\Of{\Char{f}}{B\to\Omega}$ such that the
+following diagram is a pullback:
 \[
   \begin{tikzcd}[sep=huge]
     \IMode{A}
@@ -271,7 +267,7 @@ The subobject classifier in a presheaf topos is defined using
     \Omega(\Psi)
   }{
     \MkSet{
-      S \mid \OBox{\IsSieve{\Psi}{S}}
+      S \mid \IsSubobject{S}{\Yoneda{\Psi}}{\Psh{\mathbb{C}}}
     }
   }
   \\
@@ -307,8 +303,8 @@ The subobject classifier in a presheaf topos is defined using
   If $\mathbb{C}$ is chaotic, then either
   $\IsEq{\Yoneda{\Psi}(\Phi)}{\One}$ for every
   $\Of{\Phi}{\mathbb{C}}$; therefore, the judgment
-  $\IBox{\IsSieve{\Psi}{S}}$ comes out to mean simply
-  $\OBox{\IsSubsetEq{S(\Psi)}{\One}}$,
+  $\IBox{\IsSubobject{S}{\Yoneda{\Psi}}{\Psh{\mathbb{C}}}}$ comes out
+  to mean simply $\OBox{\IsSubsetEq{S(\Psi)}{\One}}$,
   i.e. $\Member{S(\Psi)}{\Pow{\One}}$. Therefore,
   $\IsEq{\Omega(\Psi)}{\Pow{\One}}=\IMode{\Two}$. An analogous
   argument can be made in case $\mathbb{C}$ is a groupoid.
@@ -361,7 +357,7 @@ perspective that we alluded to in the introduction.
     }{
       \Member{S}{J(\Psi)}
       &
-      \Of{\psi}{\Hom{\mathbb{C}}{\Phi}{\Psi}}
+      \Of{\psi}{\Phi\to\Psi}
     }
   \]
   \[
@@ -370,7 +366,7 @@ perspective that we alluded to in the introduction.
     }{
       \Member{S}{J(\Psi)}
       &
-      \IsSieve{\Psi}{R}
+      \Member{R}{\Omega(\Psi)}
       &
       \forall\Member{\psi}{S(\Phi)}.\ \Member{R\cdot\psi}{J(\Phi)}
     }
@@ -548,10 +544,10 @@ sheaves, most of which involve a number of complicated analytic
 conditions; we prefer to give an equivalent, simpler definition (which
 is usually presented as a \emph{theorem}).
 
-First, observe that for any $\IsSieve{\Psi}{S}$, we have a canonical
-function between hom-sets
-$\Of{i_S^*}{[\Yoneda{\Psi},\mathcal{F}]\to [S,\mathcal{F}]}$
-as follows:
+First, observe that for any sieve $\Member{S}{\Omega(\Psi)}$, we have
+a canonical function between hom-sets
+$\Of{i_S^*}{[\Yoneda{\Psi},\mathcal{F}]\to [S,\mathcal{F}]}$ as
+follows:
 \[
   \begin{tikzcd}[sep=huge]
     \IMode{\Yoneda{\Psi}}
@@ -567,7 +563,8 @@ as follows:
 
 \begin{definition}
   The presheaf $\Of{\mathcal{F}}{\Psh{\mathbb{C}}}$ is
-  \emph{separated} iff for every $\IsSieve{\Psi}{S}$, the induced map
+  \emph{separated} iff for every
+  $\Member{S}{\Omega(\Psi)}$, the induced map
   between hom-sets
   $\Of{i_S^*}{[\Yoneda{\Psi},\mathcal{F}]\to[S,\mathcal{F}]}$ is a
   monomorphism. $\mathcal{F}$ is a \emph{sheaf} iff this map is also
@@ -1139,8 +1136,8 @@ subfunctors and matching families as natural transformations.
   Clearly $\iota$ is full and faithful, because it is the identity on
   morphisms. To show that $\Sheafify$ preserves finite limits, it
   suffices to show that the plus construction preserves finite limits
-  in $\Psh{\mathbb{C}}$. Because finite limits in a Grothendieck topos
-  are formed pointwise, it suffices to show that finite limits are
+  in $\Psh{\mathbb{C}}$. Because finite limits in a sheaf topos are
+  formed pointwise, it suffices to show that finite limits are
   preserved at the level of sets. This follows from the fact that the
   plus construction is a filtered colimit, and that $[S,-]$ preserves
   limits.
@@ -1433,7 +1430,7 @@ We will now survey a few useful topologies.
     }{
       \MkSet{
         \OBox{
-          \IsSieve{\Psi}{S}
+          \Member{S}{\Omega(\Psi)}
         }
         \mid
         \OBox{
@@ -1565,7 +1562,7 @@ site which satisfies the \emph{right Ore condition} defined below.
       \JAtomic(\Psi)
     }{
       \MkSet{
-        \OBox{\IsSieve{\Psi}{S}}
+        \OBox{\Member{S}{\Omega(\Psi)}}
         \mid
         \OBox{\IsInh{\cup_\Phi S(\Phi)}}
       }
@@ -1663,7 +1660,7 @@ quantifier becomes self-dual, in the following sense:
 \end{lem}
 \begin{proof}
   ($\Rightarrow$) Suppose $\Member{S}{\JAtomic(\Psi)}$, i.e.\
-  $\IsSieve{\Psi}{S}$ and $\IsInh{\cup_\Phi S(\Phi)}$. Fix
+  $\Member{S}{\Omega(\Psi)}$ and $\IsInh{\cup_\Phi S(\Phi)}$. Fix
   $\Of{\psi}{\Phi\to\Psi}$; we have to exhibit some
   $\Of{\phi}{X\to\Phi}$ such that $\Member{\psi\circ\phi}{S(X)}$.
   %
@@ -1692,10 +1689,9 @@ quantifier becomes self-dual, in the following sense:
   $\Member{\psi'\circ \upsilon}{S(X)}$; because the diagram above
   commutes, we therefore have $\Member{\psi\circ\phi}{S(X)}$.
 
-  ($\Leftarrow$) Suppose $\Member{S}{\JDense(\Psi)}$, i.e.\
-  $\IsSieve{\Psi}{S}$ and for any $\Of{\psi}{\Phi\to\Psi}$ there
-  exists some $\Of{\phi}{X\to\Phi}$ such that
-  $\Member{\psi\circ\phi}{S(X)}$. We have to exhibit some
+  ($\Leftarrow$) Suppose $\Member{S}{\JDense(\Psi)}$, i.e.\ for any
+  $\Of{\psi}{\Phi\to\Psi}$ there exists some $\Of{\phi}{X\to\Phi}$
+  such that $\Member{\psi\circ\phi}{S(X)}$. We have to exhibit some
   $\Of{\Upsilon}{\mathbb{C}}$ together with some
   $\Of{\psi'}{\Upsilon\to\Psi}$ such that
   $\Member{\psi'}{S(\Upsilon)}$.
