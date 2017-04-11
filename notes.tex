@@ -1063,7 +1063,52 @@ subfunctors and matching families as natural transformations.
   By Theorems~\ref{thm:plus-sheaf} and~\ref{thm:plus-separated}.
 \end{proof}
 
-
+\begin{lem}\label{lem:plus-eta-plus}
+  For any presheaf $\Of{\mathcal{G}}{\Psh{\mathbb{C}}}$, we have the
+  identity
+  $\IsEqOf{\Plus{\left(\eta_+^{\mathcal{G}}\right)}}{\eta_+^{\Plus{\mathcal{G}}}}{\Plus{\mathcal{G}}\to\PlusPlus{\mathcal{G}}}$.
+\end{lem}
+\begin{proof}
+  Working pointwise, we have the following:
+  \begin{align*}
+    \AIsEq{
+      \Plus{\left(\eta_+^{\mathcal{G}}\right)}_\Psi(S,\mathfrak{m})
+    }{
+      (S,\eta_+^{\mathcal{G}}\circ\mathfrak{m})
+    }
+    \\
+    \AIsEq{
+      {\left({\eta_+^{\Plus{\mathcal{G}}}}\right)}_\Psi(S,\mathfrak{m})
+    }{
+      (\Yoneda{\Psi}, (S,\mathfrak{m})\cdot-)
+    }
+  \end{align*}
+  We need to show that
+  $\IsEq{(S,\eta_+^{\mathcal{G}}\circ\mathfrak{m})}{(\Yoneda{\Psi},
+    (S,\mathfrak{m})\cdot-)}$. By the definition of equality for
+  formal amalgamations (Lemma~\ref{lem:plus-construction-equality}),
+  it suffices to show that for all
+  $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{S(\Phi)}$ we have
+  $\IsEq{\eta_+^{\mathcal{G}}(\mathfrak{m}_\Phi(\psi))}{(S,\mathfrak{m})\cdot\psi}$. Calculate:
+  \begin{align*}
+    \AIsEq{
+      (S,\mathfrak{m})\cdot\psi
+    }{
+      (S\cdot\psi,\mathfrak{m}_\Phi\circ(\psi\circ-))
+    }
+    \\
+    \AIsEq{
+    }{
+      (\Yoneda{\Phi},\mathfrak{m}_\Phi(\psi)\cdot-)
+    }
+    \\
+    \AIsEq{
+    }{
+      \eta_+^{\mathcal{G}}(\mathfrak{m}_\Phi(\psi))
+    }
+  \end{align*}
+  We are done.
+\end{proof}
 
 \begin{thm}[Sheafification]
   We are now equipped to show that the $J$-sheaves comprise a lex
@@ -1133,16 +1178,171 @@ subfunctors and matching families as natural transformations.
       \arrow[r,"\IMode{\eta_+^{\Plus{\mathcal{G}}}}"]
       &
       \IMode{\Sheafify\mathcal{G}}
-      \arrow[dl,dashed,"\IBox{\Define{f_\sharp}{\widetilde{\widetilde{f}}}}"]
+      \arrow[dl,dashed,"\IBox{\Define{f_\sharp}{\widetilde{(\widetilde{f})}}}"]
       \\
       &
       \IMode{\iota F}
     \end{tikzcd}
   \]
 
-  It is left as an exercise to the reader (or the author, when he
-  finds time) to show that these transformations of arrows really
-  constitute a bijection.
+  Next we show that this actually constitutes a bijection; the first
+  direction is almost immediate.
+  \begin{align*}
+    \AIsEq{
+      {\left(f_\sharp\right)}^\sharp
+    }{
+      \widetilde{(\widetilde{f})}\circ\eta_+^{\Plus{\mathcal{G}}}\circ\eta_+^{\mathcal{G}}
+    }
+    \\
+    \AIsEq{
+    }{
+      \widetilde{f}\circ\eta_+^{\mathcal{G}}
+    }
+    \tag{Lemma~\ref{lem:plus-factoring}}
+    \\
+    \AIsEq{
+    }{
+      f
+    }
+    \tag{Lemma~\ref{lem:plus-factoring}}
+  \end{align*}
+
+  The other direction will require some effort and careful
+  manipulation.
+  \begin{align*}
+    \AIsEq{
+      {\left(f^\sharp\right)}_\sharp
+    }{
+      \widetilde{
+        \widetilde{
+          f\circ\eta_+^{\Plus{\mathcal{G}}}\circ\eta_+^{\mathcal{G}}
+        }
+      }
+    }
+    \\
+    \AIsEq{
+    }{
+      \Glue{\mathcal{F}}
+      \circ
+      \Plus{
+        \widetilde{
+          \left(
+            f\circ\eta_+^{\Plus{\mathcal{G}}}\circ\eta_+^{\mathcal{G}}
+          \right)
+        }
+      }
+    }
+    \tag{Lemma~\ref{lem:plus-factoring}}
+    \\
+    \AIsEq{
+    }{
+      \Glue{\mathcal{F}}
+      \circ
+      \Plus{
+        \left(
+          \Glue{\mathcal{F}}\circ
+          \Plus{
+            \left(
+               f\circ\eta_+^{\Plus{\mathcal{G}}}\circ\eta_+^{\mathcal{G}}
+            \right)
+          }
+        \right)
+      }
+    }
+    \tag{Lemma~\ref{lem:plus-factoring}}
+    \\
+    \AIsEq{
+    }{
+      \Glue{\mathcal{F}}
+      \circ
+      \Plus{
+        \left(
+          \Glue{\mathcal{F}}
+          \circ
+          \Plus{f}
+          \circ
+          \Plus{\left(\eta_+^{\Plus{\mathcal{G}}}\right)}
+          \circ
+          \Plus{\left(\eta_+^{\mathcal{G}}\right)}
+        \right)
+      }
+    }
+    \tag{Functoriality}
+    \\
+    \AIsEq{
+    }{
+      \Glue{\mathcal{F}}
+      \circ
+      \Plus{
+        \left(
+          \widetilde{f}
+          \circ
+          \Plus{\left(\eta_+^{\Plus{\mathcal{G}}}\right)}
+          \circ
+          \Plus{\left(\eta_+^{\mathcal{G}}\right)}
+        \right)
+      }
+    }
+    \tag{Lemma~\ref{lem:plus-factoring}}
+    \\
+    \AIsEq{
+    }{
+      \Glue{\mathcal{F}}
+      \circ
+      \Plus{
+        \left(
+          \widetilde{f}
+          \circ
+          \eta_+^{\Sheafify\mathcal{G}}
+          \circ
+          \eta_+^{\Plus{\mathcal{G}}}
+        \right)
+      }
+    }
+    \tag{Lemma~\ref{lem:plus-eta-plus}}
+    \\
+    \AIsEq{
+    }{
+      \Glue{\mathcal{F}}
+      \circ
+      \Plus{
+        \left(
+          f
+          \circ
+          \eta_+^{\Plus{\mathcal{G}}}
+        \right)
+      }
+    }
+    \tag{Lemma~\ref{lem:plus-factoring}}
+    \\
+    \AIsEq{
+    }{
+      \Glue{\mathcal{F}}
+      \circ
+      \Plus{f}
+      \circ
+      \Plus{
+        \left(\eta_+^{\Plus{\mathcal{G}}}\right)
+      }
+    }
+    \tag{Functoriality}
+    \\
+    \AIsEq{
+    }{
+      \Glue{\mathcal{F}}
+      \circ
+      \Plus{f}
+      \circ
+      \eta_+^{\Sheafify\mathcal{G}}
+    }
+    \tag{Lemma~\ref{lem:plus-eta-plus}}
+    \\
+    \AIsEq{
+    }{
+      f
+    }
+    \tag{Lemma~\ref{lem:plus-factoring}}
+  \end{align*}
 
 \end{proof}
 
