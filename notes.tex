@@ -1350,73 +1350,73 @@ subfunctors and matching families as natural transformations.
 
 \end{proof}
 
-\subsection{The Fetishism of Sheaves, and the Secret Thereof}
+% \subsection{The Fetishism of Sheaves, and the Secret Thereof}
 
-A sheaf appears, at first sight, a very trivial thing, and easily
-understood. Its analysis shows that it is, in reality, a very queer
-thing, abounding in metaphysical subtleties and topological
-niceties.\footnote{With apologies to Karl
-  Marx~\cite{marx:capital-vol-1}.} So far as it is a presheaf enjoying
-certain conditions, there is nothing mysterious about it, whether we
-consider it from the point of view of the \emph{espace \'etal\'e}, or
-as a continuously varying family of sets.
+% A sheaf appears, at first sight, a very trivial thing, and easily
+% understood. Its analysis shows that it is, in reality, a very queer
+% thing, abounding in metaphysical subtleties and topological
+% niceties.\footnote{With apologies to Karl
+%   Marx~\cite{marx:capital-vol-1}.} So far as it is a presheaf enjoying
+% certain conditions, there is nothing mysterious about it, whether we
+% consider it from the point of view of the \emph{espace \'etal\'e}, or
+% as a continuously varying family of sets.
 
-But just so soon as the collection of sheaves for a topology stands as
-a body in relation to all other objects in a topos, it acquires
-certain characteristics which at first set it apart from other
-collections of objects, but eventually come to be fully constitutive
-of the sheaf concept. I am of course referring to the characteristic
-of being a \emph{lex reflective subcategory} of the presheaf topos
-(Theorem~\ref{thm:sheafification}), which we will see is in fact
-coextensive with the notion of \emph{sheaf subcategory}.
+% But just so soon as the collection of sheaves for a topology stands as
+% a body in relation to all other objects in a topos, it acquires
+% certain characteristics which at first set it apart from other
+% collections of objects, but eventually come to be fully constitutive
+% of the sheaf concept. I am of course referring to the characteristic
+% of being a \emph{lex reflective subcategory} of the presheaf topos
+% (Theorem~\ref{thm:sheafification}), which we will see is in fact
+% coextensive with the notion of \emph{sheaf subcategory}.
 
-Fix a topos $\Match{\mathfrak{E}}{\Psh{\mathbb{C}}}$ along with a lex reflective subcategory
-$\Of{\IBox{\AreAdjoint{f^*,f_*}}}{\mathfrak{F}\hookrightarrow\mathfrak{E}}$:
-\[
-  \begin{tikzcd}[sep=large]
-    \IMode{\mathfrak{F}}
-    \arrow[r,phantom,"{\color{gray}\scriptstyle\bot}"]
-    \arrow[r,hook,swap,bend right=40,"\IMode{f_*}"]
-    &
-    \IMode{\mathfrak{E}}
-    \arrow[l,swap,bend right=40,"\IMode{f^*}"]
-  \end{tikzcd}%
-\]
+% Fix a topos $\Match{\mathfrak{E}}{\Psh{\mathbb{C}}}$ along with a lex reflective subcategory
+% $\Of{\IBox{\AreAdjoint{f^*,f_*}}}{\mathfrak{F}\hookrightarrow\mathfrak{E}}$:
+% \[
+%   \begin{tikzcd}[sep=large]
+%     \IMode{\mathfrak{F}}
+%     \arrow[r,phantom,"{\color{gray}\scriptstyle\bot}"]
+%     \arrow[r,hook,swap,bend right=40,"\IMode{f_*}"]
+%     &
+%     \IMode{\mathfrak{E}}
+%     \arrow[l,swap,bend right=40,"\IMode{f^*}"]
+%   \end{tikzcd}
+% \]
 
-We will show how to view $\IMode{\mathfrak{F}}$ as
-$\Sh{\mathbb{C},J_{\mathfrak{F}}}$ for some Grothendieck topology
-$\IsSubobject{J_{\mathfrak{F}}}{\Omega}{\Psh{\mathbb{C}}}$. The usual
-construction factors through a Lawvere-Tierney topology; we will
-follow~\cite{maclane-moerdijk:1992} in the broad strokes.
+% We will show how to view $\IMode{\mathfrak{F}}$ as
+% $\Sh{\mathbb{C},J_{\mathfrak{F}}}$ for some Grothendieck topology
+% $\IsSubobject{J_{\mathfrak{F}}}{\Omega}{\Psh{\mathbb{C}}}$. The usual
+% construction factors through a Lawvere-Tierney topology; we will
+% follow~\cite{maclane-moerdijk:1992} in the broad strokes.
 
-\newcommand\LTSh[2]{\mathbf{Sh}_{#1} (#2)}
+% \newcommand\LTSh[2]{\mathbf{Sh}_{#1} (#2)}
 
-\begin{notation}
-  When $\Of{j}{\Omega\to\Omega}$ is a Lawvere-Tierney topology in a
-  topos $\mathfrak{E}$, we will write $\LTSh{j}{\mathfrak{E}}$ for the
-  topos of $j$-sheaves. If $\Match{\mathfrak{E}}{\Psh{\mathbb{C}}}$,
-  then this is just $\OMode{\Sh{\mathbb{C},J}}$ where
-  $\IsSubobject{J}{\Omega}{\mathfrak{E}}$ is the subobject of which
-  $j$ is the characteristic map:
-  \[
-    \begin{tikzcd}[sep=large]
-      \OMode{J}
-      \arrow[r,"\IMode{!}"]
-      \arrow[d,tail]
-      &
-      \IMode{\One}
-      \arrow[d,tail,"\IMode{\True}"]
-      \\
-      \IMode{\Omega}
-      \arrow[r,swap,"\IMode{j}"]
-      &
-      \IMode{\Omega}
-    \end{tikzcd}
-  \]
-\end{notation}
+% \begin{notation}
+%   When $\Of{j}{\Omega\to\Omega}$ is a Lawvere-Tierney topology in a
+%   topos $\mathfrak{E}$, we will write $\LTSh{j}{\mathfrak{E}}$ for the
+%   topos of $j$-sheaves. If $\Match{\mathfrak{E}}{\Psh{\mathbb{C}}}$,
+%   then this is just $\OMode{\Sh{\mathbb{C},J}}$ where
+%   $\IsSubobject{J}{\Omega}{\mathfrak{E}}$ is the subobject of which
+%   $j$ is the characteristic map:
+%   \[
+%     \begin{tikzcd}[sep=large]
+%       \OMode{J}
+%       \arrow[r,"\IMode{!}"]
+%       \arrow[d,tail]
+%       &
+%       \IMode{\One}
+%       \arrow[d,tail,"\IMode{\True}"]
+%       \\
+%       \IMode{\Omega}
+%       \arrow[r,swap,"\IMode{j}"]
+%       &
+%       \IMode{\Omega}
+%     \end{tikzcd}
+%   \]
+% \end{notation}
 
-TODO:\@ show correspondence between universal closure operators and
-Lawvere-Tierney topologies.
+% TODO:\@ show correspondence between universal closure operators and
+% Lawvere-Tierney topologies.
 
 \newpage
 \section{Applications and examples}
