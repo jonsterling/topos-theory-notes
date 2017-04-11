@@ -53,6 +53,7 @@
 \newcommand\Sub[1]{\mathsf{Sub} (#1)}
 \newcommand\IsMono[2]{\Mono{\IMode{#1}}{\IMode{#2}}}
 \newcommand\IsEqOf[3]{\IMode{#1}=\IMode{#2}:\IMode{#3}}
+\newcommand\IsEqIn[3]{\IMode{#1}=\IMode{#2}\in\IMode{#3}}
 \newcommand\Sim[2]{\IMode{#1}\sim\IMode{#2}}
 \newcommand\Zero{\mathbf{0}}
 
@@ -409,56 +410,50 @@ their characteristic maps.
 
 \subsection{The logical view}
 
-\begin{definition}[Lawvere-Tierney Operator]\label{def:lawvere-tierney}
-The characteristic map $\Of{j}{\Omega\to\Omega}$ of the Grothendieck
-Topology $\Mono{\IMode{J}}{\IMode{\Omega}}$ is called a
-\emph{Lawvere-Tierney topology / local
-  operator}~\cite{maclane-moerdijk:1992} or a
-\emph{nucleus}~\cite{jacobs:1999}, and exhibits the following
-characteristics:
-\begin{gather}
-  \IsEq{j\circ\True}{\True}
-  \label{eq:preserves-true}
-  \\
-  \IsEq{j\circ j}{j}
-  \label{eq:idempotency}
-  \\
-  \IsEq{j\circ\land}{\land\circ(j\times j)}
-  \label{eq:preserves-meets}
-\end{gather}
+\newcommand\Seq[3]{\FormatList{\IMode}{,}{#1}\mid\FormatList{\IMode}{,}{#2}\vdash\IMode{#3}}
+
+\begin{definition}\label{def:lawvere-tierney}
+  For an arbitrary topos $\mathfrak{E}$, a Lawvere-tierney operator
+  (also called a Lawvere-Tierney topology, local operator, or nucleus)
+  is a map $\Of{j}{\Omega\to\Omega}$ which exhibits the following
+  characteristics:
+  \begin{gather}
+    \IsEq{j\circ\True}{\True}
+    \label{eq:preserves-true}
+    \\
+    \IsEq{j\circ j}{j}
+    \label{eq:idempotency}
+    \\
+    \IsEq{j\circ\land}{\land\circ(j\times j)}
+    \label{eq:preserves-meets}
+  \end{gather}
 \end{definition}
 
-In other words, $j$ is an idempotent cartesian monad in the internal
-logic of the topos. There is, however, a better-motivated way to state
-these laws which makes more sense from a logical perspective; in
-particular, axiom~\ref{eq:preserves-meets} can be replaced with the
-more intuitive internal \emph{monotonicity} condition that $j$ shall
+
+In other words, $j$ is a $\land$-preserving closure operation in the
+internal logic of the topos. The above requirements can be rephrased
+equivalently in the internal language of $\mathfrak{E}$ in the
+following way:
+\begin{gather}
+  \Seq{p:\Omega}{p}{j(p)}
+  \\
+  \Seq{p:\Omega}{j(j(p))}{j(p)}
+  \label{jdg:idempotency}
+  \\
+  \Seq{p,q:\Omega}{j(p)\land j(q)}{j(p\land q)}
+  \label{jdg:preserves-meets}
+\end{gather}
+
+
+There is, however, a better-motivated way to state these laws which
+makes more sense from a logical perspective; in particular,
+axiom~\ref{jdg:preserves-meets} can be replaced with the more
+intuitive internal \emph{monotonicity} condition that $j$ shall
 preserve implication:
 \begin{equation}
-  \forall p,q:\Omega. (p\supset q) \supset  j(p)\supset j(q)
-  \tag{3.3*}
-  \label{eq:monotonicity}
+  \Seq{p,q:\Omega}{p\Rightarrow q}{j(p)\Rightarrow j(q)}
+  \label{jdg:monotonicity}
 \end{equation}
-
-\begin{proof}
-  We will work na\"ively in the internal logic, using the fact that
-  $\Omega$ forms an internal Heyting algebra. ($\Rightarrow$) Suppose
-  $\IsEq{j\circ\land}{\land\circ(j\times j)}$ and $p\supset q$. We
-  need to show that $j(p) \supset j(q)$; first, observe that it
-  suffices to show that $\IsEq{j(p)\land j(q)}{j(p)}$. Because $j$
-  preserves meets, this is the same as $\IsEq{j(p\land q)}{j(p)}$; but
-  $\IsEq{p\land q}{p}$, because $p\supset q$.\footnote{Thanks to Danny
-    Gratzer for suggesting this argument.}
-
-  ($\Leftarrow$) Suppose that $j$ preserves implication; we need to
-  show that it preserves meets. To show that
-  $j(p\land q)\supset j(p)\land j(q)$, it suffices to show both
-  $j(p\land q)\supset j(p)$ and $j(p\land q)\supset j(q)$; these
-  obtain respectively from the fact that $(p\land q)\supset p$ and
-  $(p\land q)\supset q$. Next, we have to show that
-  $(j(p)\land j(q))\supset j(p\land q)$; this follows from idempotency
-  and monotonicity.
-\end{proof}
 
 \paragraph{Relating the logical and the geometric views}
 
@@ -468,7 +463,7 @@ of represented functors as covers, corresponds to the requirement that
 our local operator shall preserve truth; \emph{stability} corresponds
 to the requirement that $J$ shall in fact be a presheaf; the
 \emph{transitivity} law corresponds exactly to
-axioms~\ref{eq:idempotency} and~\ref{eq:monotonicity}, composed to
+axioms~\ref{jdg:idempotency} and~\ref{jdg:monotonicity}, composed to
 form the Kleisli extension for the monad $j$.
 
 \begin{remark}[Pretopologies and coverages]
@@ -653,16 +648,16 @@ well-behaved.
 \begin{lem}[Equality in $\Plus{\mathcal{F}}$]\label{lem:plus-construction-equality}
   The following are equivalent:
   \begin{enumerate}
-  \item $\IsEqOf{(R,\mathfrak{m})}{(S,\mathfrak{n})}{\Plus{\mathcal{F}}(\Psi)}$
+  \item $\IsEqIn{(R,\mathfrak{m})}{(S,\mathfrak{n})}{\Plus{\mathcal{F}}(\Psi)}$
   \item $\Sim{(R,\mathfrak{m})}{(S,\mathfrak{n})}$, where
     $\sim$ is the smallest equivalence relation which relates
     $\IMode{(R,\mathfrak{m})}$ and $\IMode{(S,\mathfrak{n})}$ when $\IsSubsetEq{R}{S}$
     $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{R(\Phi)}$, we have
-    $\IsEqOf{\mathfrak{m}(\psi)}{\mathfrak{n}(\psi)}{\mathcal{F}(\Phi)}$.
+    $\IsEqIn{\mathfrak{m}(\psi)}{\mathfrak{n}(\psi)}{\mathcal{F}(\Phi)}$.
   \item There is a common refinement
     $\Member{\IBox{\IsSubsetEq{T}{R\cap S}}}{J(\Psi)}$ such that for
     all $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{T(\Phi)}$, we have
-    $\IsEqOf{\mathfrak{m}(\psi)}{\mathfrak{n}(\psi)}{\mathcal{F}(\Phi)}$.
+    $\IsEqIn{\mathfrak{m}(\psi)}{\mathfrak{n}(\psi)}{\mathcal{F}(\Phi)}$.
   \end{enumerate}
 \end{lem}
 \begin{proof}
@@ -900,10 +895,10 @@ subfunctors and matching families as natural transformations.
   $\IsEqOf{\mathfrak{m}_1}{\mathfrak{m}_2}{[\Yoneda{\Psi},\Plus{\mathcal{F}}]}$.
   
   By the Yoneda Lemma it suffices to prove only
-  $\IsEqOf{m_1}{m_2}{\Plus{\mathcal{F}}(\Psi)}$ (defining
+  $\IsEqIn{m_1}{m_2}{\Plus{\mathcal{F}}(\Psi)}$ (defining
   $\Define{m_i}{\mathfrak{m}_i(\ArrId{\Psi})}$), and we can rewrite
   our assumption to say that for all $\Member{\psi}{S(\Phi)}$ we have
-  $\IsEqOf{m_1\cdot\psi}{m_2\cdot\psi}{\Plus{\mathcal{F}}(\Phi)}$.
+  $\IsEqIn{m_1\cdot\psi}{m_2\cdot\psi}{\Plus{\mathcal{F}}(\Phi)}$.
 
   Let
   $\Match{m_i}{(\IBox{\Member{T_i}{J(\Psi)}},\IBox{\Of{\mathfrak{n}_i}{[T_i,\mathcal{F}]}})}$;
@@ -911,13 +906,13 @@ subfunctors and matching families as natural transformations.
   hypothesis is the same as to say that there exists common
   refinements $\IsSubsetEq{T_\psi}{(T_1\cdot\psi)\cap (T_2\cdot\psi)}$
   such that
-  $\IsEqOf{\mathfrak{n}_1(\psi\circ\phi)}{\mathfrak{n}_2(\psi\circ\phi)}{\mathcal{F}(X)}$
+  $\IsEqIn{\mathfrak{n}_1(\psi\circ\phi)}{\mathfrak{n}_2(\psi\circ\phi)}{\mathcal{F}(X)}$
   for all $\Member{\IBox{\Of{\phi}{X\to\Psi}}}{T_\psi(X)}$.
 
   We need to show that there exists a common refinement
   $\IsSubsetEq{T}{T_1\cap T_2}$ such that for all
   $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{T(\Phi)}$, we have
-  $\IsEqOf{\mathfrak{n}_1(\psi)}{\mathfrak{n}_2(\psi)}{\mathcal{F}(\Phi)}$. Now
+  $\IsEqIn{\mathfrak{n}_1(\psi)}{\mathfrak{n}_2(\psi)}{\mathcal{F}(\Phi)}$. Now
   we will choose
   $\Define{T(X)}{\MkSet{\psi \circ \phi \mid
       \OBox{\Member{\psi}{S(\Phi)}}, \OBox{\Member{\phi}{T_\psi(X)}}}}$;
@@ -934,10 +929,10 @@ subfunctors and matching families as natural transformations.
     cover.
 
   \item For all $\Member{\psi}{T(X)}$,
-    $\IsEqOf{\mathfrak{n}_1(\psi)}{\mathfrak{n}_2(\psi)}{\mathcal{F}(X)}$. Unfolding
+    $\IsEqIn{\mathfrak{n}_1(\psi)}{\mathfrak{n}_2(\psi)}{\mathcal{F}(X)}$. Unfolding
     things, this means that for all $\Member{\psi}{S(\Phi)}$ and
     $\Member{\phi}{T_\psi(X)}$ we must show
-    $\IsEqOf{\mathfrak{n}_1(\psi\circ\phi)}{\mathfrak{n}_2(\psi\circ\phi)}{\mathcal{F}(X)}$,
+    $\IsEqIn{\mathfrak{n}_1(\psi\circ\phi)}{\mathfrak{n}_2(\psi\circ\phi)}{\mathcal{F}(X)}$,
     which we have already assumed.
   \end{enumerate}
 
@@ -1006,17 +1001,17 @@ subfunctors and matching families as natural transformations.
   To show that the components of this matching family are well-defined
   (functional), fix $\Of{\phi_1,\phi_2}{T_\psi(X)}$ such that
   $\IsEq{\psi\circ\phi_1}{\psi\circ\phi_2}$; we need to show that
-  $\IsEqOf{\mathfrak{n}_\psi^X(\phi_1)}{\mathfrak{n}_\psi^X(\phi_2)}{\mathcal{F}(X)}$.
+  $\IsEqIn{\mathfrak{n}_\psi^X(\phi_1)}{\mathfrak{n}_\psi^X(\phi_2)}{\mathcal{F}(X)}$.
 
   By naturality of $\mathfrak{m}_S$, we have
-  $\IsEqOf{(T_\psi\cdot\phi, \mathfrak{n}_\psi\cdot
+  $\IsEqIn{(T_\psi\cdot\phi, \mathfrak{n}_\psi\cdot
     \phi)}{(T_{\psi\circ\phi},\mathfrak{n}_{\psi\circ\phi})}{\Plus{\mathcal{F}}(X)}$
   for all $\Of{\phi}{X\to\Phi}$; by
   Lemma~\ref{lem:plus-construction-equality}, this means that there is
   some family of covering sieves
   $\Member{\IBox{\IsSubsetEq{U_{\psi,\phi}}{(T_\psi\cdot\phi)\cap(T_{\psi\circ\phi})}}}{J(X)}$
   such that
-  $\IsEqOf{\mathfrak{n}_\psi^\Upsilon(\phi\circ\chi)}{\mathfrak{n}_{\psi\circ\phi}^\Upsilon(\chi)}{\mathcal{F}(\Upsilon)}$
+  $\IsEqIn{\mathfrak{n}_\psi^\Upsilon(\phi\circ\chi)}{\mathfrak{n}_{\psi\circ\phi}^\Upsilon(\chi)}{\mathcal{F}(\Upsilon)}$
   for all
   $\Member{\IBox{\Of{\chi}{\Upsilon\to X}}}{U_{\psi,\phi}(\Upsilon)}$.
 
@@ -1058,7 +1053,7 @@ subfunctors and matching families as natural transformations.
   \end{align*}
   Because $\mathcal{F}$ is separated, we have immediately our equality
   goal
-  $\IsEqOf{\mathfrak{n}_\psi^X(\phi_1)}{\mathfrak{n}_\psi^X(\phi_2)}{\mathcal{F}(X)}$. Therefore,
+  $\IsEqIn{\mathfrak{n}_\psi^X(\phi_1)}{\mathfrak{n}_\psi^X(\phi_2)}{\mathcal{F}(X)}$. Therefore,
   the components $\mathfrak{m}_R^X$ are well-defined, i.e.\ functional.
 
   \paragraph{Naturality}
@@ -1093,7 +1088,7 @@ subfunctors and matching families as natural transformations.
 %
   All that remains is to show that for all
   $\Member{\IBox{\Of{\psi}{\Phi\to\Psi}}}{S(\Phi)}$, we have
-  $\IsEqOf{m_S\cdot\psi}{\mathfrak{m}_S(\psi)}{\Plus{\mathcal{F}}(\Phi)}$.
+  $\IsEqIn{m_S\cdot\psi}{\mathfrak{m}_S(\psi)}{\Plus{\mathcal{F}}(\Phi)}$.
 
   First, observe that $\IsEq{R\cdot\psi}{T_\psi}$, and that
   $\AreEq{(\mathfrak{m}_R\cdot\psi)(\phi),\mathfrak{m}_R(\psi\circ\phi),\mathfrak{n}_\psi(\phi)}$,
@@ -1632,7 +1627,7 @@ quantifier is not yet well-behaved.
 
 In particular, this presheaf topos is not closed under a crucial
 principle, which is the ``abundance'' of fresh names. In particular,
-the principle $\IMode{(\newname x.\phi(\alpha))\supset\phi(\alpha)}$
+the principle $\IMode{(\newname x.\phi(\alpha))\Rightarrow\phi(\alpha)}$
 fails to hold in the internal logic of $\Psh{\OpCat{\INJ}}$. This
 principle, most properly understood as an instance of local character,
 is precisely what the sheaf subcategory $\Sh{\OpCat{\INJ},\JAtomic}$
