@@ -708,12 +708,12 @@ the maximal sieve:
 
 Now, we reproduce a lemma from~\cite{maclane-moerdijk:1992}, giving a
 bit more detail.
-\begin{lem}
+\begin{lem}\label{lem:plus-factoring}
   For $\Of{\mathcal{F}}{\Sh{\mathbb{C},J}}$ and
   $\Of{\mathcal{G}}{\Psh{\mathbb{C}}}$, any map
-  $\Of{f}{\mathcal{G}\to\mathcal{F}}$ in $\Psh{\mathbb{C}}$ factors as
+  $\Of{f}{\mathcal{G}\to\iota\mathcal{F}}$ in $\Psh{\mathbb{C}}$ factors as
   $\IsEq{f}{\widetilde{f}\circ\eta_+^{\mathcal{G}}}$ for some unique
-  $\Of{\widetilde{f}}{\Plus{\mathcal{G}}\to\mathcal{F}}$:
+  $\Of{\widetilde{f}}{\Plus{\mathcal{G}}\to\iota\mathcal{F}}$:
   \begin{equation}\label{diagram:plus-f-tilde}
     \begin{tikzcd}[sep=large]
       \IMode{\mathcal{G}}
@@ -724,7 +724,7 @@ bit more detail.
       \arrow[d,dashed,"\OMode{\widetilde{f}}"]
       \\
       &
-      \IMode{\mathcal{F}}
+      \IMode{\iota\mathcal{F}}
     \end{tikzcd}
   \end{equation}
 \end{lem}
@@ -738,10 +738,10 @@ bit more detail.
       \arrow[r,"\IMode{\Plus{f}}"]
       \arrow[rr,swap,dashed,bend right=40,"\OMode{\widetilde{f}}"]
       &
-      \IMode{\Plus{\mathcal{F}}}
+      \IMode{\Plus{\iota\mathcal{F}}}
       \arrow[r,"\IMode{\Glue{\mathcal{F}}}"]
       &
-      \IMode{\mathcal{F}}
+      \IMode{\iota\mathcal{F}}
     \end{tikzcd}
   \]
 %
@@ -810,7 +810,7 @@ bit more detail.
   \end{align*}
 
   Now, because $\mathcal{F}$ is a sheaf, and $S$ is a covering sieve
-  and $\Of{f\circ\mathfrak{m}}{[S,\mathcal{F}]}$ is a matching family,
+  and $\Of{f\circ\mathfrak{m}}{[S,\iota\mathcal{F}]}$ is a matching family,
   $\widetilde{f}_\Psi(S,\mathfrak{m})$ is the \emph{unique} element
   $\Member{n}{\mathcal{F}(\Psi)}$ such that
   $\IsEq{n\cdot\psi}{f_\Phi(\mathfrak{m}_\Phi(\psi))}$.  In other
@@ -1070,72 +1070,77 @@ subfunctors and matching families as natural transformations.
   reflective subcategory of the presheaf topos $\mathbb{C}$, defining
   $\Define{\Sheafify{\mathcal{F}}}{\PlusPlus{\mathcal{F}}}$. In other words,
   \begin{enumerate}
-  \item $\Of{\Sheafify}{\Psh{\mathbb{C}}\to\Sh{\mathbb{C},J}}$
-    preserves finite limits.
   \item $\Of{\iota}{\Sh{\mathbb{C},J}\to\Psh{\mathbb{C}}}$ is full and
     faithful.
+  \item $\Of{\Sheafify}{\Psh{\mathbb{C}}\to\Sh{\mathbb{C},J}}$
+    preserves finite limits.
   \item We have the adjunction $\AreAdjoint{\Sheafify,\iota}$.
   \end{enumerate}
 \end{thm}
 \begin{proof}
-  We will prove the above facts in reverse order. First, to show that
-  $\AreAdjoint{\Sheafify,\iota}$, let us begin by explicitly
-  constructing candidate units and the counits for the adjunction.
-  \begin{gather*}
-    \begin{aligned}
-      \AOf{
-        \eta
-      }{
-        \ArrId{\Psh{\mathbb{C}}}
-        \to
-        \iota\Sheafify
-      }
-      \\
-      \ADefine{
-        \eta_{\mathcal{F}}^\Psi(m)
-      }{
-        \eta_+^\Psi(\eta_+^\Psi(m))
-      }
-    \end{aligned}
-    \qquad
-    \begin{aligned}
-      \AOf{
-        \epsilon
-      }{
-        \Sheafify\iota\to\ArrId{\Sh{\mathbb{C},J}}
-      }
-      \\
-      \ADefine{
-        \epsilon_{\mathcal{F}}^\Psi(m)
-      }{
-        \Glue{\mathcal{F}}^\Psi(\Glue{\Plus{\mathcal{F}}}^\Psi(m))
-      }
-    \end{aligned}
-  \end{gather*}
-  Now we have to show that the following identities hold:
+
+  Clearly $\iota$ is full and faithful, because it is the identity on
+  morphisms. To show that $\Sheafify$ preserves finite limits, it
+  suffices to show that the plus construction preserves finite limits
+  in $\Psh{\mathbb{C}}$. Because finite limits in a Grothendieck topos
+  are formed pointwise, it suffices to show that finite limits are
+  preserved at the level of sets. This follows from the fact that the
+  plus construction is a filtered colimit, and that $[S,-]$ preserves
+  limits.
+
+  Finally, to show that $\AreAdjoint{\Sheafify,\iota}$, we must
+  exhibit the following bijection of hom-sets:
   \[
-    \begin{tikzcd}[sep=large]
-      \IMode{\Sheafify}
-      \arrow[r,"\IMode{\Sheafify\eta}"]
-      \arrow[rr,swap,bend right=40,"\IMode{\ArrId{\Sheafify}}"]
+    \infer={
+      \Of{\mathcal{G}\to\iota\mathcal{F}}{\Psh{\mathbb{C}}}
+    }{
+      \Of{\Sheafify\mathcal{G}\to\mathcal{F}}{\Sh{\mathbb{C},J}}
+    }
+  \]
+
+  We will construct the bijection of maps in the following diagrams;
+  because maps in sheaves are the same as maps in presheaves, for
+  simplicity's sake the following diagrams will reside in
+  $\Psh{\mathbb{C}}$, regarding each sheaf as a presheaf. The first
+  diagram is completed using composition with the unit to the plus
+  construction; the second diagram is completed using two applications
+  of Lemma~\ref{lem:plus-factoring}.
+%
+  \[
+    \begin{tikzcd}
+      \IMode{\mathcal{G}}
+      \arrow[r,"\IMode{\eta_+^{\mathcal{G}}}"]
+      \arrow[ddrr,swap,dashed,"\OBox{\Define{f^\sharp}{f\circ\eta_+^{\Plus{\mathcal{G}}}\circ\eta_+^{\mathcal{G}}}}"]
       &
-      \IMode{\Sheafify\iota\Sheafify}
-      \arrow[r,"\IMode{\epsilon\Sheafify}"]
+      \IMode{\Plus{\mathcal{G}}}
+      \arrow[r,"\IMode{\eta_+^{\Plus{\mathcal{G}}}}"]
       &
-      \IMode{\Sheafify}
+      \IMode{\Sheafify\mathcal{G}}
+      \arrow[dd,"\IMode{f}"]
+      \\\\
+      &
+      &
+      \IMode{\mathcal{F}}
     \end{tikzcd}
     \qquad
     \begin{tikzcd}[sep=large]
-      \IMode{\iota}
-      \arrow[r,"\IMode{\eta\iota}"]
-      \arrow[rr,swap,bend right=40,"\IMode{\ArrId{\iota}}"]
+      \IMode{\mathcal{G}}
+      \arrow[r,"\IMode{\eta_+^{\mathcal{G}}}"]
+      \arrow[dr,"\IMode{f}"]
       &
-      \IMode{\iota\Sheafify\iota}
-      \arrow[r,"\IMode{\iota\epsilon}"]
+      \IMode{\Plus{\mathcal{G}}}
+      \arrow[d,dashed,"\IMode{\widetilde{f}}"]
+      \arrow[r,"\IMode{\eta_+^{\Plus{\mathcal{G}}}}"]
       &
-      \IMode{\iota}
+      \IMode{\Sheafify\mathcal{G}}
+      \arrow[dl,dashed,"\IBox{\Define{f_\sharp}{\widetilde{\widetilde{f}}}}"]
+      \\
+      &
+      \IMode{\iota F}
     \end{tikzcd}
   \]
+
+
   % \begin{enumerate}
   % \item To show that $\Sheafify$ preserves finite limits, it suffices
   %   to show that the plus construction preserves finite limits in
@@ -1146,7 +1151,6 @@ subfunctors and matching families as natural transformations.
   %   preserves limits.
   % \item Clearly $\iota$ is full and faithful, because it is the identity
   %   on morphisms.
-  % \item To show $\AreAdjoint{\Sheafify,\iota}$ ...
     
   % \end{enumerate}
 \end{proof}
