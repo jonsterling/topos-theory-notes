@@ -1527,7 +1527,7 @@ $\mathbb{F}$ is \emph{replete} (closed under isomorphism).
     \AIsEq{
     }{
       \alpha_i
-    }\tag{triangle identity}
+    }\tag{adjunction}
   \end{align*}
 
   Now we can show that $u$ is a two-sided inverse to $\eta_A$. To see
@@ -1559,89 +1559,30 @@ $\mathbb{F}$ is \emph{replete} (closed under isomorphism).
   Lemma~\ref{lem:precompose-eta} it suffices to show that
   $\IsEq{\eta_A\circ u\circ\eta_A}{\eta_A}$, and this follows directly
   from the other direction of the isomorphism.
-
-% \newpage
-
-
-%  Therefore, we
-%   can form a new cone
-%   $\MkCone{f^*A}{\alpha_i^\sharp:f^*A\to D_i}{i:\mathbb{J}}$ in
-%   $\mathbb{F}$. Now we need to show that this cone is a
-%   \emph{limiting} cone.
-
-%   Fix another cone $\MkCone{B}{\beta_i:B\to D_i}{i:\mathbb{J}}$ in
-%   $\mathbb{F}$; we need to exhibit a unique morphism
-%   $\Of{u}{B\to f^*A}$ such that for all $\Of{i}{\mathbb{J}}$, we have
-%   $\IsEqOf{\beta_i}{\alpha_i^\sharp\circ u}{B\to D_i}$. Observe that
-%   we can turn $B$ into a cone in $\mathbb{E}$, namely
-%   $\MkCone{f_*B}{f_*\beta_i:f_*B\to f_*D_i}{i:\mathbb{J}}$, and by the
-%   universal property of the limit in $\mathbb{E}$ we have a unique
-%   $\Of{v}{f_*B\to A}$ such that
-%   $\IsEqOf{f_*\beta_i}{\alpha_i\circ v}{f_*B\to f_*D_i}$.
-
-%   Lifting $v$ through the reflector, we have
-%   $\Of{f^*v}{\square B\to f^*A}$ in $\mathbb{F}$. Because the
-%   coreflector $\Of{f_*}{\mathbb{F}\hookrightarrow\mathbb{E}}$ is full
-%   and faithful, the counit $\Of{\epsilon_B}{\square B\to B}$ is an
-%   isomorphism. Therefore, we can define our desired mediating map in
-%   $\mathbb{F}$ as $\Define{u}{f^*v\circ\epsilon_B^{-1}}$.
-% %
-%   Because the coreflector is faithful, to show that
-%   $\IsEq{\beta_i}{\alpha_i^\sharp\circ u}$ in $\mathbb{F}$, it
-%   suffices to show that
-%   $\IsEq{f_*\beta_i}{f_*(\alpha_i^\sharp\circ u)}$ in $\mathbb{E}$:
-%   \begin{align*}
-%     \AIsEq{
-%       f_*\beta_i
-%     }{
-%       f_*\alpha_i^\sharp\circ f_*u
-%     }
-%     \\
-%     \AIsEq{
-%     }{
-%       f_*(\epsilon_{D_i}\circ f^*\alpha_i) \circ f_*u
-%     }
-%     \tag{definition of transpose}
-%     \\
-%     \AIsEq{
-%     }{
-%       f_*(\epsilon_{D_i})\circ \bigcirc \alpha_i \circ f_*u
-%     }
-%     \tag{distribute coreflector}
-%     \\
-%     \AIsEq{
-%     }{
-%       f_*(\epsilon_{D_i})\circ \bigcirc \alpha_i \circ f_*(f^*v\circ\epsilon_B^{-1})
-%     }
-%     \tag{definition of $u$}
-%     \\
-%     \AIsEq{
-%     }{
-%       f_*(\epsilon_{D_i})\circ \bigcirc (\alpha_i \circ v)\circ f_*(\epsilon_B^{-1})
-%     }
-%     \tag{reassociate}
-%     \\
-%     \AIsEq{
-%     }{
-%       f_*(\epsilon_{D_i})\circ \bigcirc (\alpha_i \circ v)\circ \eta_{f_*B}
-%     }
-%     \tag{triangle identity}
-%     \\
-%     \AIsEq{
-%     }{
-%       f_*(\epsilon_{D_i})\circ \eta_{f_*D_i}\circ \alpha_i \circ v
-%     }
-%     \tag{naturality of $\eta$}
-%     \\
-%     \AIsEq{
-%     }{
-%       \alpha_i\circ v
-%     }
-%   \end{align*}
-  
-%   The fact that $u$ is unique follows from the uniqueness of
-%   $v$. \textbf{(TODO, is that true?)}
 \end{proof}
+
+\begin{lem}
+  If $\mathbb{E}$ has exponentials, then so does $\mathbb{F}$.
+\end{lem}
+\begin{proof}
+  Todo.
+\end{proof}
+
+\begin{cor}
+  $\mathbb{F}$ is cartesian closed.
+\end{cor}
+
+\begin{lem}
+  If $\mathbb{E}$ has a subobject classifier, then so does
+  $\mathbb{F}$.
+\end{lem}
+\begin{proof}
+  Todo.
+\end{proof}
+
+\begin{cor}
+  If $\mathbb{E}$ is a topos, then so is $\mathbb{F}$.
+\end{cor}
 
 % \paragraph{Sheaf subtoposes}
 % So far we have shown in the previous section that $\Sh{\mathbb{C},J}$
