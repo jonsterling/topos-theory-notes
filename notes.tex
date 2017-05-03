@@ -102,10 +102,10 @@ as a reference is the \emph{Stacks
 
 \paragraph{Acknowledgments}
 
-I am grateful to Jonas Frey, Pieter Hofstra, Bas Spitters and many
-others for explaining aspects of category theory and topos theory to
-me, and for putting up with my ignorance. All the errors in these
-notes are mine alone.
+I am grateful to Jonas Frey, Pieter Hofstra, Ulrik Buchholtz, Bas
+Spitters and many others for explaining aspects of category theory and
+topos theory to me, and for putting up with my ignorance. All the
+errors in these notes are mine alone.
 
 
 \section{Toposes for concepts in motion}
@@ -137,13 +137,17 @@ of variation, including the chaotic (classical) form.
 This dispute has been partly trivialized under the unifying
 perspective of \emph{toposes},\footnote{That is, if we are content to
   temporarily ignore the matter of \emph{predicativity}; in practice,
-  this can be dealt with using various notions of \emph{pretopos}.}
-which allow the scientific study of mathematical systems and their
-relationships, including \IMode{Platonism} (the \OMode{\emph{category
-    of sets}}), \IMode{constructivism} (the \OMode{\emph{free
-    topos}}), \IMode{intuitionism} (the \OMode{\emph{topos of sheaves
-    over the universal spread}}) and \IMode{vulgar constructivism}
-(the \OMode{\emph{effective topos}}).
+  this can be dealt with through the notion of a ``pretopos'' with a
+  large subobject classifier, or a hierarchy thereof.}  which allow
+the scientific study of mathematical systems and their relationships,
+including \IMode{Platonism} (the \OMode{\emph{category of sets}}),
+\IMode{constructivism} (the \OMode{\emph{free topos}}),
+\IMode{intuitionism} (the \OMode{\emph{topos of sheaves over the
+    universal spread}})\footnote{There are other options too, such as
+  the gros topos of sheaves over the category of separable locales
+  equipped with the open cover
+  topology~\cite{fourman:1984,fourman:2013}.} and \IMode{vulgar
+  constructivism} (the \OMode{\emph{effective topos}}).
 
 Toposes have both a \emph{geometric} and a \emph{logical} character;
 the geometric aspect was the first to be developed, in the form of
@@ -1347,38 +1351,328 @@ subfunctors and matching families as natural transformations.
 
 \end{proof}
 
-% \subsection{The Fetishism of Sheaves, and the Secret Thereof}
+\subsection{The Fetishism of Sheaves, and the Secret Thereof}
 
-% A sheaf appears, at first sight, a very trivial thing, and easily
-% understood. Its analysis shows that it is, in reality, a very queer
-% thing, abounding in metaphysical subtleties and topological
-% niceties.\footnote{With apologies to Karl
-%   Marx~\cite{marx:capital-vol-1}.} So far as it is a presheaf enjoying
-% certain conditions, there is nothing mysterious about it, whether we
-% consider it from the point of view of the \emph{espace \'etal\'e}, or
-% as a continuously varying family of sets.
+A sheaf appears, at first sight, a very trivial thing, and easily
+understood. Its analysis shows that it is, in reality, a very queer
+thing, abounding in metaphysical subtleties and topological
+niceties.\footnote{With apologies to Karl
+  Marx~\cite{marx:capital-vol-1}.} So far as it is a presheaf enjoying
+certain conditions, there is nothing mysterious about it, whether we
+consider it from the point of view of the \emph{espace \'etal\'e}, or
+as a continuously varying family of sets.
 
-% But just so soon as the collection of sheaves for a topology stands as
-% a body in relation to all other objects in a topos, it acquires
-% certain characteristics which at first set it apart from other
-% collections of objects, but eventually come to be fully constitutive
-% of the sheaf concept. I am of course referring to the characteristic
-% of being a \emph{lex reflective subcategory} of the presheaf topos
-% (Theorem~\ref{thm:sheafification}), which we will see is in fact
-% coextensive with the notion of \emph{sheaf subcategory}.
+But just so soon as the collection of sheaves for a topology stands as
+a body in relation to all other objects in a topos, it acquires
+certain characteristics which at first set it apart from other
+collections of objects, but eventually come to be fully constitutive
+of the sheaf concept. I am of course referring to the characteristic
+of being a \emph{lex reflective subcategory} of the presheaf topos
+(Theorem~\ref{thm:sheafification}), which we will see is in fact
+coextensive with the notion of \emph{sheaf subcategory}.
 
-% Fix a topos $\Match{\mathfrak{E}}{\Psh{\mathbb{C}}}$ along with a lex reflective subcategory
-% $\Of{\IBox{\AreAdjoint{f^*,f_*}}}{\mathfrak{F}\hookrightarrow\mathfrak{E}}$:
-% \[
-%   \begin{tikzcd}[sep=large]
-%     \IMode{\mathfrak{F}}
-%     \arrow[r,phantom,"{\color{gray}\scriptstyle\bot}"]
-%     \arrow[r,hook,swap,bend right=40,"\IMode{f_*}"]
-%     &
-%     \IMode{\mathfrak{E}}
-%     \arrow[l,swap,bend right=40,"\IMode{f^*}"]
-%   \end{tikzcd}
-% \]
+Fix a category $\IMode{\mathbb{E}}$ and a lex reflective subcategory
+$\IMode{\mathbb{F}\hookrightarrow\IMode{\mathbb{E}}}$. In
+particular, we have
+$\Of{\IBox{\AreAdjoint{f^*,f_*}}}{\mathbb{F}\hookrightarrow\mathbb{E}}$
+arranged in the following way:
+\[
+  \begin{tikzcd}[sep=large]
+    \IMode{\mathbb{F}}
+    \arrow[r,phantom,"{\color{gray}\scriptstyle\bot}"]
+    \arrow[r,hook,swap,bend right=40,"\IMode{f_*}"]
+    &
+    \IMode{\mathbb{E}}
+    \arrow[l,swap,bend right=40,"\IMode{f^*}"]
+  \end{tikzcd}
+\]
+For convenience, we assume without loss of generality that
+$\mathbb{F}$ is \emph{replete} (closed under isomorphism).
+
+\begin{notation}
+  For readability, we will fix the following notation for the monad
+  and comonad of the above adjunction:
+  \begin{align*}
+    \ADefine{
+      \IBox{\Of{\bigcirc}{\mathbb{E}\to\mathbb{E}}}
+    }{
+      f_*\circ f^*
+    }
+    \\
+    \ADefine{
+      \IBox{\Of{\square}{\mathbb{F}\to\mathbb{F}}}
+    }{
+      f^*\circ f_*
+    }
+  \end{align*}
+\end{notation}
+
+\newcommand\MkCone[3]{\left(#1,\MkFam{#2}{#3}\right)}
+\newcommand\MkFam[2]{{\left[#1\right]}_{#2}}
+
+\begin{lem}\label{lem:eta-circ-commute}
+  With $\Of{\eta}{\ArrId{\mathbb{E}}\to\bigcirc}$ the unit of our
+  adjunction, we have the identity
+  $\IsEqOf{\eta_{\bigcirc A}}{\bigcirc\eta_A}{\bigcirc
+    A\to\bigcirc\bigcirc A}$.
+\end{lem}
+\begin{proof}
+  Since the monad of a replete reflective subcategory is
+  idempotent~\cite{borceux:1994:vol2}, its the components of its
+  multiplication operator $\Of{\mu}{\bigcirc\bigcirc\to\bigcirc}$ are
+  isomorphisms. Therefore, to show that
+  $\IsEq{\eta_{\bigcirc A}}{\bigcirc\eta_A}$, it suffices to show that
+  $\IsEq{\mu_A\circ\eta_{\bigcirc A}}{\mu_A\circ\bigcirc\eta_A}$, but
+  this just the unit axiom of the monad.
+\end{proof}
+
+\begin{lem}\label{lem:precompose-eta}
+  For any two maps $\Of{l_1,l_2}{\bigcirc C\to f_*D}$, from
+  $\IsEq{l_1\circ\eta_C}{l_2\circ\eta_C}$ we can conclude $\IsEq{l_1}{l_2}$.
+\end{lem}
+\begin{proof}
+  Suppose $\IsEqOf{l_1\circ\eta_C}{l_2\circ\eta_C}{C\to f_*D}$; then their
+  adjoint transposes are equal too:
+  \[
+    \IsEqOf{
+      {(l_1\circ\eta_C)}^\sharp
+    }{
+      {(l_2\circ\eta_C)}^\sharp
+    }{
+      f^*C\to D
+    }
+  \]
+  Now calculate:
+  \begin{align*}
+    \AIsEq{
+      {(l_i\circ\eta_C)}^\sharp
+    }{
+      \epsilon_D\circ f^*(l_i\circ \eta_C)
+    }
+    \\
+    \AIsEq{
+      f_*{(l_i\circ\eta_C)}^\sharp
+    }{
+      f_*\epsilon_D\circ \bigcirc l_i\circ \bigcirc\eta_C
+    }
+    \\
+    \AIsEq{
+    }{
+      f_*\epsilon_D\circ \bigcirc l_i\circ \eta_{\bigcirc C}
+    }\tag{Lemma~\ref{lem:eta-circ-commute}}
+    \\
+    \AIsEq{
+    }{
+      f_*\epsilon_D\circ \eta_{f_*D} \circ l_i
+    }
+    \tag{naturality}
+    \\
+    \AIsEq{
+    }{
+      l_i
+    }
+    \tag{adjunction}
+  \end{align*}
+%
+  Since have
+  $\IsEq{f_*{(l_1\circ\eta_C)}^\sharp}{f_*{(l_2\circ\eta_C)}^\sharp}$,
+  by the above reasoning we have $\IsEq{l_1}{l_2}$.
+\end{proof}
+
+\begin{lem}
+  If $\mathbb{E}$ is finitely complete, then so is $\mathbb{F}$.
+\end{lem}
+\begin{proof}
+  Fix a category $\Of{\mathbb{J}}{\Cats}$ and a diagram (functor)
+  $\Of{D}{\mathbb{J}\to\mathbb{F}}$. Fix a limiting cone
+  $\MkCone{A}{\alpha_i:A\to f_*D_i}{i:\mathbb{J}}$ in $\mathbb{E}$.
+  We will show that the unit $\Of{\eta_A}{A\to \bigcirc A}$ in
+  $\mathbb{E}$ is an isomorphism, and therefore
+  $\Member{A}{\mathbb{F}}$ (whence $\mathbb{F}$ is closed under finite
+  limits).
+
+  Using the adjunction, each edge $\Of{\alpha_i}{A\to f_*D_i}$ of our
+  cone in $\mathbb{E}$ may be transposed into a unique map
+  $\Of{\alpha_i^\sharp}{f^*A\to D_i}$ in $\mathbb{F}$.
+%
+  We can use this to form another cone in $\mathbb{E}$:
+  \[
+    \MkCone{\bigcirc A}{f_*\alpha_i^\sharp:\bigcirc A\to f_*D_i}{i:\mathbb{J}}
+  \]
+  Using the universal property of the limit in $\mathbb{E}$, we
+  acquire a unique map $\Of{u}{\bigcirc A\to A}$ such that for every
+  $\Of{i}{\mathbb{J}}$, we have
+  $\IsEqOf{f_*\alpha_i^\sharp}{\alpha_i\circ u}{\bigcirc A\to
+    f_*D_i}$.
+%
+  Observe that we have also
+  $\IsEqOf{f_*\alpha_i^\sharp\circ\eta_A}{\alpha_i}{A\to f_*D_i}$:
+  \begin{align*}
+    \AIsEq{
+      f_*\alpha_i^\sharp\circ\eta_A
+    }{
+      f_*(\epsilon_{D_i}\circ f^*\alpha_i)\circ\eta_A
+    }
+    \\
+    \AIsEq{
+    }{
+      f_*\epsilon_{D_i}\circ\bigcirc\alpha_i\circ\eta_A
+    }\tag{reassociate}
+    \\
+    \AIsEq{
+    }{
+      f_*\epsilon_{D_i}\circ\eta_{f_*D_i}\circ\alpha_i
+    }\tag{naturality}
+    \\
+    \AIsEq{
+    }{
+      \alpha_i
+    }\tag{triangle identity}
+  \end{align*}
+
+  Now we can show that $u$ is a two-sided inverse to $\eta_A$. To see
+  that $\IsEq{u\circ\eta_A}{\ArrId{A}}$, calculate:
+  \begin{align*}
+    \AIsEq{
+      f_*\alpha_i^\sharp
+    }{
+      \alpha_i\circ u
+    }\tag{assumption}
+    \\
+    \AIsEq{
+      f_*\alpha_i^\sharp\circ \eta_A
+    }{
+      \alpha_i\circ u\circ\eta_A
+    }
+    \\
+    \AIsEq{
+      \alpha_i
+    }{
+      \alpha_i\circ u\circ\eta_A
+    }\tag{see above}
+  \end{align*}
+  Now it is plausible that $\IsEq{u\circ\eta_A}{\ArrId{A}}$, and it is
+  in fact the case because of the uniqueness of mediating maps induced
+  by limiting cones.
+%
+  To see that $\IsEq{\eta_A\circ u}{\ArrId{\bigcirc A}}$, by
+  Lemma~\ref{lem:precompose-eta} it suffices to show that
+  $\IsEq{\eta_A\circ u\circ\eta_A}{\eta_A}$, and this follows directly
+  from the other direction of the isomorphism.
+
+% \newpage
+
+
+%  Therefore, we
+%   can form a new cone
+%   $\MkCone{f^*A}{\alpha_i^\sharp:f^*A\to D_i}{i:\mathbb{J}}$ in
+%   $\mathbb{F}$. Now we need to show that this cone is a
+%   \emph{limiting} cone.
+
+%   Fix another cone $\MkCone{B}{\beta_i:B\to D_i}{i:\mathbb{J}}$ in
+%   $\mathbb{F}$; we need to exhibit a unique morphism
+%   $\Of{u}{B\to f^*A}$ such that for all $\Of{i}{\mathbb{J}}$, we have
+%   $\IsEqOf{\beta_i}{\alpha_i^\sharp\circ u}{B\to D_i}$. Observe that
+%   we can turn $B$ into a cone in $\mathbb{E}$, namely
+%   $\MkCone{f_*B}{f_*\beta_i:f_*B\to f_*D_i}{i:\mathbb{J}}$, and by the
+%   universal property of the limit in $\mathbb{E}$ we have a unique
+%   $\Of{v}{f_*B\to A}$ such that
+%   $\IsEqOf{f_*\beta_i}{\alpha_i\circ v}{f_*B\to f_*D_i}$.
+
+%   Lifting $v$ through the reflector, we have
+%   $\Of{f^*v}{\square B\to f^*A}$ in $\mathbb{F}$. Because the
+%   coreflector $\Of{f_*}{\mathbb{F}\hookrightarrow\mathbb{E}}$ is full
+%   and faithful, the counit $\Of{\epsilon_B}{\square B\to B}$ is an
+%   isomorphism. Therefore, we can define our desired mediating map in
+%   $\mathbb{F}$ as $\Define{u}{f^*v\circ\epsilon_B^{-1}}$.
+% %
+%   Because the coreflector is faithful, to show that
+%   $\IsEq{\beta_i}{\alpha_i^\sharp\circ u}$ in $\mathbb{F}$, it
+%   suffices to show that
+%   $\IsEq{f_*\beta_i}{f_*(\alpha_i^\sharp\circ u)}$ in $\mathbb{E}$:
+%   \begin{align*}
+%     \AIsEq{
+%       f_*\beta_i
+%     }{
+%       f_*\alpha_i^\sharp\circ f_*u
+%     }
+%     \\
+%     \AIsEq{
+%     }{
+%       f_*(\epsilon_{D_i}\circ f^*\alpha_i) \circ f_*u
+%     }
+%     \tag{definition of transpose}
+%     \\
+%     \AIsEq{
+%     }{
+%       f_*(\epsilon_{D_i})\circ \bigcirc \alpha_i \circ f_*u
+%     }
+%     \tag{distribute coreflector}
+%     \\
+%     \AIsEq{
+%     }{
+%       f_*(\epsilon_{D_i})\circ \bigcirc \alpha_i \circ f_*(f^*v\circ\epsilon_B^{-1})
+%     }
+%     \tag{definition of $u$}
+%     \\
+%     \AIsEq{
+%     }{
+%       f_*(\epsilon_{D_i})\circ \bigcirc (\alpha_i \circ v)\circ f_*(\epsilon_B^{-1})
+%     }
+%     \tag{reassociate}
+%     \\
+%     \AIsEq{
+%     }{
+%       f_*(\epsilon_{D_i})\circ \bigcirc (\alpha_i \circ v)\circ \eta_{f_*B}
+%     }
+%     \tag{triangle identity}
+%     \\
+%     \AIsEq{
+%     }{
+%       f_*(\epsilon_{D_i})\circ \eta_{f_*D_i}\circ \alpha_i \circ v
+%     }
+%     \tag{naturality of $\eta$}
+%     \\
+%     \AIsEq{
+%     }{
+%       \alpha_i\circ v
+%     }
+%   \end{align*}
+  
+%   The fact that $u$ is unique follows from the uniqueness of
+%   $v$. \textbf{(TODO, is that true?)}
+\end{proof}
+
+% \paragraph{Sheaf subtoposes}
+% So far we have shown in the previous section that $\Sh{\mathbb{C},J}$
+% is a lex reflective subcategory of $\Psh{\mathbb{C}}$; we will now see
+% that this implies that it is also a topos.
+
+% \begin{thm}
+%   A lex reflective subcategory of a topos is again a topos.
+% \end{thm}
+% \begin{proof}
+%   Fix a topos $\Match{\mathfrak{E}}{\Psh{\mathbb{C}}}$ along with a
+%   lex reflective subcategory
+%   $\Of{\IBox{\AreAdjoint{f^*,f_*}}}{\mathfrak{F}\hookrightarrow\mathfrak{E}}$:
+%   \[
+%     \begin{tikzcd}[sep=large]
+%       \IMode{\mathfrak{F}}
+%       \arrow[r,phantom,"{\color{gray}\scriptstyle\bot}"]
+%       \arrow[r,hook,swap,bend right=40,"\IMode{f_*}"]
+%       &
+%       \IMode{\mathfrak{E}}
+%       \arrow[l,swap,bend right=40,"\IMode{f^*}"]
+%     \end{tikzcd}
+%   \]
+%   We need to show that $\mathfrak{F}$ is a topos, which is to say that
+%   $\mathfrak{F}$ has finite limits, is cartesian closed, and has a
+%   subobject classifier. To see that $\mathfrak{F}$ has finite limits,
+%   observe that the reflector $\Of{f^*}{\mathfrak{E}\to\mathfrak{F}}$
+%   preserves
+% \end{proof}
+
+
 
 % We will show how to view $\IMode{\mathfrak{F}}$ as
 % $\Sh{\mathbb{C},J_{\mathfrak{F}}}$ for some Grothendieck topology
@@ -1443,7 +1737,7 @@ We will now survey a few useful topologies.
   \]
 \end{definition}
 
-\begin{lem}
+\begin{lem}[Aromatherapy]
   When distilled into its pure essence as a Lawvere-Tierney local
   operator (Definition~\ref{def:lawvere-tierney}), the dense topology
   corresponds \textbf{classically} to the double-negation modality
@@ -1516,8 +1810,8 @@ The most famous use of the dense topology \emph{qua} double negation
 is in modern proofs of the independence of the Continuum
 Hypothesis. Letting $\Of{\mathbb{P}}{\Posets}$ be a forcing poset, the
 sheaves on the site $(\mathbb{P},\JDense)$ form a boolean topos from
-which it is not difficult to obtain a model of ZFC in which the
-continuum hypothesis fails. The reader is referred
+which it is possible to obtain a model of ZFC in which the continuum
+hypothesis fails. The reader is referred
 to~\cite{maclane-moerdijk:1992} for a summary of this construction.
 
 Another instance of the dense topology in practice is in its

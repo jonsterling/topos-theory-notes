@@ -7,6 +7,8 @@
 \usepackage{pgffor}
 \usepackage{array}
 \usepackage[affil-it]{authblk}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata,calc,decorations.pathmorphing,positioning,shapes}
 
 \usepackage{enumitem}
 
@@ -43,3 +45,21 @@
 \newtheorem{remark}[thm]{Remark}
 
 \numberwithin{equation}{section}
+
+
+
+\newcounter{sarrow}
+\newcommand\xleadsto[1]{%
+  \stepcounter{sarrow}%
+  \mathrel{
+    \begin{tikzpicture}[baseline= {( $ (current bounding box.south) + (0,-0.5ex) $ )}]
+      \node[inner sep=.5ex] (\thesarrow) {$\scriptstyle #1$};
+      \path[draw,<-,decorate,
+      decoration={snake,amplitude=0.7pt,segment length=1.2mm,pre=lineto,pre length=4pt}]
+      (\thesarrow.south east) -- (\thesarrow.south west);
+    \end{tikzpicture}
+  }%
+}
+
+\newcommand\DefNotation[2]{\IMode{#1}\xleadsto{\textit{notation}}\OMode{#2}}
+\newcommand\ADefNotation[2]{\IMode{#1}&\xleadsto{\textit{notation}}\OMode{#2}}
